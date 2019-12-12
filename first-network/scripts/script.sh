@@ -86,6 +86,7 @@ updateAnchorPeers 0 1
 
 if [ "${NO_CHAINCODE}" != "true" ]; then
 
+  echo "********************************Script file****************************"
 	## Install chaincode on peer0.org1 and peer1.org1
 	echo "Installing chaincode on peer0.org1..."
 	installChaincode 0 1
