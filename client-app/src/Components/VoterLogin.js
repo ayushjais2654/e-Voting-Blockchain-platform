@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
+import { Redirect }  from 'react-router-dom';
 
 class VoterLogin extends Component {
 
     constructor(props) {
         super(props);
+
+        const token = localStorage.getItem("token");
+        let loggedIn = true;
+        if(token == null ){
+            loggedIn = false;
+        }
+
         this.state = {
-            username : null,
-            password : null,
-            isLoggedIn : false
+            username : "",
+            password : "",
+            loggedIn
         }
     }
 
@@ -20,10 +28,18 @@ class VoterLogin extends Component {
     submitForm = (event) => {
 
         event.preventDefault();
-        alert(JSON.stringify(this.state));
+        const { username , password } = this.state;
+        if(username === 'a' && password === 'b'){
+            localStorage.setItem("token" , "hbfjkfbfergner");
+            this.setState({loggedIn : true})
+        }
     }
 
     render() {
+
+        if(this.state.loggedIn === true ){
+            return <Redirect to='/voterPage' />
+        }
         return (
             <div>
                 <h1> Welcome to Voter Login Page ... </h1>
