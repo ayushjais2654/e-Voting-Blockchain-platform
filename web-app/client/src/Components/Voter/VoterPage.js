@@ -17,6 +17,13 @@ class VoterPage extends Component {
         }
     }
 
+    handleChange = (event) => {
+        this.setState({
+            loggedIn : false
+        });
+        localStorage.removeItem("token");
+    }
+
     render() {
         if(this.state.loggedIn === false){
             return < Redirect to="/" />
@@ -24,7 +31,7 @@ class VoterPage extends Component {
         return (
             <div>
                 <h1> Welcome to Logged in page .. </h1>
-                <Link to="/" > Logout </Link>
+                <Link to="/" onClick={this.handleChange}> Logout </Link>
             </div>
         );
     }

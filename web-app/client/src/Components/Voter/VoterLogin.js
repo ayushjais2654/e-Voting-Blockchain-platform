@@ -36,13 +36,13 @@ class VoterLogin extends Component {
         }
 
 
-        axios.post(`http://localhost:4000/voterLogin`, voterCredentials)
-            .then(() => {
-                console.log("Details sent to server");
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        // axios.post(`http://localhost:4000/voterLogin`, voterCredentials)
+        //     .then(() => {
+        //         console.log("Details sent to server");
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     });
 
         alert(JSON.stringify(this.state));
         if (username === 'a' && password === 'b') {
@@ -63,7 +63,7 @@ class VoterLogin extends Component {
                     Username : <input type="text" name="username" value={this.state.username}
                                       onChange={this.handleChange} required/> <br/><br/>
                     Password : <input type="password" name="password" value={this.state.password}
-                                      onChange={this.handleChange} requiredreac/> <br/><br/>
+                                      onChange={this.handleChange} required/> <br/><br/>
                     <input type="submit" value="Login"/>
                 </form>
             </div>
