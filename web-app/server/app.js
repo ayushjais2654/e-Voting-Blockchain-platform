@@ -10,7 +10,7 @@ var assert = require('assert');
 var url = 'mongodb://127.0.0.1:27017';
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var registerCandidate = require('./routes/registerCandidate');
 
 var app = express();
 const cors = require('cors');
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/registerCandidate',registerCandidate);
 
 app.get("/api" , (req,res) => {
 
@@ -38,6 +38,8 @@ app.get("/api" , (req,res) => {
         });
 });
 
+
+
 app.post("/voterLogin" , (req,res) => {
 
     const voterCredentials = {
@@ -47,7 +49,6 @@ app.post("/voterLogin" , (req,res) => {
     console.log(voterCredentials);
 
 });
-
 
 app.get('/get-data', function(req,res,next){
 

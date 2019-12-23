@@ -36,6 +36,7 @@ class Home extends Component {
                 <Link to="/voterLogin"> VoterLogin </Link> <br/><br/>
                 <Link to="/candidateLogin"> CandidateLogin </Link> <br/><br/>
                 <Link to="/registerVoter"> RegisterVoter </Link> <br/><br/>
+                <Link to="/registerCandidate" > RegisterCandidate</Link>
                 {/*<p> {this.state.users.map(user => <li key={user.id}> {user.name} </li>)} </p>*/}
             </div>
         );

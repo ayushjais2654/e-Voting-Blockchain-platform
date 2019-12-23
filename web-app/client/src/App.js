@@ -7,6 +7,7 @@ import VoterLogin from './Components/Voter/VoterLogin'
 import VoterPage from './Components/Voter/VoterPage'
 import CandidateLogin from "./Components/Candidate/candidateLogin";
 import CandidatePage from "./Components/Candidate/candidatePage";
+import CandidateRegister from "./Components/Candidate/candidateRegister";
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
                     <Route path="/registerVoter" exact component={RegisterVoter}/>
                     <Route path="/candidateLogin" exact component={CandidateLogin} />
                     <Route path="/candidatePage" exact component={CandidatePage} />
+                    <Route path="/registerCandidate" exact component={CandidateRegister} />
                 </Router>
         );
     }

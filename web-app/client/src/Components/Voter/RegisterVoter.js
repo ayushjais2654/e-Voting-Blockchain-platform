@@ -81,7 +81,7 @@ class RegisterVoter extends Component {
         }
         alert(JSON.stringify(this.state));
 
-    }
+    };
 
     changeStateValues = (event) => {
         this.setState( { [event.target.name] : event.target.value});
@@ -108,7 +108,7 @@ function validateMobilNo(number) {
     let valid = true;
     if(number.length !== 10)
         valid = false;
-    if( !(number[0] === 9 || number[0] === 8 || number[0] === 7 || number[0] === 6))
+    if( !(number[0] === '9' || number[0] === '8' || number[0] === '7' || number[0] === '6'))
         valid = false;
     return valid;
 }
