@@ -26,29 +26,23 @@ class CandidateLogin extends Component {
         this.setState({
             [event.target.name]: event.target.value
         });
-    }
+    };
 
-    submitForm = event => {
+    submitForm = async (event) => {
         event.preventDefault();
-        // const {username, password} = this.state;
-        // const voterCredentials = {
-        //     username: this.state.username,
-        //     password: this.state.password
-        // }
+        const candidateCredentials = {
+            username: this.state.username,
+            password: this.state.password
+        };
 
+        let response = await axios.post(`http://localhost:4000/candidateLogin`,candidateCredentials);
+        alert(response.data);
 
-        // axios.post(`http://localhost:4000/candidateLogin`, voterCredentials)
-        //     .then(() => {
-        //         console.log("Details sent to candidate server");
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
-
-        alert(JSON.stringify(this.state));
-        localStorage.setItem("token-candidate", "hredgjkljggdfr");
-        this.setState({loggedIn: true});
-    }
+        if(response.data === "Correct") {
+            localStorage.setItem("token-candidate", "hredgjkljggdfr");
+            this.setState({loggedIn: true});
+        }
+    };
 
     render() {
 

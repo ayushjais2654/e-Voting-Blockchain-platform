@@ -11,6 +11,7 @@ var url = 'mongodb://127.0.0.1:27017';
 
 var indexRouter = require('./routes/index');
 var registerCandidate = require('./routes/registerCandidate');
+var candidateLogin = require('./routes/candidateLogin');
 
 var app = express();
 const cors = require('cors');
@@ -27,6 +28,7 @@ app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/registerCandidate',registerCandidate);
+app.use('/candidateLogin',candidateLogin);
 
 app.get("/api" , (req,res) => {
 
@@ -38,38 +40,6 @@ app.get("/api" , (req,res) => {
         });
 });
 
-
-
-app.post("/voterLogin" , (req,res) => {
-
-    const voterCredentials = {
-        username : req.body.username,
-        password : req.body.password
-    };
-    console.log(voterCredentials);
-
-});
-
-app.get('/get-data', function(req,res,next){
-
-    mongo.connect(url,function(error,client) {
-        assert.equal(null,error);
-        const db = client.db('Candidate');
-        db.collection('CandidateList').find()
-            .toArray((error,results) => {
-                if(error) throw error;
-
-               results.forEach(result => {
-                   console.log(result);
-               })
-            });
-
-        client.close();
-    });
-
-
-    res.render('index', { title: 'Express' });
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
