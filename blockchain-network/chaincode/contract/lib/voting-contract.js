@@ -11,7 +11,19 @@ const ballotPathJson = path.join(process.cwd(), './lib/data/Ballot.json');
 const ballotDataJson = fs.readFileSync(ballotPathJson, 'utf8');
 const ballotData = JSON.parse(ballotDataJson);
 
+/**
+ * @author : Ayush Jaiswal
+ * @Date : 01/01/2020
+ */
+
 class VotingContract extends Contract {
+
+    /**
+     *
+     * @param ctx  - Transaction context
+     * @returns returns nothing
+     * It is called byDefault at the time of ChainCode instantiation
+     */
 
     async initLedger(ctx) {
 
@@ -48,6 +60,12 @@ class VotingContract extends Contract {
 
     }
 
+    /**
+     *
+     * @param ctx - Transaction context
+     * @param myAssetId - Id of the object to search in the world state
+     * @returns {Promise<boolean|boolean>}
+     */
     async myAssetExists(ctx, myAssetId) {
 
         const buffer = await ctx.stub.getState(myAssetId);
@@ -55,6 +73,12 @@ class VotingContract extends Contract {
 
     }
 
+    /**
+     *
+     * @param ctx - Transaction context
+     * @param myAssetId - Id of the object to search in the world state
+     * @returns {Promise<{}|any>} - returns the asset if found otherwise error in response
+     */
     async readMyAsset(ctx, myAssetId) {
 
         const exists = await this.myAssetExists(ctx, myAssetId);
@@ -71,6 +95,12 @@ class VotingContract extends Contract {
         return asset;
     }
 
+    /**
+     *
+     * @param ctx - Transaction context
+     * @param myAssetId - Id of the object to search in the world state
+     * @returns {Promise<{}|boolean>}
+     */
     async deleteMyAsset(ctx, myAssetId) {
 
         const exists = await this.myAssetExists(ctx, myAssetId);
@@ -82,19 +112,29 @@ class VotingContract extends Contract {
         }
 
         await ctx.stub.deleteState(myAssetId);
-
+        return true;
     }
 
-    async createVoter(ctx, args) {
+    /**
+     *
+     * @param ctx - Transaction context
+     * @param firstName
+     * @param lastName
+     * @param username
+     * @param password
+     * @param mobileNo
+     * @param aadharCard
+     * @returns {Promise<string>} - response message on successful creation of voter in world state
+     */
+    async createVoter(ctx, firstName, lastName, username,password,mobileNo,aadharCard) {
 
-        args = JSON.parse(args);
         let voter = {
-            firstName: args.firstName,
-            lastName: args.lastName,
-            username: args.username,
-            password: args.password,
-            mobileNo: args.mobileNo,
-            aadharCard: args.aadharCard,
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            password: password,
+            mobileNo: mobileNo,
+            aadharCard: aadharCard,
             votedTo: null,
             transId: null,
             docType: 'voter'
@@ -102,27 +142,36 @@ class VotingContract extends Contract {
 
         await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
 
-        let response = `Voter with username ${voter.username} is successfully registered in the World State`;
-        return response;
-
+        return `Voter with username ${voter.username} is successfully registered in the World State`;
     }
 
-    async castVote(ctx, args, partyName) {
+    /**
+     *
+     * @param ctx - Transaction context
+     * @param firstName
+     * @param lastName
+     * @param username
+     * @param password
+     * @param mobileNo
+     * @param aadharCard
+     * @param partyName
+     * @returns {Promise<string|{}>} - response message on successful voting
+     */
+    async castVote(ctx, firstName, lastName, username,password,mobileNo,aadharCard, partyName) {
 
         let electionStartDate = new Date(2020, 4, 21);
         let electionEndDate = new Date(2020, 4, 22);
 
-        args = await JSON.parse(args);
 
-        const existsVoter = await this.myAssetExists(ctx, args.username);
+        const existsVoter = await this.myAssetExists(ctx, username);
         if (!existsVoter) {
 
             let response = {};
-            response.error = ` Voter with username ${args.username} doesn't exists in the World State `;
+            response.error = ` Voter with username ${username} doesn't exists in the World State `;
             return response;
         }
 
-        let voterAsBytes = await ctx.stub.getState(args.username);
+        let voterAsBytes = await ctx.stub.getState(username);
         let voter = await JSON.parse(voterAsBytes);
 
         if (voter.votedTo !== null) {
@@ -156,6 +205,11 @@ class VotingContract extends Contract {
         let ballot = await JSON.parse(ballotAsBytes);
 
         ballot.voteCount++;
+
+        async function getTransactionId(aadharCard, currentTime) {
+            return aadharCard + currentTime;
+        }
+
         let transId = await getTransactionId(voter.aadharCard, currentTime);
         ballot.transIds.push(transId);
         await ctx.stub.putState(ballot, Buffer.from(JSON.stringify(ballot)));
@@ -165,15 +219,15 @@ class VotingContract extends Contract {
 
         await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
 
-        let response = ` Your vote has been casted with transaction Id : ${transId}`;
-        return response;
+        return ` Your vote has been casted with transaction Id : ${transId}`;
     }
 
-    async getTransactionId(aadharCard, currentTime) {
-
-        return aadharCard + currentTime;
-    }
-
+    /**
+     *
+     * @param ctx - Transaction context
+     * @param objectType - can be voter or ballot
+     * @returns {Promise<string>} - result of query
+     */
     async queryByObjectType(ctx, objectType) {
 
         let queryString = {
@@ -182,12 +236,16 @@ class VotingContract extends Contract {
             }
         };
 
-        let queryResults = await this.queryWithQueryString(ctx, JSON.stringify(queryString));
-        return queryResults;
+        return await this.queryWithQueryString(ctx, JSON.stringify(queryString));
 
     }
 
-
+    /**
+     *
+     * @param ctx
+     * @param queryString - query how to search in couchDB
+     * @returns {Promise<string>} - result of query
+     */
     async queryWithQueryString(ctx, queryString) {
 
         console.log('query String');

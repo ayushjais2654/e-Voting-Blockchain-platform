@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
 
-
+/**
+ *  @author : Ayush Jaiswal
+ *  @Date : 18/12/2019
+ */
 class CandidateLogin extends Component {
 
     constructor(props) {

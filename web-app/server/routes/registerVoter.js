@@ -7,6 +7,10 @@ const path = require('path');
 
 const ccpPath = path.resolve(__dirname, '..', '..', '..', 'blockchain-network','first-network', 'connection-org1.json');
 
+/**
+ *  @author : Ayush Jaiswal
+ *  @Date : 01/01/2020
+ */
 
 router.post('/',async (req , res) => {
 
@@ -72,10 +76,11 @@ async function registerInLedger(req){
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('voting-contract');
+        const contract = network.getContract('contract');
 
         // Submit the specified transaction.
-        let response = await contract.submitTransaction('createVoter', req.body);
+        let response = await contract.submitTransaction('createVoter', req.body.firstName, req.body.lastName,req.body.username,req.body.password,
+            req.body.mobileNumber,req.body.cardNumber);
         console.log(response);
 
         // Disconnect from the gateway.

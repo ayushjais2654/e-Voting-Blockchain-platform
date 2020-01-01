@@ -10,6 +10,11 @@ import CandidatePage from "./Components/Candidate/candidatePage";
 import CandidateRegister from "./Components/Candidate/candidateRegister";
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 
+/**
+ *  @author : Ayush Jaiswal
+ *  @Date : 15/12/2019
+ */
+
 class App extends Component {
 
     render() {

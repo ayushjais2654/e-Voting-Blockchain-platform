@@ -3,6 +3,10 @@ import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router-dom';
 // import axios from "axios";
 
+/**
+ * @author : Ayush Jaiswal
+ * @Date : 19/12/2019
+ */
 class Home extends Component {
 
 

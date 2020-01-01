@@ -1,6 +1,11 @@
 import React, {Component} from 'react'
 import axios from 'axios';
 
+/**
+ *  @author : Ayush Jaiswal
+ *  @Date : 18/12/2019
+ */
+
 class RegisterVoter extends Component {
 
     constructor(props) {
