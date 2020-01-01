@@ -12,6 +12,7 @@ var url = 'mongodb://127.0.0.1:27017';
 var indexRouter = require('./routes/index');
 var registerCandidate = require('./routes/registerCandidate');
 var candidateLogin = require('./routes/candidateLogin');
+var registerVoter = require('./routes/registerVoter');
 
 var app = express();
 const cors = require('cors');
@@ -29,16 +30,8 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/registerCandidate',registerCandidate);
 app.use('/candidateLogin',candidateLogin);
+app.use('/registerVoter' , registerVoter);
 
-app.get("/api" , (req,res) => {
-
-  axios.get(`https://jsonplaceholder.typicode.com/users`)
-      .then(response => {
-          res.json({
-              user : response.data
-          })
-        });
-});
 
 
 // catch 404 and forward to error handler

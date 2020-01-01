@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const mongo = require('mongodb').MongoClient;
-const assert = require('assert');
 
 const url = 'mongodb://127.0.0.1:27017';
 

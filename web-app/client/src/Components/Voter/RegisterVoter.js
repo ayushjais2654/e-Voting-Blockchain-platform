@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import axios from 'axios';
 
 class RegisterVoter extends Component {
 
@@ -10,7 +11,7 @@ class RegisterVoter extends Component {
             lastName: "Jaiswal",
             mobileNumber: "9515365125",
             cardNumber: "951545211236",
-            emailId: "abc@gmail.com",
+            username : "ayush123",
             password: ""
         }
     }
@@ -44,10 +45,10 @@ class RegisterVoter extends Component {
                                                 placeholder={this.state.cardNumber}
                                                 required /><br/> <br/>
 
-                    Email-id : <input type="email"
-                                      name="emailId"
+                    Username : <input type="text"
+                                      name="username"
                                       onChange={this.changeStateValues}
-                                      placeholder={this.state.emailId}
+                                      placeholder={this.state.username}
                                       required /><br/> <br/>
 
                     Password : <input type="password"
@@ -62,7 +63,7 @@ class RegisterVoter extends Component {
         );
     }
 
-    handleRegisterVoter = (event) => {
+    handleRegisterVoter = async (event) => {
 
         event.preventDefault();
 
@@ -78,14 +79,18 @@ class RegisterVoter extends Component {
 
         if(validateMobilNo(event.target.mobileNumber.value) === false){
             alert("Mobile Number is Invalid");
+            return;
         }
-        alert(JSON.stringify(this.state));
+
+        let response = await axios.post(`http://localhost:4000/registerVoter`,this.state);
+        alert(response.data);
+
 
     };
 
     changeStateValues = (event) => {
         this.setState( { [event.target.name] : event.target.value});
-    }
+    };
 }
 
 function validateName(name){
