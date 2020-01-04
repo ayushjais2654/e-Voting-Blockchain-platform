@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios';
-
+import {Redirect} from 'react-router-dom';
 /**
  *  @author : Ayush Jaiswal
  *  @Date : 18/12/2019
@@ -17,11 +17,16 @@ class RegisterVoter extends Component {
             mobileNumber: "9515365125",
             cardNumber: "951545211236",
             username : "ayush123",
-            password: ""
+            password: "",
+            isRegistered : false
         }
     }
 
     render() {
+        if(this.state.isRegistered === true){
+            // return <Home/>;
+            return <Redirect to='/'/>;
+        }
         return (
             <div>
                 <form onSubmit={this.handleRegisterVoter}>
@@ -88,9 +93,13 @@ class RegisterVoter extends Component {
         }
 
         let response = await axios.post(`http://localhost:4000/registerVoter`,this.state);
-        alert(response.data);
-
-
+        if(response.data === 'Correct'){
+            alert("Voter Successfully Registered");
+            this.setState({
+                isRegistered : true
+            });
+        }
+        console.log(response.data);
     };
 
     changeStateValues = (event) => {

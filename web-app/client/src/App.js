@@ -25,7 +25,7 @@ class App extends Component {
                     <Route path="/voterLogin" exact component={VoterLogin}/>
                     <Route path="/registerVoter" exact component={RegisterVoter}/>
                     <Route path="/candidateLogin" exact component={CandidateLogin} />
-                    <Route path="/candidatePage" exact component={CandidatePage} />
+                    <Route path="/candidatePage/" exact component={CandidatePage} />
                     <Route path="/registerCandidate" exact component={CandidateRegister} />
                 </Router>
         );

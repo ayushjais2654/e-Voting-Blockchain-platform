@@ -3,16 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var axios = require('axios');
-var mongo = require('mongodb').MongoClient;
-var assert = require('assert');
-
-var url = 'mongodb://127.0.0.1:27017';
 
 var indexRouter = require('./routes/index');
 var registerCandidate = require('./routes/registerCandidate');
 var candidateLogin = require('./routes/candidateLogin');
 var registerVoter = require('./routes/registerVoter');
+var candidatePage = require('./routes/candidatePage');
+var voterLogin = require('./routes/voterLogin');
 
 var app = express();
 const cors = require('cors');
@@ -31,8 +28,8 @@ app.use('/', indexRouter);
 app.use('/registerCandidate',registerCandidate);
 app.use('/candidateLogin',candidateLogin);
 app.use('/registerVoter' , registerVoter);
-
-
+app.use('/candidatePage',candidatePage);
+app.use('/voterLogin',voterLogin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

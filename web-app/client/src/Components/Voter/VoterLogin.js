@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
 import axios from 'axios';
+import VoterPage from "./VoterPage";
 
 class VoterLogin extends Component {
 
@@ -24,37 +24,32 @@ class VoterLogin extends Component {
         this.setState({
             [event.target.name]: event.target.value
         });
-    }
+    };
 
-    submitForm = (event) => {
+    submitForm = async (event) => {
 
         event.preventDefault();
         const {username, password} = this.state;
         const voterCredentials = {
             username: this.state.username,
             password: this.state.password
-        }
+        };
 
 
-        // axios.post(`http://localhost:4000/voterLogin`, voterCredentials)
-        //     .then(() => {
-        //         console.log("Details sent to server");
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
-
-        alert(JSON.stringify(this.state));
-        if (username === 'a' && password === 'b') {
+        let response = await axios.post(`http://localhost:4000/voterLogin` , voterCredentials);
+        if(response.data === "Correct"){
             localStorage.setItem("token", "hbfjkfbfergner");
-            this.setState({loggedIn: true})
+            this.setState({loggedIn: true});
         }
-    }
+        else{
+            alert("Invalid Credentials");
+        }
+    };
 
     render() {
 
         if (this.state.loggedIn === true) {
-            return <Redirect to='/voterPage'/>
+            return < VoterPage username={this.state.username} />;
         }
         return (
             <div>

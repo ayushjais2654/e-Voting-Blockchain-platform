@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Home from "../Home";
 
 
 /**
@@ -27,6 +28,9 @@ class CandidateRegister extends Component {
 
     render() {
 
+        if(this.state.isRegistered === true){
+            return <Home/>;
+        }
         return (
             <div>
                 <h1> Welcome to Candidate Registration Page .. </h1>

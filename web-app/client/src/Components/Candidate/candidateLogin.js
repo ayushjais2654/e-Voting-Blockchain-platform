@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Redirect} from "react-router-dom";
+import CandidatePage from "./candidatePage";
 
 /**
  *  @author : Ayush Jaiswal
@@ -45,12 +45,15 @@ class CandidateLogin extends Component {
             localStorage.setItem("token-candidate", "hredgjkljggdfr");
             this.setState({loggedIn: true});
         }
+        else{
+            alert("Invalid credentials");
+        }
     };
 
     render() {
 
         if (this.state.loggedIn === true) {
-            return <Redirect to='/candidatePage'/>
+            return <CandidatePage username={this.state.username} />;
         }
 
         return (
