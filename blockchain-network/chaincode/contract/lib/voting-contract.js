@@ -91,8 +91,7 @@ class VotingContract extends Contract {
         }
 
         const buffer = await ctx.stub.getState(myAssetId);
-        const asset = JSON.parse(buffer.toString());
-        return asset;
+        return JSON.parse(buffer.toString());
     }
 
     /**
@@ -140,6 +139,10 @@ class VotingContract extends Contract {
             docType: 'voter'
         };
 
+        let voterExists = await this.myAssetExists(ctx,voter.username);
+        if(voterExists){
+            return 'Voter already registered in World State';
+        }
         await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
 
         return `Voter with username ${voter.username} is successfully registered in the World State`;

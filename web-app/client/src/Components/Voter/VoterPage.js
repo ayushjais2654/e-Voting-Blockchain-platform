@@ -17,12 +17,16 @@ class VoterPage extends Component {
         }
     }
 
+    async componentDidMount() {
+        console.log(JSON.stringify(this.props));
+    }
+
     handleChange = (event) => {
         this.setState({
             loggedIn : false
         });
         localStorage.removeItem("token");
-    }
+    };
 
     render() {
         if(this.state.loggedIn === false){
