@@ -151,16 +151,11 @@ class VotingContract extends Contract {
     /**
      *
      * @param ctx - Transaction context
-     * @param firstName
-     * @param lastName
      * @param username
-     * @param password
-     * @param mobileNo
-     * @param aadharCard
      * @param partyName
      * @returns {Promise<string|{}>} - response message on successful voting
      */
-    async castVote(ctx, firstName, lastName, username,password,mobileNo,aadharCard, partyName) {
+    async castVote(ctx,username,partyName) {
 
         let electionStartDate = new Date(2020, 4, 21);
         let electionEndDate = new Date(2020, 4, 22);
@@ -189,10 +184,16 @@ class VotingContract extends Contract {
         let currentTime = new Date();
         currentTime = await Date.parse(currentTime);
 
-        if (currentTime < electionStartDate || currentTime > electionEndDate) {
+        if (currentTime > electionEndDate) {
 
             let response = {};
             response.error = ' Election period has already ended ';
+            return response;
+        }
+
+        else if(currentTime < electionStartDate){
+            let response = {};
+            response.error = ' Election period has not started ';
             return response;
         }
 

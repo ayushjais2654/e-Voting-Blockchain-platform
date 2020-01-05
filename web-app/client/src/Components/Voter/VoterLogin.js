@@ -40,8 +40,8 @@ class VoterLogin extends Component {
             password: this.state.password
         };
 
-
-        let response = await axios.post(`http://localhost:4000/voterLogin`, voterCredentials);
+        alert(voterCredentials.username);
+        let response = await axios.post(`http://172.30.143.206:4000/voterLogin`, voterCredentials);
 
         if (typeof response.data === "object") {
             localStorage.setItem("token", "hbfjkfbfergner");

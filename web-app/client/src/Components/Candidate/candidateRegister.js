@@ -111,7 +111,7 @@ class CandidateRegister extends Component {
             return ;
         }
 
-        let response = await axios.post(`http://localhost:4000/registerCandidate`, this.state);
+        let response = await axios.post(`http://172.30.143.206:4000/registerCandidate`, this.state);
         alert(response.data);
         if(response.data === "Candidate is successfully registered .."){
             this.setState({

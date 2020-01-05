@@ -38,7 +38,7 @@ class CandidateLogin extends Component {
             password: this.state.password
         };
 
-        let response = await axios.post(`http://localhost:4000/candidateLogin`,candidateCredentials);
+        let response = await axios.post(`http://172.30.143.206:4000/candidateLogin`,candidateCredentials);
         alert(response.data);
 
         if(response.data === "Correct") {

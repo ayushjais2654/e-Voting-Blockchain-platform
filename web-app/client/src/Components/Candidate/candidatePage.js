@@ -31,7 +31,7 @@ class CandidatePage extends Component {
         let username = {
             username : this.props.username
         };
-        let response = await axios.post(`http://localhost:4000/candidatePage`,username);
+        let response = await axios.post(`http://172.30.143.206:4000/candidatePage`,username);
 
         this.setState({
             firstName: response.data.firstName,
