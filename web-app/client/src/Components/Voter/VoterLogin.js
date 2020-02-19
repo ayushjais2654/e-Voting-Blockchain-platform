@@ -68,6 +68,7 @@ class VoterLogin extends Component {
         return (
             <div>
                 <h1> Welcome to Voter Login Page ... </h1>
+                <h2> changed </h2>
                 <form onSubmit={this.submitForm}>
                     Username : <input type="text" name="username" value={this.state.username}
                                       onChange={this.handleChange} required/> <br/><br/>
