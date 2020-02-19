@@ -62,7 +62,9 @@ class VoterLogin extends Component {
     render() {
 
         if (this.state.loggedIn === true) {
-            return < VoterPage username={this.state.username} firstName={this.state.firstName} lastName={this.state.lastName} mobileNo={this.state.mobileNo} votedTo={this.state.votedTo}
+            return < VoterPage username={this.state.username} firstName={this.state.firstName}
+                               lastName={this.state.lastName} mobileNo={this.state.mobileNo}
+                               votedTo={this.state.votedTo}
                                aadharCard={this.state.aadharCard} transId={this.state.transId}/>;
         }
         return (
