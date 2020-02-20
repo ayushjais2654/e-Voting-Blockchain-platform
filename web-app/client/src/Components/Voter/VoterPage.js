@@ -20,8 +20,7 @@ class VoterPage extends Component {
     }
 
     componentDidMount = async () => {
-        // console.log(this.props.location.state.username);
-        alert(JSON.stringify(this.props.history.location.state.username));
+        console.log(JSON.stringify(this.props.history.location.state.username));
     };
 
     handleChange = (event) => {

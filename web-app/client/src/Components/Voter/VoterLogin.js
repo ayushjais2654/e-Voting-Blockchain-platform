@@ -5,7 +5,7 @@ import {Button} from "react-bootstrap";
 import "./voterLogin.css";
 import {ADDRESS} from "../constants";
 import {Redirect} from 'react-router-dom';
-import CircleLoader from "../../CircleLoader";
+import Spinner from "react-bootstrap/Spinner";
 
 class VoterLogin extends Component {
 
@@ -27,6 +27,7 @@ class VoterLogin extends Component {
             aadharCard: 123456789123,
             votedTo: null,
             transId: null,
+            spinner: false,
             loggedIn
         }
     }
@@ -39,7 +40,9 @@ class VoterLogin extends Component {
 
     submitForm = async (event) => {
 
-        event.preventDefault();
+        this.setState({
+            spinner: true
+        });
         const voterCredentials = {
             username: this.state.username,
             password: this.state.password
@@ -60,6 +63,9 @@ class VoterLogin extends Component {
             });
         } else {
             alert(response.data);
+            this.setState({
+                spinner : false
+            });
         }
     };
 
@@ -70,70 +76,57 @@ class VoterLogin extends Component {
                 state: {username: this.state.username}
             }}/>;
         }
-        return (
-            <div>
-                <Grid>
-                    <CircleLoader />
-                </Grid>
-                <br/>
-                <form onSubmit={this.submitForm}>
-                    <table style={{"width": "100%", "border-collapse": "collapse", "cellspacing": "20px"}}>
-                        <tr rowspan="3" align="center">
-                            <td colSpan="2">
-                                <img src="./img_avatar2.png" alt="Avatar"
-                                     style={{
-                                         "border-radius": "50%", "height": "30%",
-                                         "width": "30%"
-                                     }}
-                                />
-                            </td>
-                        </tr>
-                        <tr><br/></tr>
-                        <tr>
-                            <td style={{"width": "30%"}}>Username:</td>
-                            <td>
-                                <input type="text" name="username" value={this.state.username}
-                                       onChange={this.handleChange} required style={{"width": "80%"}}/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Password :</td>
-                            <td>
-                                <input type="password" name="password" value={this.state.password}
-                                       onChange={this.handleChange} required style={{"width": "80%"}}/>
-                            </td>
-                        </tr>
-                        <tr align="center">
-                            <td colSpan="2">
-                                <Button variant="primary" type="submit" value="Login">Login</Button>
-                            </td>
-                        </tr>
-                        <tr rowspan="2"><br/></tr>
-                        <tr>
-                            <td colSpan="2">
-                                <span>Don't have an account? </span>
-                                <Link style={{"color": "blue"}} to="/registerVoter"> Register here</Link>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-        );
+        if (this.state.spinner) {
+            return <Spinner animation="grow"/>;
+        } else {
+            return (
+                <div>
+                    <br/>
+                    <form onSubmit={this.submitForm}>
+                        <table style={{"width": "100%", "border-collapse": "collapse", "cellspacing": "20px"}}>
+                            <tr rowspan="3" align="center">
+                                <td colSpan="2">
+                                    <img src="./img_avatar2.png" alt="Avatar"
+                                         style={{
+                                             "border-radius": "50%", "height": "30%",
+                                             "width": "30%"
+                                         }}
+                                    />
+                                </td>
+                            </tr>
+                            <tr><br/></tr>
+                            <tr>
+                                <td style={{"width": "30%"}}>Username:</td>
+                                <td>
+                                    <input type="text" name="username" value={this.state.username}
+                                           onChange={this.handleChange} required style={{"width": "80%"}}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Password :</td>
+                                <td>
+                                    <input type="password" name="password" value={this.state.password}
+                                           onChange={this.handleChange} required style={{"width": "80%"}}/>
+                                </td>
+                            </tr>
+                            <tr align="center">
+                                <td colSpan="2">
+                                    <Button variant="primary" type="submit" value="Login">Login</Button>
+                                </td>
+                            </tr>
+                            <tr rowspan="2"><br/></tr>
+                            <tr>
+                                <td colSpan="2">
+                                    <span>Don't have an account? </span>
+                                    <Link style={{"color": "blue"}} to="/registerVoter"> Register here</Link>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            );
+        }
     }
-}
-
-function Grid({ children }) {
-    return (
-        <div className="grid">
-            <LoadingBox>{children}</LoadingBox>
-        </div>
-    );
-}
-
-function LoadingBox({ children }) {
-    return React.Children.map(children, child => {
-        return <div className="loading-box">{child}</div>;
-    });
 }
 
 export default VoterLogin;
