@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
 import './candidateRegister.css';
 import axios from 'axios';
-import Home from "../Home";
-
-
-/**
- *  @author : Ayush Jaiswal
- *  @Date : 19/12/2019
- */
 
 class CandidateRegister extends Component {
 
@@ -34,9 +27,6 @@ class CandidateRegister extends Component {
 
     render() {
 
-        if(this.state.isRegistered === true){
-            return <Home/>;
-        }
         return (
             <div class="container">
                 <p className="sign" align="center">Candidate Registration</p>

@@ -37,7 +37,7 @@ class VoterPage extends Component {
             votedTo : "BJP"
         };
 
-        let response = await axios.post(ADDRESS+`castVote` ,voterDetails );
+        let response = await axios.post(ADDRESS+`castVote` ,voterDetails);
         alert(JSON.stringify(response.data));
     };
 
