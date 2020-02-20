@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router-dom';
 import VoterLogin from "./Voter/VoterLogin";
-import {Modal, Button, Navbar} from 'react-bootstrap';
+import {Modal, Button} from 'react-bootstrap';
 import "./Home.css"
 import CandidateLogin from "./Candidate/candidateLogin";
+import Particles from 'react-particles-js';
 
 class Home extends Component {
     // componentDidMount() {
@@ -42,19 +42,20 @@ class Home extends Component {
                 >
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
-                            { this.state.voter_modal == true? "Voter ":"Candidate " }
+                            { this.state.voter_modal? "Voter ":"Candidate " }
                             Login
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            {(this.state.voter_modal == true) ?<VoterLogin/>:<CandidateLogin/>}
+                            { this.state.voter_modal?<VoterLogin/>:<CandidateLogin/>}
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button  onClick={() => this.setState({showmodal: false})}>Close</Button>
                     </Modal.Footer>
                 </Modal>
+
                 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway"/>
                 <div className="w3-light-grey font_family">
