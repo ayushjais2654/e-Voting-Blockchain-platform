@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router-dom'
 import axios from 'axios';
+import {ADDRESS} from "../constants";
 
 class VoterPage extends Component {
 
@@ -36,7 +37,7 @@ class VoterPage extends Component {
             votedTo : "BJP"
         };
 
-        let response = await axios.post(`http://172.30.143.206:4000/castVote` ,voterDetails );
+        let response = await axios.post(ADDRESS+`castVote` ,voterDetails);
         alert(JSON.stringify(response.data));
     };
 

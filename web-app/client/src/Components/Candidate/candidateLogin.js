@@ -3,11 +3,8 @@ import axios from 'axios';
 import CandidatePage from "./candidatePage";
 import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
-/**
- *  @author : Ayush Jaiswal
- *  @Date : 18/12/2019
- */
 class CandidateLogin extends Component {
 
     constructor(props) {
@@ -40,22 +37,19 @@ class CandidateLogin extends Component {
             password: this.state.password
         };
 
-        let response = await axios.post(`http://172.30.143.206:4000/candidateLogin`,candidateCredentials);
+        let response = await axios.post(`http://localhost:4000/candidateLogin`,candidateCredentials);
         alert(response.data);
 
         if(response.data === "Correct") {
             localStorage.setItem("token-candidate", "hredgjkljggdfr");
             this.setState({loggedIn: true});
         }
-        else{
-            alert("Invalid credentials");
-        }
     };
 
     render() {
 
         if (this.state.loggedIn === true) {
-            return <CandidatePage username={this.state.username} />;
+            return <Redirect to='/candidatePage'/>
         }
 
         return (

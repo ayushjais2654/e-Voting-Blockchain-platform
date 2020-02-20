@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 
 class CandidatePage extends Component {
@@ -13,38 +12,8 @@ class CandidatePage extends Component {
             loggedIn = false;
         }
         this.state = {
-            loggedIn,
-            firstName: "ayush",
-            lastName: "jaiswal",
-            partyName: "BJP",
-            age: 34,
-            username: "ayush123",
-            password: "",
-            constituency: "Haridwar",
-            mobileNo : 9515364515,
-        };
-
-    }
-
-    async componentDidMount() {
-        console.log(this.props.username);
-        let username = {
-            username : this.props.username
-        };
-        let response = await axios.post(`http://172.30.143.206:4000/candidatePage`,username);
-
-        this.setState({
-            firstName: response.data.firstName,
-            lastName: response.data.lastName,
-            partyName: response.data.partyName,
-            age: response.data.age,
-            username: response.data.username,
-            password: response.data.password,
-            constituency: response.data.constituency,
-            mobileNo : response.data.mobileNo,
-        });
-
-        console.log(JSON.stringify(this.state));
+            loggedIn
+        }
     }
 
     handleChange = (event) => {
@@ -52,7 +21,7 @@ class CandidatePage extends Component {
                loggedIn : false
             });
             localStorage.removeItem("token-candidate");
-    };
+    }
 
 
     render() {

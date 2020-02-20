@@ -7,14 +7,13 @@ import CandidateLogin from "./Candidate/candidateLogin";
 import Particles from 'react-particles-js';
 
 class Home extends Component {
-    // componentDidMount() {
-    //     axios.get(`/api`).then(response => {
-    //         console.log(response.data);
-    //         this.setState({
-    //             users : response.data.user
-    //         })
-    //     });
-    // }
+/**
+ * @author : Ayush Jaiswal
+ * @Date : 19/12/2019
+ */
+
+class Home extends Component {
+
 
     constructor(props) {
         super(props);
