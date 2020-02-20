@@ -12,6 +12,7 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import MainForm from "./Components/Candidate/MainForm";
+import CandidateRegister from "./Components/Candidate/candidateRegister";
 
 /**
  *  @author : Ayush Jaiswal
@@ -52,7 +53,7 @@ class App extends Component {
                     <Route path="/registerVoter" exact component={RegisterVoter}/>
                     <Route path="/candidateLogin" exact component={CandidateLogin} />
                     <Route path="/candidatePage/" exact component={CandidatePage} />
-                    <Route path="/registerCandidate" exact component={MainForm} />
+                    <Route path="/registerCandidate" exact component={CandidateRegister} />
                 </Router>
             </>
         );

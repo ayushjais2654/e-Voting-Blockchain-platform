@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import axios from 'axios';
-import VoterPage from "./VoterPage";
 import {Button} from "react-bootstrap";
 import "./voterLogin.css";
 import {ADDRESS} from "../constants";
-
+import {Redirect} from 'react-router-dom';
+import CircleLoader from "../../CircleLoader";
 
 class VoterLogin extends Component {
 
@@ -45,8 +45,7 @@ class VoterLogin extends Component {
             password: this.state.password
         };
 
-        alert(voterCredentials.username);
-        let response = await axios.post(ADDRESS+`voterLogin`, voterCredentials);
+        let response = await axios.post(ADDRESS + `voterLogin`, voterCredentials);
 
         if (typeof response.data === "object") {
             localStorage.setItem("token", "hbfjkfbfergner");
@@ -66,37 +65,42 @@ class VoterLogin extends Component {
 
     render() {
         if (this.state.loggedIn === true) {
-            return < VoterPage username={this.state.username} firstName={this.state.firstName}
-                               lastName={this.state.lastName} mobileNo={this.state.mobileNo}
-                               votedTo={this.state.votedTo}
-                               aadharCard={this.state.aadharCard} transId={this.state.transId}/>;
+            return <Redirect to={{
+                pathname: '/voterPage',
+                state: {username: this.state.username}
+            }}/>;
         }
         return (
             <div>
+                <Grid>
+                    <CircleLoader />
+                </Grid>
                 <br/>
                 <form onSubmit={this.submitForm}>
-                    <table style={{"width":"100%","border-collapse":"collapse","cellspacing":"20px"}} >
+                    <table style={{"width": "100%", "border-collapse": "collapse", "cellspacing": "20px"}}>
                         <tr rowspan="3" align="center">
                             <td colSpan="2">
                                 <img src="./img_avatar2.png" alt="Avatar"
-                                 style={{"border-radius":"50%","height":"30%",
-                                     "width":"30%" }}
+                                     style={{
+                                         "border-radius": "50%", "height": "30%",
+                                         "width": "30%"
+                                     }}
                                 />
                             </td>
                         </tr>
                         <tr><br/></tr>
                         <tr>
-                            <td style={{"width":"30%"}}>Username:</td>
+                            <td style={{"width": "30%"}}>Username:</td>
                             <td>
                                 <input type="text" name="username" value={this.state.username}
-                                       onChange={this.handleChange} required style={{"width":"80%"}}/>
+                                       onChange={this.handleChange} required style={{"width": "80%"}}/>
                             </td>
                         </tr>
                         <tr>
-                            <td>Password  :</td>
+                            <td>Password :</td>
                             <td>
                                 <input type="password" name="password" value={this.state.password}
-                                       onChange={this.handleChange} required style={{"width":"80%"}}/>
+                                       onChange={this.handleChange} required style={{"width": "80%"}}/>
                             </td>
                         </tr>
                         <tr align="center">
@@ -105,10 +109,10 @@ class VoterLogin extends Component {
                             </td>
                         </tr>
                         <tr rowspan="2"><br/></tr>
-                        <tr >
+                        <tr>
                             <td colSpan="2">
                                 <span>Don't have an account? </span>
-                                <Link style={{"color":"blue"}} to="/registerVoter"> Register here</Link>
+                                <Link style={{"color": "blue"}} to="/registerVoter"> Register here</Link>
                             </td>
                         </tr>
                     </table>
@@ -116,6 +120,20 @@ class VoterLogin extends Component {
             </div>
         );
     }
+}
+
+function Grid({ children }) {
+    return (
+        <div className="grid">
+            <LoadingBox>{children}</LoadingBox>
+        </div>
+    );
+}
+
+function LoadingBox({ children }) {
+    return React.Children.map(children, child => {
+        return <div className="loading-box">{child}</div>;
+    });
 }
 
 export default VoterLogin;

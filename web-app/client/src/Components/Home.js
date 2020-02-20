@@ -7,12 +7,6 @@ import CandidateLogin from "./Candidate/candidateLogin";
 import Particles from 'react-particles-js';
 
 class Home extends Component {
-/**
- * @author : Ayush Jaiswal
- * @Date : 19/12/2019
- */
-
-class Home extends Component {
 
 
     constructor(props) {
@@ -28,9 +22,9 @@ class Home extends Component {
 
     render() {
         if(this.state.tokenCandidate != null)
-            return <Redirect to="/candidatePage" />
+            return <Redirect to="/candidatePage" />;
         if(this.state.tokenVoter != null)
-            return <Redirect to="/voterPage" />
+            return <Redirect to="/voterPage" />;
         return (
             <>
                 <Modal

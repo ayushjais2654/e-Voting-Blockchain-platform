@@ -20,7 +20,8 @@ class VoterPage extends Component {
     }
 
     componentDidMount = async () => {
-        console.log(JSON.stringify(this.props.username));
+        // console.log(this.props.location.state.username);
+        alert(JSON.stringify(this.props.history.location.state.username));
     };
 
     handleChange = (event) => {
@@ -33,7 +34,7 @@ class VoterPage extends Component {
     castVote = async (event) => {
 
         let voterDetails = {
-            username : this.props.username,
+            username : this.props.history.location.state.username,
             votedTo : "BJP"
         };
 
