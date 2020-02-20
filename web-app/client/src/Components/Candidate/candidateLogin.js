@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import CandidatePage from "./candidatePage";
+import {Button} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import {Redirect} from "react-router-dom";
-
 
 class CandidateLogin extends Component {
 
@@ -51,13 +53,46 @@ class CandidateLogin extends Component {
         }
 
         return (
-            <div className="main">
-                <p className="sign" align="center">Sign in</p>
-                <form class="form1" onSubmit={this.submitForm}>
-                   <input class="un" type="text" align="center" placeholder="Username" name = "username" value = {this.state.username} onChange={this.handleChange} required /> <br/><br/>
-                   <input class="pass" type="password" align="center" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} required/> <br/> <br/>
-                   <input class="submit" align="center" type="submit" value="Submit"/>
-                 {/*<p className="forgot" align="center"><a href="#">Forgot Password?</p>*/}
+            <div>
+                <br/>
+                <form onSubmit={this.submitForm}>
+                    <table style={{"width":"100%","border-collapse":"collapse","cellspacing":"20px"}} >
+                        <tr rowspan="3" align="center">
+                            <td colSpan="2">
+                                <img src="./img_avatar2.png" alt="Avatar"
+                                     style={{"border-radius":"50%","height":"30%",
+                                         "width":"30%" }}
+                                />
+                            </td>
+                        </tr>
+                        <tr><br/></tr>
+                        <tr>
+                            <td style={{"width":"30%"}}>Username:</td>
+                            <td>
+                                <input type="text" name="username" value={this.state.username}
+                                       onChange={this.handleChange} required style={{"width":"80%"}}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Password  :</td>
+                            <td>
+                                <input type="password" name="password" value={this.state.password}
+                                       onChange={this.handleChange} required style={{"width":"80%"}}/>
+                            </td>
+                        </tr>
+                        <tr align="center">
+                            <td colSpan="2">
+                                <Button variant="primary" type="submit" value="Login">Login</Button>
+                            </td>
+                        </tr>
+                        <tr rowspan="2"><br/></tr>
+                        <tr >
+                            <td colSpan="2">
+                                <span>Don't have an account? </span>
+                                <Link style={{"color":"blue"}} to="/registerCandidate"> Register here</Link>
+                            </td>
+                        </tr>
+                    </table>
                 </form>
             </div>
         );
