@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
+const validator = require('aadhaar-validator');
 
 const {FileSystemWallet, Gateway, X509WalletMixin} = require('fabric-network');
 const path = require('path');
@@ -16,6 +17,9 @@ router.post('/', async (req, res) => {
 
     try {
 
+        if(validator.isValidNumber(req.body.cardNumber)){
+            console.log("Valid Aadhar Number");
+        }
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), '../wallet');
         const wallet = new FileSystemWallet(walletPath);

@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import './candidateLogin.css';
-import {Redirect} from "react-router-dom";
-
-
+import CandidatePage from "./candidatePage";
+import {ADDRESS} from '../constants';
+/**
+ *  @author : Ayush Jaiswal
+ *  @Date : 18/12/2019
+ */
 class CandidateLogin extends Component {
 
     constructor(props) {
@@ -36,7 +38,7 @@ class CandidateLogin extends Component {
             password: this.state.password
         };
 
-        let response = await axios.post(`http://localhost:4000/candidateLogin`,candidateCredentials);
+        let response = await axios.post(ADDRESS+`candidateLogin`,candidateCredentials);
         alert(response.data);
 
         if(response.data === "Correct") {
@@ -55,13 +57,11 @@ class CandidateLogin extends Component {
         }
 
         return (
-            <div className="main">
-                <p className="sign" align="center">Sign in</p>
-                <form class="form1" onSubmit={this.submitForm}>
-                   <input class="un" type="text" align="center" placeholder="Username" name = "username" value = {this.state.username} onChange={this.handleChange} required /> <br/><br/>
-                   <input class="pass" type="password" align="center" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} required/> <br/> <br/>
-                   <input class="submit" align="center" type="submit" value="Submit"/>
-                 {/*<p className="forgot" align="center"><a href="#">Forgot Password?</p>*/}
+            <div>
+                <form onSubmit={this.submitForm}>
+                    Username : <input type="text" name = "username" value = {this.state.username} onChange={this.handleChange} required /> <br/><br/>
+                    Password : <input type="password" name="password" value={this.state.password} onChange={this.handleChange} required/> <br/> <br/>
+                    <input type="submit" value="Submit"/>
                 </form>
             </div>
         );

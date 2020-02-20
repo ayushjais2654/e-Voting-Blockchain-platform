@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import VoterPage from "./VoterPage";
+import {ADDRESS} from "../constants";
 
 class VoterLogin extends Component {
 
@@ -41,7 +42,7 @@ class VoterLogin extends Component {
         };
 
         alert(voterCredentials.username);
-        let response = await axios.post(`http://172.30.143.206:4000/voterLogin`, voterCredentials);
+        let response = await axios.post(ADDRESS+`voterLogin`, voterCredentials);
 
         if (typeof response.data === "object") {
             localStorage.setItem("token", "hbfjkfbfergner");
