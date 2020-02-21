@@ -17,8 +17,10 @@ router.post('/', async (req, res) => {
 
     try {
 
-        if(validator.isValidNumber(req.body.cardNumber)){
-            console.log("Valid Aadhar Number");
+        if(!validator.isValidNumber(req.body.cardNumber)){
+            console.log("Invalid Aadhar Number");
+            res.send('Adhaar number is invalid');
+            return;
         }
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), '../wallet');

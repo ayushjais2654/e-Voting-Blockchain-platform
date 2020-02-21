@@ -148,6 +148,12 @@ class RegisterVoter extends Component {
             });
             alert("Voter Successfully Registered");
         }
+        else{
+            this.setState({
+               spinner : false
+            });
+            alert(response.data);
+        }
         console.log(response.data);
     };
 
