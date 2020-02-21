@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import RegisterVoter from './Components/Voter/RegisterVoter'
 import Home from './Components/Home'
 import VoterLogin from './Components/Voter/VoterLogin'
@@ -12,38 +11,22 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import MainForm from "./Components/Candidate/MainForm";
-import CandidateRegister from "./Components/Candidate/candidateRegister";
+import Background from "./bg";
 
-/**
- *  @author : Ayush Jaiswal
- *  @Date : 15/12/2019
- */
 
 class App extends Component {
 
     render() {
         return (
-            <>
-                <Navbar bg="light" expand="lg">
+            <div>
+                <Navbar bg="dark" variant="dark" expand="lg">
                     <Navbar.Brand href="/">E-Voting Platform</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="#link">Link</Nav.Link>
-                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                            </NavDropdown>
+                            <Nav.Link href="#link">About</Nav.Link>
+                            <Nav.Link href="#link">Contact</Nav.Link>
                         </Nav>
-                        <Form inline>
-
-                            <Button variant="outline-success">About</Button>
-                            <pre> </pre>
-                            <Button variant="outline-success">Contact</Button>
-                        </Form>
                     </Navbar.Collapse>
                 </Navbar>
                 <Router>
@@ -55,7 +38,8 @@ class App extends Component {
                     <Route path="/candidatePage/" exact component={CandidatePage} />
                     <Route path="/registerCandidate" exact component={MainForm} />
                 </Router>
-            </>
+                <Background/>
+            </div>
         );
     }
 }

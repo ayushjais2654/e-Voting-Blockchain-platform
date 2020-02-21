@@ -19,7 +19,7 @@ class CandidateLogin extends Component {
         }
 
         this.state = {
-            spinner : false,
+            spinner: false,
             username: "",
             password: "",
             loggedIn
@@ -35,7 +35,7 @@ class CandidateLogin extends Component {
 
     submitForm = async (event) => {
         this.setState({
-            spinner : true
+            spinner: true
         });
         event.preventDefault();
         const candidateCredentials = {
@@ -43,19 +43,18 @@ class CandidateLogin extends Component {
             password: this.state.password
         };
 
-        let response = await axios.post(ADDRESS+`candidateLogin`,candidateCredentials);
+        let response = await axios.post(ADDRESS + `candidateLogin`, candidateCredentials);
         console.log(response.data);
 
-        if(response.data === "Correct") {
+        if (response.data === "Correct") {
             localStorage.setItem("token-candidate", "hredgjkljggdfr");
             this.setState({
                 loggedIn: true,
-                spinner : false
+                spinner: false
             });
-        }
-        else{
+        } else {
             this.setState({
-                spinner : false
+                spinner: false
             });
             alert("Invalid Credentials");
         }
@@ -77,12 +76,14 @@ class CandidateLogin extends Component {
                         <table style={{"width": "100%", "border-collapse": "collapse", "cellspacing": "20px"}}>
                             <tr rowspan="3" align="center">
                                 <td colSpan="2">
-                                    <img src="./img_avatar2.png" alt="Avatar"
-                                         style={{
-                                             "border-radius": "50%", "height": "30%",
-                                             "width": "30%"
-                                         }}
-                                    />
+                                    <div style={{"background-color": "white"}}>
+                                        <img src="./img_avatar2.jpg" alt="Avatar"
+                                             style={{
+                                                 "border-radius": "50%", "height": "20%",
+                                                 "width": "30%"
+                                             }}
+                                        />
+                                    </div>
                                 </td>
                             </tr>
                             <tr><br/></tr>

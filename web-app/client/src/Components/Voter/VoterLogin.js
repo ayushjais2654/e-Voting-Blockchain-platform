@@ -86,12 +86,14 @@ class VoterLogin extends Component {
                         <table style={{"width": "100%", "border-collapse": "collapse", "cellspacing": "20px"}}>
                             <tr rowspan="3" align="center">
                                 <td colSpan="2">
-                                    <img src="./img_avatar2.png" alt="Avatar"
-                                         style={{
-                                             "border-radius": "50%", "height": "30%",
-                                             "width": "30%"
-                                         }}
-                                    />
+                                    <div style={{"background-color": "white"}}>
+                                        <img src="./img_avatar2.jpg" alt="Avatar"
+                                             style={{
+                                                 "border-radius": "50%", "height": "20%",
+                                                 "width": "30%"
+                                             }}
+                                        />
+                                    </div>
                                 </td>
                             </tr>
                             <tr><br/></tr>
