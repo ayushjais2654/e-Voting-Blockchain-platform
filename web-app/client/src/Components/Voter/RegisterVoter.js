@@ -143,12 +143,10 @@ class RegisterVoter extends Component {
         let response = await axios.post(ADDRESS + `registerVoter`, this.state);
         if (response.data === 'Correct') {
             this.setState({
-                spinner: false
-            });
-            alert("Voter Successfully Registered");
-            this.setState({
+                spinner: false,
                 isRegistered: true
             });
+            alert("Voter Successfully Registered");
         }
         console.log(response.data);
     };

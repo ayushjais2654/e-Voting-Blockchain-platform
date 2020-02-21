@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './candidateRegister.css';
 import axios from 'axios';
+import {Redirect} from "react-router-dom";
 
 class CandidateRegister extends Component {
 
@@ -21,11 +22,14 @@ class CandidateRegister extends Component {
     }
 
     saveAndContinue = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         this.props.nextStep()
-    }
+    };
 
     render() {
+        if(this.state.isRegistered){
+            return <Redirect to="/"/>;
+        }
 
         return (
             <div class="container">

@@ -53,7 +53,7 @@ class App extends Component {
                     <Route path="/registerVoter" exact component={RegisterVoter}/>
                     <Route path="/candidateLogin" exact component={CandidateLogin} />
                     <Route path="/candidatePage/" exact component={CandidatePage} />
-                    <Route path="/registerCandidate" exact component={CandidateRegister} />
+                    <Route path="/registerCandidate" exact component={MainForm} />
                 </Router>
             </>
         );

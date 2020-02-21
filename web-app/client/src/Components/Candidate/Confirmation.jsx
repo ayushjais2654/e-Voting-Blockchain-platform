@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import {Button, Form, List} from 'semantic-ui-react';
 import './candidateRegister.css';
 import axios from "axios";
+import {ADDRESS} from "../constants";
+import {Redirect} from "react-router-dom";
 
-class Confirmation extends Component{
+class Confirmation extends Component {
 
     constructor(props) {
         super(props);
@@ -18,24 +20,29 @@ class Confirmation extends Component{
             username: this.props.values.username,
             password: this.props.values.password,
             constituency: this.props.values.constituency,
-            mobileNo : this.props.values.mobileNo,
+            mobileNo: this.props.values.mobileNo,
         };
 
     }
+
     saveAndContinue = (e) => {
         e.preventDefault();
         this.props.nextStep();
-    }
+    };
 
-    back  = (e) => {
+    back = (e) => {
         e.preventDefault();
         this.props.prevStep();
-    }
+    };
 
-    render(){
-        const {values: { firstName, lastName, age, username, password, mobileNo, partyName, constituency }} = this.props;
+    render() {
+        if(this.state.isRegistered){
+            return <Redirect to="/"/>;
+        }
 
-        return(
+        const {values: {firstName, lastName, age, username, password, mobileNo, partyName, constituency}} = this.props;
+
+        return (
             <div className="container">
                 <p className="sign" align="center">Candidate Registration</p>
                 <ul className="progressbar">
@@ -50,35 +57,39 @@ class Confirmation extends Component{
                         <p margin="5 auto">Click Confirm if the following details have been correctly entered</p>
                         <List className="gen" align="center">
                             <List.Item>
-                                <List.Icon name='users' />
+                                <List.Icon name='users'/>
                                 <List.Content>First Name: {firstName}</List.Content>
                             </List.Item>
                             <List.Item>
-                                <List.Icon name='users' />
+                                <List.Icon name='users'/>
                                 <List.Content>Last Name: {lastName}</List.Content>
                             </List.Item>
                             <List.Item>
-                                <List.Icon name='calendar' />
+                                <List.Icon name='calendar'/>
                                 <List.Content>Age: {age}</List.Content>
                             </List.Item>
                             <List.Item>
-                                <List.Icon name='users' />
+                                <List.Icon name='users'/>
                                 <List.Content>User Name: {username}</List.Content>
                             </List.Item>
                             <List.Item>
-                                <List.Icon name='users' />
+                                <List.Icon name='users'/>
+                                <List.Content>Password: {password}</List.Content>
+                            </List.Item>
+                            <List.Item>
+                                <List.Icon name='users'/>
                                 <List.Content>Last Name: {lastName}</List.Content>
                             </List.Item>
                             <List.Item>
-                                <List.Icon name='phone' />
+                                <List.Icon name='phone'/>
                                 <List.Content>Contact Number: {mobileNo}</List.Content>
                             </List.Item>
                             <List.Item>
-                                <List.Icon name='user' />
+                                <List.Icon name='user'/>
                                 <List.Content>Party Name: {partyName}</List.Content>
                             </List.Item>
                             <List.Item>
-                                <List.Icon name='marker' />
+                                <List.Icon name='marker'/>
                                 <List.Content>Constituency: {constituency}</List.Content>
                             </List.Item>
                         </List>
@@ -90,18 +101,54 @@ class Confirmation extends Component{
         )
     }
 
+
     submitForm = async (event) => {
 
+        // event.preventDefault();
+        if (validateName(this.state.firstName) === false) {
+            alert("First Name of Candidate is not valid");
+            return;
+        }
+        if (validateName(this.state.lastName) === false) {
+            alert("Last Name of Candidate is not valid");
+            return;
+        }
 
-        console.log(JSON.stringify(this.state));
-        let response = await axios.post(`http://localhost:4000/registerCandidate`, this.state);
+        if (validateMobileNo(this.state.mobileNo) === false) {
+            alert("Mobile number is invalid ..." + this.state.mobileNo);
+            return;
+        }
+
+        let response = await axios.post(ADDRESS+`registerCandidate`, this.state);
         alert(response.data);
-        if(response.data === "Candidate is successfully registered .."){
+        if (response.data === "Candidate is successfully registered ..") {
             this.setState({
-                isRegistered : true
+                isRegistered: true
             });
         }
     }
+}
+
+function validateName(name) {
+
+    let valid = true;
+    for (let i = 0; i < name.length; i++) {
+        if (!(name[i] >= 'a' && name[i] <= 'z') && !(name[i] >= 'A' && name[i] <= 'Z')) {
+            valid = false;
+            break;
+        }
+    }
+    return valid;
+}
+
+function validateMobileNo(number) {
+    let valid = true;
+    if(number.length !== 10)
+        valid = false;
+    if( !(number[0] === '9' || number[0] === '8' || number[0] === '7' || number[0] === '6')) {
+        valid = false;
+    }
+    return valid;
 }
 
 export default Confirmation;

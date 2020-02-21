@@ -4,6 +4,7 @@ import PersonalDetails from './PersonalDetails';
 import PartyDetails from "./PartyDetails";
 import Confirmation from './Confirmation';
 import Success from './Success';
+import {Redirect} from "react-router-dom";
 
 class MainForm extends Component {
     state = {
@@ -17,27 +18,30 @@ class MainForm extends Component {
         constituency: "",
         mobileNo: null,
         isRegistered : false
-    }
+    };
 
     nextStep = () => {
-        const { step } = this.state
+        const { step } = this.state;
         this.setState({
             step : step + 1
         })
-    }
+    };
 
     prevStep = () => {
-        const { step } = this.state
+        const { step } = this.state;
         this.setState({
             step : step - 1
         })
-    }
+    };
 
     handleChange = input => event => {
-        this.setState({ [input] : event.target.value })
-    }
+        this.setState({ [input] : event.target.value });
+    };
 
     render(){
+        if(this.state.isRegistered){
+            return <Redirect to="/"/>;
+        }
         const {step} = this.state;
         const { firstName, lastName, age, username, password, mobileNo, partyName, constituency} = this.state;
         const values = { firstName, lastName, age, username, password, mobileNo, partyName, constituency };
@@ -47,29 +51,29 @@ class MainForm extends Component {
                     nextStep={this.nextStep}
                     handleChange = {this.handleChange}
                     values={values}
-                />
+                />;
             case 2:
                 return <PersonalDetails
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange = {this.handleChange}
                     values={values}
-                />
+                />;
             case 3:
                 return <PartyDetails
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     handleChange = {this.handleChange}
                     values={values}
-                />
+                />;
             case 4:
                 return <Confirmation
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}
                     values={values}
-                />
+                />;
             case 5:
-                return <Success />
+                return <Redirect to="/" />;
         }
     }
 }

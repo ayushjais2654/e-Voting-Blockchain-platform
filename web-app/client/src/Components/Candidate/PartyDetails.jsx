@@ -7,12 +7,12 @@ class PartyDetails extends Component{
     saveAndContinue = (e) => {
         e.preventDefault();
         this.props.nextStep();
-    }
+    };
 
     back  = (e) => {
         e.preventDefault();
         this.props.prevStep();
-    }
+    };
 
     render(){
         const {values: { firstName, lastName, age, username, password, mobileNo, partyName, constituency  }} = this.props;
