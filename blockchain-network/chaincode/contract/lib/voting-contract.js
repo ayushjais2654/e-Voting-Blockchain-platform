@@ -157,7 +157,7 @@ class VotingContract extends Contract {
      */
     async castVote(ctx,username,partyName) {
 
-        let electionStartDate = new Date(2020, 4, 21);
+        let electionStartDate = new Date(2020, 2, 12);
         let electionEndDate = new Date(2020, 4, 22);
 
 

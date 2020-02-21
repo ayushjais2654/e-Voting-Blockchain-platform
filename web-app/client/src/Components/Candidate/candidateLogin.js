@@ -64,7 +64,10 @@ class CandidateLogin extends Component {
     render() {
 
         if (this.state.loggedIn === true) {
-            return <Redirect to='/candidatePage'/>
+            return <Redirect to={{
+                pathname: '/candidatePage',
+                state: {username: this.state.username}
+            }}/>;
         }
         if (this.state.spinner) {
             return <Spinner animation="border"/>;
