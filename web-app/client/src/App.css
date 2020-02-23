@@ -1,16 +1,25 @@
-body{
-    margin:0;
-    padding:0;
-    font-family: sans-serif;
-    background: linear-gradient(to right,grey,darkslategrey);
+.navbar-nav > li > a {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
 }
 
-#particles-js {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: -10;
-    top: 0;
-    left: 0
+.navbar {
+    min-height: 70px !important;
+}
+.nav a{
+    font-size: 2.8em !important;
 }
 
+.nav li{
+    padding-right:5px;
+}
+
+.navbar-brand
+{
+    font-family: 'Lato', sans-serif;
+    font-size: 100px;
+}
+
+html{
+    scroll-behavior: smooth
+}
