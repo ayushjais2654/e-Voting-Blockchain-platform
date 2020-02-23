@@ -22,6 +22,7 @@ class VoterPage extends Component {
             aadharCard: null,
             votedTo: null,
             transId: null,
+            partyNames : [],
             loggedIn
         }
     }
@@ -30,8 +31,9 @@ class VoterPage extends Component {
         const voter = {
             username: localStorage.getItem("token")
         };
-        alert("VoeterPage == > "+voter.username);
         let response = await axios.post(ADDRESS + `fetchVoter`, voter);
+        console.log(JSON.stringify(response.data) + "mann maein");
+
         this.setState({
             username: response.data.username,
             password: response.data.password,
@@ -41,7 +43,10 @@ class VoterPage extends Component {
             aadharCard: response.data.aadharCard,
             votedTo: response.data.votedTo,
             transId: response.data.transId,
+            partyNames : []
         });
+
+
     };
 
     handleChange = (event) => {
@@ -52,7 +57,6 @@ class VoterPage extends Component {
     };
 
     castVote = async (event) => {
-
         let voterDetails = {
             username: this.state.username,
             votedTo: "BJP"
