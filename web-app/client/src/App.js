@@ -22,7 +22,7 @@ class App extends Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link active href="/"><span style={{fontSize:"1.2em"}}>Home</span></Nav.Link>
+                            <Nav.Link active href="/#home"><span style={{fontSize:"1.2em"}}>Home</span></Nav.Link>
                             <Nav.Link href="/#announcement"><span style={{fontSize:"1.2em"}}>Announcements</span></Nav.Link>
                             <Nav.Link href="/#result"><span style={{fontSize:"1.2em"}}>Results</span></Nav.Link>
                             <Nav.Link href="/#intro"><span style={{fontSize:"1.2em"}}>Intro</span></Nav.Link>

@@ -22,13 +22,6 @@ class VoterLogin extends Component {
         this.state = {
             username: "",
             password: "",
-            firstName: "",
-            lastName: "",
-            mobileNo: 9515365125,
-            aadharCard: 123456789123,
-            votedTo: null,
-            transId: null,
-            spinner: false,
             loggedIn
         }
     }
@@ -48,19 +41,11 @@ class VoterLogin extends Component {
             username: this.state.username,
             password: this.state.password
         };
-
         let response = await axios.post(ADDRESS + `voterLogin`, voterCredentials);
-
         if (typeof response.data === "object") {
-            localStorage.setItem("token", "hbfjkfbfergner");
+            localStorage.setItem("token", this.state.username);
             this.setState({
                 loggedIn: true,
-                firstName: response.data.firstName,
-                lastName: response.data.lastName,
-                mobileNo: response.data.mobileNo,
-                aadharCard: response.data.aadharCard,
-                votedTo: response.data.votedTo,
-                transId: response.data.transId,
             });
         } else {
             alert(response.data);
@@ -74,7 +59,6 @@ class VoterLogin extends Component {
         if (this.state.loggedIn === true) {
             return <Redirect to={{
                 pathname: '/voterPage',
-                state: {username: this.state.username}
             }}/>;
         }
         if (this.state.spinner) {

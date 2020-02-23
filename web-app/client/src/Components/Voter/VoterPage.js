@@ -8,7 +8,6 @@ class VoterPage extends Component {
 
     constructor(props) {
         super(props);
-
         const token = localStorage.getItem("token");
         let loggedIn = true;
         if (token == null) {
@@ -28,10 +27,10 @@ class VoterPage extends Component {
     }
 
     componentDidMount = async () => {
-        console.log(JSON.stringify(this.props));
         const voter = {
-            username: this.props.history.location.state.username
+            username: localStorage.getItem("token")
         };
+        alert("VoeterPage == > "+voter.username);
         let response = await axios.post(ADDRESS + `fetchVoter`, voter);
         this.setState({
             username: response.data.username,
@@ -43,7 +42,6 @@ class VoterPage extends Component {
             votedTo: response.data.votedTo,
             transId: response.data.transId,
         });
-        console.log(JSON.stringify(this.state));
     };
 
     handleChange = (event) => {
@@ -56,9 +54,11 @@ class VoterPage extends Component {
     castVote = async (event) => {
 
         let voterDetails = {
-            username: this.props.history.location.state.username,
+            username: this.state.username,
             votedTo: "BJP"
         };
+
+        alert(voterDetails.username + " voterPage");
 
         let response = await axios.post(ADDRESS + `castVote`, voterDetails);
         alert(JSON.stringify(response.data));

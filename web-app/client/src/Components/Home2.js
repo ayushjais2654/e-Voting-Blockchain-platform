@@ -6,7 +6,7 @@ import {
 import {Modal} from "react-bootstrap";
 import VoterLogin from "./Voter/VoterLogin";
 import CandidateLogin from "./Candidate/candidateLogin";
-import {Redirect} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
 
 class HomepageHeading extends React.Component {
     constructor(props) {
@@ -34,96 +34,101 @@ class HomepageHeading extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div>
-                            {this.state.voter_modal ? <VoterLogin/> : <CandidateLogin/>}
+                            {this.state.voter_modal ? <VoterLogin/> : <Redirect to='/registerCandidate'/>}
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={() => this.setState({show_modal: false})}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-
-                <Container text>
-                    <Header as={'h1'}
-                            content={"OTIS"}
+                <Segment
+                    inverted
+                    textAlign='center'
+                    style={{minHeight: 700, padding: '1em 0em'}}
+                    vertical
+                >
+                    <Container text>
+                        <Header as={'h1'}
+                                content={"OTIS"}
+                                inverted
+                                style={{
+                                    fontSize: '4em',
+                                    fontWeight: 'normal',
+                                    marginBottom: 0,
+                                    marginTop: '1em',
+                                    textDecoration: 'underline'
+                                }}
+                        />
+                        <h1 style={{
+                            fontSize: '3.5em',
+                            fontWeight: 'normal',
+                            marginBottom: 0,
+                            marginTop: '0.4em',
+                        }}>
+                            INDIA's first
+                            <br/>
+                            <strong>
+                                <span style={{color: "Red"}}>O</span>
+                                nline vo
+                                <span style={{color: "Red"}}>TI</span>
+                                ng <span style={{color: "Red"}}> S</span>ystem
+                            </strong>
+                        </h1>
+                        <Header
+                            as='h2'
+                            content='Click images here to login'
                             inverted
                             style={{
-                                fontSize: '4em',
+                                fontSize: '1.7em',
                                 fontWeight: 'normal',
-                                marginBottom: 0,
-                                marginTop: '1em',
-                                textDecoration: 'underline'
+                                marginTop: '1.9em',
                             }}
-                    />
-                    <h1 style={{
-                        fontSize: '3.5em',
-                        fontWeight: 'normal',
-                        marginBottom: 0,
-                        marginTop: '0.4em',
-                    }}>
-                        INDIA's first
-                        <br/>
-                        <strong>
-                            <span style={{color: "Red"}}>O</span>
-                            nline vo
-                            <span style={{color: "Red"}}>TI</span>
-                            ng
-                            <span style={{color: "Red"}}>S</span>ystem
-                        </strong>
-                    </h1>
-                    <Header
-                        as='h2'
-                        content='Click images here to login'
-                        inverted
-                        style={{
-                            fontSize: '1.7em',
-                            fontWeight: 'normal',
-                            marginTop: '1.9em',
-                        }}
-                    />
-                    <table style={{width: "100%"}}>
-                        <tbody>
-                        <tr align="center">
-                            <td align={"center"}>
-                                <input type="image" src="./voter_pic.png" alt="Voter pic" width="160" height="190"
-                                       onClick={() => this.setState({
-                                           show_modal: true,
-                                           voter_modal: true
-                                       })}
-                                />
-                                <br/>
-                                <span style={{"fontSize":"1.8em","color":"White"}}>Voter</span>
-                                {/*<Button primary size='huge'*/}
-                                {/*        onClick={() => this.setState({*/}
-                                {/*            show_modal: true,*/}
-                                {/*            voter_modal: true*/}
-                                {/*        })}>*/}
-                                {/*    <Icon name='left arrow'/>*/}
-                                {/*    Voter Login*/}
-                                {/*</Button>*/}
-                            </td>
-                            <td align={"center"}>
-                                <input type="image" src={"./candidate_pic.png"} alt={"Candidate pic"} width="160"
-                                       height="190"
-                                       onClick={() => this.setState({
-                                           show_modal: true,
-                                           voter_modal: false
-                                       })}
-                                />
-                                <br/>
-                                <span style={{"fontSize":"1.8em","color":"White"}}>Candidate</span>
-                                {/*<Button primary size='huge'*/}
-                                {/*        onClick={() => this.setState({*/}
-                                {/*            show_modal: true,*/}
-                                {/*            voter_modal: false*/}
-                                {/*        })}>*/}
-                                {/*    Candidate Login*/}
-                                {/*    <Icon name='right arrow'/>*/}
-                                {/*</Button>*/}
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </Container>
+                        />
+                        <table style={{width: "100%"}}>
+                            <tbody>
+                            <tr align="center">
+                                <td align={"center"}>
+                                    <input type="image" src="./voter_pic.png" alt="Voter pic" width="160" height="190"
+                                           onClick={() => this.setState({
+                                               show_modal: true,
+                                               voter_modal: true
+                                           })}
+                                    />
+                                    <br/>
+                                    <span style={{"fontSize": "1.8em", "color": "White"}}>Voter</span>
+                                    {/*<Button primary size='huge'*/}
+                                    {/*        onClick={() => this.setState({*/}
+                                    {/*            show_modal: true,*/}
+                                    {/*            voter_modal: true*/}
+                                    {/*        })}>*/}
+                                    {/*    <Icon name='left arrow'/>*/}
+                                    {/*    Voter Login*/}
+                                    {/*</Button>*/}
+                                </td>
+                                <td align={"center"}>
+                                    <input type="image" src={"./candidate_pic.png"} alt={"Candidate pic"} width="160"
+                                           height="190"
+                                           onClick={() => this.setState({
+                                               show_modal: true,
+                                               voter_modal: false
+                                           })}
+                                    />
+                                    <br/>
+                                    <span style={{"fontSize": "1.8em", "color": "White"}}>Candidate</span>
+                                    {/*<Button primary size='huge'*/}
+                                    {/*        onClick={() => this.setState({*/}
+                                    {/*            show_modal: true,*/}
+                                    {/*            voter_modal: false*/}
+                                    {/*        })}>*/}
+                                    {/*    Candidate Login*/}
+                                    {/*    <Icon name='right arrow'/>*/}
+                                    {/*</Button>*/}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </Container>
+                </Segment>
             </div>
         );
     }
@@ -132,13 +137,17 @@ class HomepageHeading extends React.Component {
 class Home extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             users: [],
             tokenVoter: localStorage.getItem("token"),
             tokenCandidate: localStorage.getItem("token-candidate"),
-            show_all:false,
         };
+
+    }
+
+    componentDidMount() {
+        let props = this.props;
+        console.log(JSON.stringify(props));
 
     }
 
@@ -150,14 +159,7 @@ class Home extends React.Component {
 
         return (
             <div>
-                <Segment
-                    inverted
-                    textAlign='center'
-                    style={{minHeight: 700, padding: '1em 0em'}}
-                    vertical
-                >
-                    <HomepageHeading/>
-                </Segment>
+                <HomepageHeading id={"home"}/>
                 <Segment style={{padding: '8em 0em'}} vertical id={"announcement"}>
                     <Grid container stackable verticalAlign='middle'>
                         <Grid.Row>
@@ -269,7 +271,8 @@ class Home extends React.Component {
                                         Footer Header
                                     </Header>
                                     <p>
-                                        Extra space for a call to action inside the footer that could help re-engage users.
+                                        Extra space for a call to action inside the footer that could help re-engage
+                                        users.
                                     </p>
                                 </Grid.Column>
                             </Grid.Row>
