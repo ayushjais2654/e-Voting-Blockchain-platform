@@ -8,7 +8,7 @@ class VoterPage extends Component {
 
     constructor(props) {
         super(props);
-
+        console.log(JSON.stringify(this.props));
         const token = localStorage.getItem("token");
         let loggedIn = true;
         if (token == null) {
