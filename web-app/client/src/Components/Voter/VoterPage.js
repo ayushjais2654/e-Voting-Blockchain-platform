@@ -28,7 +28,7 @@ class VoterPage extends Component {
     }
 
     componentDidMount = async () => {
-        console.log(JSON.stringify(this.props.history.location.state.username));
+        console.log(JSON.stringify(this.props));
         const voter = {
             username: this.props.history.location.state.username
         };

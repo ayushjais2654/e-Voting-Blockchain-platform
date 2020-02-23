@@ -132,12 +132,14 @@ class HomepageHeading extends React.Component {
 class Home extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             users: [],
             tokenVoter: localStorage.getItem("token"),
             tokenCandidate: localStorage.getItem("token-candidate"),
             show_all:false,
         };
+
     }
 
     render() {
