@@ -41,10 +41,11 @@ router.post('/', async (req, res) => {
         voterDetail = JSON.parse(voterDetail.toString());
         let ballotDetails = await contract.evaluateTransaction('queryByObjectType','ballot');
         ballotDetails = JSON.parse(ballotDetails.toString());
+        // console.log(ballotDetails);
         let partyNames = [];
         for(let i=0;i<ballotDetails.length;i++){
-            console.log(JSON.parse(ballotDetails[i]) + " h ");
-           // partyNames.push(ballotDetails[i].partyName);
+            console.log(ballotDetails[i].Record.partyName);
+            partyNames.push(ballotDetails[i].Record.partyName);
         }
 
         console.log(partyNames);
