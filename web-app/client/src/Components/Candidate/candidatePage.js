@@ -27,21 +27,27 @@ class CandidatePage extends Component {
     }
 
     componentDidMount = async () => {
-        const candidate = {
-            username: this.props.history.location.state.username
-        };
-        let response = await axios.post(ADDRESS + `fetchCandidate`, candidate);
-        this.setState({
-            firstName: response.data.firstName,
-            lastName:  response.data.lastName,
-            partyName: response.data.partyName,
-            age: response.data.age,
-            username: response.data.username,
-            password: response.data.password,
-            constituency: response.data.constituency,
-            mobileNo: response.data.mobileNo,
-        });
-        console.log(JSON.stringify(this.state));
+        try {
+            console.log((JSON.parse(this.props)));
+            const candidate = {
+                username: this.props.history.location.state.username
+            };
+            let response = await axios.post(ADDRESS + `fetchCandidate`, candidate);
+            this.setState({
+                firstName: response.data.firstName,
+                lastName: response.data.lastName,
+                partyName: response.data.partyName,
+                age: response.data.age,
+                username: response.data.username,
+                password: response.data.password,
+                constituency: response.data.constituency,
+                mobileNo: response.data.mobileNo,
+            });
+            console.log(JSON.stringify(this.state));
+        }
+        catch (error) {
+            console.log(error);
+        }
     };
 
     handleChange = (event) => {

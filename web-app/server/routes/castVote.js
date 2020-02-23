@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
 
         let resp = await contract.evaluateTransaction('queryByObjectType','ballot');
         resp = resp.toString();
-        console.log(JSON.stringify(resp));
+        console.log(JSON.parse(resp));
 
         await res.json(response);
 

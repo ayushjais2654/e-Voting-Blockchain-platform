@@ -8,7 +8,6 @@ class VoterPage extends Component {
 
     constructor(props) {
         super(props);
-        console.log(JSON.stringify(this.props));
         const token = localStorage.getItem("token");
         let loggedIn = true;
         if (token == null) {
@@ -23,16 +22,18 @@ class VoterPage extends Component {
             aadharCard: null,
             votedTo: null,
             transId: null,
+            partyNames : [],
             loggedIn
         }
     }
 
     componentDidMount = async () => {
-        console.log(JSON.stringify(this.props.history.location.state.username));
         const voter = {
-            username: this.props.history.location.state.username
+            username: localStorage.getItem("token")
         };
         let response = await axios.post(ADDRESS + `fetchVoter`, voter);
+        console.log(JSON.stringify(response.data) + "mann maein");
+
         this.setState({
             username: response.data.username,
             password: response.data.password,
@@ -42,8 +43,10 @@ class VoterPage extends Component {
             aadharCard: response.data.aadharCard,
             votedTo: response.data.votedTo,
             transId: response.data.transId,
+            partyNames : []
         });
-        console.log(JSON.stringify(this.state));
+
+
     };
 
     handleChange = (event) => {
@@ -54,11 +57,12 @@ class VoterPage extends Component {
     };
 
     castVote = async (event) => {
-
         let voterDetails = {
-            username: this.props.history.location.state.username,
+            username: this.state.username,
             votedTo: "BJP"
         };
+
+        alert(voterDetails.username + " voterPage");
 
         let response = await axios.post(ADDRESS + `castVote`, voterDetails);
         alert(JSON.stringify(response.data));

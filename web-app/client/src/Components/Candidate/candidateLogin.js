@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import CandidatePage from "./candidatePage";
-import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {Redirect} from "react-router-dom";
 import {ADDRESS} from "../constants";
 import Spinner from "react-bootstrap/Spinner";
+import {Input,Button} from "semantic-ui-react";
 
 class CandidateLogin extends Component {
 
@@ -19,7 +18,7 @@ class CandidateLogin extends Component {
         }
 
         this.state = {
-            spinner : false,
+            spinner: false,
             username: "",
             password: "",
             loggedIn
@@ -35,7 +34,7 @@ class CandidateLogin extends Component {
 
     submitForm = async (event) => {
         this.setState({
-            spinner : true
+            spinner: true
         });
         event.preventDefault();
         const candidateCredentials = {
@@ -43,19 +42,18 @@ class CandidateLogin extends Component {
             password: this.state.password
         };
 
-        let response = await axios.post(ADDRESS+`candidateLogin`,candidateCredentials);
+        let response = await axios.post(ADDRESS + `candidateLogin`, candidateCredentials);
         console.log(response.data);
 
-        if(response.data === "Correct") {
+        if (response.data === "Correct") {
             localStorage.setItem("token-candidate", "hredgjkljggdfr");
             this.setState({
                 loggedIn: true,
-                spinner : false
+                spinner: false
             });
-        }
-        else{
+        } else {
             this.setState({
-                spinner : false
+                spinner: false
             });
             alert("Invalid Credentials");
         }
@@ -77,44 +75,48 @@ class CandidateLogin extends Component {
                 <div>
                     <br/>
                     <form onSubmit={this.submitForm}>
-                        <table style={{"width": "100%", "border-collapse": "collapse", "cellspacing": "20px"}}>
-                            <tr rowspan="3" align="center">
+                        <table style={{"width": "100%", "borderCollapse": "collapse", "cellspacing": "20px"}}>
+                            <tbody>
+                            <tr aria-rowspan="3" align="center">
                                 <td colSpan="2">
-                                    <img src="./img_avatar2.png" alt="Avatar"
-                                         style={{
-                                             "border-radius": "50%", "height": "30%",
-                                             "width": "30%"
-                                         }}
-                                    />
+                                    <div style={{"backgroundColor": "white"}}>
+                                        <img src="./img_avatar2.jpg" alt="Avatar"
+                                             style={{
+                                                 "borderRadius": "50%", "height": "20%",
+                                                 "width": "30%"
+                                             }}
+                                        />
+                                    </div>
                                 </td>
                             </tr>
-                            <tr><br/></tr>
+                            <tr>&nbsp;</tr>
                             <tr>
                                 <td style={{"width": "30%"}}>Username:</td>
                                 <td>
-                                    <input type="text" name="username" value={this.state.username}
+                                    <Input type="text" name="username" value={this.state.username}
                                            onChange={this.handleChange} required style={{"width": "80%"}}/>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Password :</td>
                                 <td>
-                                    <input type="password" name="password" value={this.state.password}
+                                    <Input type="password" name="password" value={this.state.password}
                                            onChange={this.handleChange} required style={{"width": "80%"}}/>
                                 </td>
                             </tr>
                             <tr align="center">
                                 <td colSpan="2">
-                                    <Button variant="primary" type="submit" value="Login">Login</Button>
+                                    <Button primary type="submit" value="Login">Login</Button>
                                 </td>
                             </tr>
-                            <tr rowspan="2"><br/></tr>
+                            <tr rowSpan="2">&nbsp;</tr>
                             <tr>
                                 <td colSpan="2">
                                     <span>Don't have an account? </span>
                                     <Link style={{"color": "blue"}} to="/registerCandidate"> Register here</Link>
                                 </td>
                             </tr>
+                            </tbody>
                         </table>
                     </form>
                 </div>

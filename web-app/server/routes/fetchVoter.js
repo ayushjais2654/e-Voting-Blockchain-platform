@@ -37,9 +37,23 @@ router.post('/', async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract('contract');
 
-        let response = await contract.evaluateTransaction('readMyAsset',req.body.username);
-        response = JSON.parse(response.toString());
-        console.log(response + "  fetchVoter");
+        let voterDetail = await contract.evaluateTransaction('readMyAsset',req.body.username);
+        voterDetail = JSON.parse(voterDetail.toString());
+        let ballotDetails = await contract.evaluateTransaction('queryByObjectType','ballot');
+        ballotDetails = JSON.parse(ballotDetails.toString());
+        let partyNames = [];
+        for(let i=0;i<ballotDetails.length;i++){
+            console.log(JSON.parse(ballotDetails[i]) + " h ");
+           // partyNames.push(ballotDetails[i].partyName);
+        }
+
+        console.log(partyNames);
+
+        let response = {
+            voterDetail : voterDetail,
+            partyNames : partyNames
+        };
+        // console.log(response + "  fetchVoter");
         await res.json(response);
 
     }catch (error) {

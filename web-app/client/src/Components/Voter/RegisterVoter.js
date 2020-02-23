@@ -20,9 +20,9 @@ class RegisterVoter extends Component {
             firstName: "Ayush",
             lastName: "Jaiswal",
             mobileNumber: "9515365125",
-            cardNumber: "951545211236",
-            username: "ayush123",
-            password: "",
+            cardNumber: "275860362335",
+            username: "ayush12",
+            password: "123",
             spinner: false,
             isRegistered: false
         }
@@ -69,37 +69,37 @@ class RegisterVoter extends Component {
                         First Name : <input type="text"
                                             name="firstName"
                                             onChange={this.changeStateValues}
-                                            placeholder={this.state.firstName}
+                                            value={this.state.firstName}
                                             required/> <br/> <br/>
 
                         Last Name : <input type="text"
                                            name="lastName"
                                            onChange={this.changeStateValues}
-                                           placeholder={this.state.lastName}
+                                           value={this.state.lastName}
                                            required/> <br/> <br/>
 
                         Mobile Number : <input type="number"
                                                name="mobileNumber"
                                                onChange={this.changeStateValues}
-                                               placeholder={this.state.mobileNumber}
+                                               value={this.state.mobileNumber}
                                                required/> <br/> <br/>
 
                         Aadhar Card Number : <input type="text"
                                                     name="cardNumber"
                                                     onChange={this.changeStateValues}
-                                                    placeholder={this.state.cardNumber}
+                                                    value={this.state.cardNumber}
                                                     required/><br/> <br/>
 
                         Username : <input type="text"
                                           name="username"
                                           onChange={this.changeStateValues}
-                                          placeholder={this.state.username}
+                                          value={this.state.username}
                                           required/><br/> <br/>
 
                         Password : <input type="password"
                                           name="password"
                                           onChange={this.changeStateValues}
-                                          placeholder={this.state.password}
+                                          value={this.state.password}
                                           required/> <br/> <br/>
 
                         <input type="submit" value="Submit"/>

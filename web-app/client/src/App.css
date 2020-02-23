@@ -1,0 +1,25 @@
+.navbar-nav > li > a {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.navbar {
+    min-height: 70px !important;
+}
+.nav a{
+    font-size: 2.8em !important;
+}
+
+.nav li{
+    padding-right:5px;
+}
+
+.navbar-brand
+{
+    font-family: 'Lato', sans-serif;
+    font-size: 100px;
+}
+
+html{
+    scroll-behavior: smooth
+}
