@@ -11,21 +11,44 @@ class VoterPage extends Component {
 
         const token = localStorage.getItem("token");
         let loggedIn = true;
-        if(token == null ){
+        if (token == null) {
             loggedIn = false;
         }
         this.state = {
+            username: "",
+            password: "",
+            firstName: "",
+            lastName: "",
+            mobileNo: null,
+            aadharCard: null,
+            votedTo: null,
+            transId: null,
             loggedIn
         }
     }
 
     componentDidMount = async () => {
         console.log(JSON.stringify(this.props.history.location.state.username));
+        const voter = {
+            username: this.props.history.location.state.username
+        };
+        let response = await axios.post(ADDRESS + `fetchVoter`, voter);
+        this.setState({
+            username: response.data.username,
+            password: response.data.password,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            mobileNo: response.data.mobileNo,
+            aadharCard: response.data.aadharCard,
+            votedTo: response.data.votedTo,
+            transId: response.data.transId,
+        });
+        console.log(JSON.stringify(this.state));
     };
 
     handleChange = (event) => {
         this.setState({
-            loggedIn : false
+            loggedIn: false
         });
         localStorage.removeItem("token");
     };
@@ -33,22 +56,23 @@ class VoterPage extends Component {
     castVote = async (event) => {
 
         let voterDetails = {
-            username : this.props.history.location.state.username,
-            votedTo : "BJP"
+            username: this.props.history.location.state.username,
+            votedTo: "BJP"
         };
 
-        let response = await axios.post(ADDRESS+`castVote` ,voterDetails);
+        let response = await axios.post(ADDRESS + `castVote`, voterDetails);
         alert(JSON.stringify(response.data));
     };
 
     render() {
-        if(this.state.loggedIn === false){
-            return < Redirect to="/" />;
+        if (this.state.loggedIn === false) {
+            return < Redirect to="/"/>;
         }
         return (
             <div>
                 <h1> Welcome to Logged in page .. </h1>
-                <button onClick={this.castVote} > Cast Vote </button> <br/><br/>
+                <button onClick={this.castVote}> Cast Vote</button>
+                <br/><br/>
                 <Link to="/" onClick={this.handleChange}> Logout </Link>
             </div>
         );

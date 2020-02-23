@@ -11,6 +11,8 @@ var registerVoter = require('./routes/registerVoter');
 var candidatePage = require('./routes/candidatePage');
 var voterLogin = require('./routes/voterLogin');
 var castVote = require('./routes/castVote');
+var fetchVoter = require('./routes/fetchVoter');
+var fetchCandidate = require('./routes/fetchCandidate');
 
 var app = express();
 const cors = require('cors');
@@ -32,6 +34,8 @@ app.use('/registerVoter' , registerVoter);
 app.use('/candidatePage',candidatePage);
 app.use('/voterLogin',voterLogin);
 app.use('/castVote',castVote);
+app.use('/fetchVoter',fetchVoter);
+app.use('/fetchCandidate',fetchCandidate);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

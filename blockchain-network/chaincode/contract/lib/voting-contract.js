@@ -125,7 +125,7 @@ class VotingContract extends Contract {
      * @param aadharCard
      * @returns {Promise<string>} - response message on successful creation of voter in world state
      */
-    async createVoter(ctx, firstName, lastName, username,password,mobileNo,aadharCard) {
+    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard) {
 
         let voter = {
             firstName: firstName,
@@ -139,8 +139,8 @@ class VotingContract extends Contract {
             docType: 'voter'
         };
 
-        let voterExists = await this.myAssetExists(ctx,voter.username);
-        if(voterExists){
+        let voterExists = await this.myAssetExists(ctx, voter.username);
+        if (voterExists) {
             return 'Voter already registered in World State';
         }
         await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
@@ -155,11 +155,10 @@ class VotingContract extends Contract {
      * @param partyName
      * @returns {Promise<string|{}>} - response message on successful voting
      */
-    async castVote(ctx,username,partyName) {
+    async castVote(ctx, username, partyName) {
 
-        let electionStartDate = new Date(2020, 4, 21);
-        let electionEndDate = new Date(2020, 4, 22);
-
+        let electionStartDate = await Date.parse("2020-2-12");
+        let electionEndDate = await Date.parse("2020-5-30");
 
         const existsVoter = await this.myAssetExists(ctx, username);
         if (!existsVoter) {
@@ -178,11 +177,7 @@ class VotingContract extends Contract {
             return response;
         }
 
-        electionStartDate = await Date.parse(electionStartDate);
-        electionEndDate = await Date.parse(electionEndDate);
-
-        let currentTime = new Date();
-        currentTime = await Date.parse(currentTime);
+        let currentTime = await Date.now();
 
         if (currentTime > electionEndDate) {
 
@@ -191,7 +186,7 @@ class VotingContract extends Contract {
             return response;
         }
 
-        else if(currentTime < electionStartDate){
+        if (currentTime < electionStartDate) {
             let response = {};
             response.error = ' Election period has not started ';
             return response;
@@ -216,14 +211,13 @@ class VotingContract extends Contract {
 
         let transId = await getTransactionId(voter.aadharCard, currentTime);
         ballot.transIds.push(transId);
-        await ctx.stub.putState(ballot, Buffer.from(JSON.stringify(ballot)));
+        await ctx.stub.putState(ballot.partyName, Buffer.from(JSON.stringify(ballot)));
 
         voter.votedTo = partyName;
         voter.transId = transId;
-
         await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
 
-        return ` Your vote has been casted with transaction Id : ${transId}`;
+        return ` Your vote has been casted `;
     }
 
     /**
@@ -241,7 +235,6 @@ class VotingContract extends Contract {
         };
 
         return await this.queryWithQueryString(ctx, JSON.stringify(queryString));
-
     }
 
     /**
