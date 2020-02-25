@@ -15,7 +15,6 @@ class RegisterVoter extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             firstName: "Ayush",
             lastName: "Jaiswal",
@@ -40,9 +39,9 @@ class RegisterVoter extends Component {
         }
         if (this.state.spinner) {
             return (
-                <Modal show={this.state.spinner} onHide={this.handleClose}>
+                <Modal show={this.state.spinner} onHide={this.handleClose} >
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Registring User</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Spinner animation="grow" variant="primary"/>

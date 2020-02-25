@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
-
+        
         // Get the contract from the network.
         const contract = network.getContract('contract');
 
