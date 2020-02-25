@@ -35,14 +35,14 @@ class VoterPage extends Component {
         console.log(JSON.stringify(response.data) + "mann maein");
 
         this.setState({
-            username: response.data.username,
-            password: response.data.password,
-            firstName: response.data.firstName,
-            lastName: response.data.lastName,
-            mobileNo: response.data.mobileNo,
-            aadharCard: response.data.aadharCard,
-            votedTo: response.data.votedTo,
-            transId: response.data.transId,
+            username: response.data.voterDetail.username,
+            password: response.data.voterDetail.password,
+            firstName: response.data.voterDetail.firstName,
+            lastName: response.data.voterDetail.lastName,
+            mobileNo: response.data.voterDetail.mobileNo,
+            aadharCard: response.data.voterDetail.aadharCard,
+            votedTo: response.data.voterDetail.votedTo,
+            transId: response.data.voterDetail.transId,
             partyNames : []
         });
 
@@ -62,7 +62,7 @@ class VoterPage extends Component {
             votedTo: "BJP"
         };
 
-        alert(voterDetails.username + " voterPage");
+        //alert(voterDetails.username + " voterPage");
 
         let response = await axios.post(ADDRESS + `castVote`, voterDetails);
         alert(JSON.stringify(response.data));

@@ -4,6 +4,7 @@ const router = express.Router();
 const {FileSystemWallet, Gateway, X509WalletMixin} = require('fabric-network');
 const path = require('path');
 const ccpPath = path.resolve(__dirname, '..', '..', '..', 'blockchain-network', 'first-network', 'connection-org1.json');
+const twilio = require('twilio')('ACe871a01e4b8b623110ade5f6dc80c4ef','8e7c11390eab32c21eed926f6df480fb');
 
 /**
  *  @author : Ayush Jaiswal
@@ -42,9 +43,12 @@ router.post('/', async (req, res) => {
         response = response.toString();
         console.log(JSON.stringify(response));
 
+        //await sendSmsToMobile(req.body.username,contract);
+
         let resp = await contract.evaluateTransaction('queryByObjectType','ballot');
         resp = resp.toString();
         console.log(JSON.parse(resp));
+
 
         await res.json(response);
 
@@ -54,4 +58,14 @@ router.post('/', async (req, res) => {
     }
 });
 
+async function sendSmsToMobile(username,contract){
+
+    let voterDetail = await contract.evaluateTransaction('readMyAsset',username);
+    voterDetail = JSON.parse(voterDetail.toString());
+    await twilio.messages.create({
+        to: '+917983540808',
+        from: '+12058131223',
+        body: `Your vote has been casted with transaction Id ${voterDetail.transactionId}`
+    });
+}
 module.exports = router;

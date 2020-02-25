@@ -36,6 +36,7 @@ class VotingContract extends Contract {
             password: 'ayush123',
             mobileNo: 9515365125,
             aadharCard: 123456789123,
+            isEligible : false,
             votedTo: null,
             transId: null,
             docType: 'voter'
@@ -125,7 +126,7 @@ class VotingContract extends Contract {
      * @param aadharCard
      * @returns {Promise<string>} - response message on successful creation of voter in world state
      */
-    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard) {
+    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard,isEligible) {
 
         let voter = {
             firstName: firstName,
@@ -134,6 +135,7 @@ class VotingContract extends Contract {
             password: password,
             mobileNo: mobileNo,
             aadharCard: aadharCard,
+            isEligible : isEligible,
             votedTo: null,
             transId: null,
             docType: 'voter'
