@@ -60,7 +60,7 @@ router.post('/', async (req, res) => {
         }, adminIdentity);
         const enrollment = await ca.enroll({enrollmentID: req.body.username, enrollmentSecret: secret});
 
-        console.log(JSON.parse(enrollment.toString()));
+        // console.log(JSON.parse(enrollment.toString()));
 
         const userIdentity = X509WalletMixin.createIdentity('Org1MSP', enrollment.certificate, enrollment.key.toBytes());
 
@@ -100,7 +100,7 @@ async function registerInLedger(req) {
 
         // Submit the specified transaction.
         let response = await contract.submitTransaction('createVoter', req.body.firstName, req.body.lastName,
-            req.body.username, req.body.password, req.body.mobileNumber, req.body.cardNumber);
+            req.body.username, req.body.password, req.body.mobileNumber, req.body.cardNumber,"false","null");
         console.log(response + "");
 
         // Disconnect from the gateway.

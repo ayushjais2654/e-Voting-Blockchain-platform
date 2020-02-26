@@ -36,9 +36,10 @@ class VotingContract extends Contract {
             password: 'ayush123',
             mobileNo: 9515365125,
             aadharCard: 123456789123,
-            isEligible : false,
+            isEligible: false,
             votedTo: null,
             transId: null,
+            description : null,
             docType: 'voter'
         };
 
@@ -124,9 +125,11 @@ class VotingContract extends Contract {
      * @param password
      * @param mobileNo
      * @param aadharCard
+     * @param isEligible
+     * @param description
      * @returns {Promise<string>} - response message on successful creation of voter in world state
      */
-    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard,isEligible) {
+    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard,isEligible,description) {
 
         let voter = {
             firstName: firstName,
@@ -136,6 +139,7 @@ class VotingContract extends Contract {
             mobileNo: mobileNo,
             aadharCard: aadharCard,
             isEligible : isEligible,
+            description : description,
             votedTo: null,
             transId: null,
             docType: 'voter'
@@ -150,6 +154,30 @@ class VotingContract extends Contract {
         return `Voter with username ${voter.username} is successfully registered in the World State`;
     }
 
+    async updateVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard,isEligible,description) {
+
+        let voter = {
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            password: password,
+            mobileNo: mobileNo,
+            aadharCard: aadharCard,
+            isEligible : isEligible,
+            description : description,
+            votedTo: null,
+            transId: null,
+            docType: 'voter'
+        };
+
+        let voterExists = await this.myAssetExists(ctx, voter.username);
+        if (!voterExists) {
+            return 'Voter is not registered in World State';
+        }
+        await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
+
+        return `Voter with username ${voter.username} is successfully updated in the World State`;
+    }
     /**
      *
      * @param ctx - Transaction context

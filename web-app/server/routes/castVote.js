@@ -16,6 +16,11 @@ router.post('/', async (req, res) => {
 
         console.log(req.body.votedTo);
 
+        // if(!req.body.isEligible){
+        //     res.send('Sorry you cannot vote verification is still pending...');
+        //     return ;
+        // }
+
         const walletPath = path.join(process.cwd(), '../wallet');
         const wallet = new FileSystemWallet(walletPath);
         console.log(`************** Wallet path: ${walletPath} **************************`);

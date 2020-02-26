@@ -22,6 +22,7 @@ class VoterPage extends Component {
             lastName: "",
             mobileNo: null,
             aadharCard: null,
+            isEligible : null,
             votedTo: null,
             transId: null,
             partyNames : [],
@@ -43,12 +44,11 @@ class VoterPage extends Component {
             lastName: response.data.voterDetail.lastName,
             mobileNo: response.data.voterDetail.mobileNo,
             aadharCard: response.data.voterDetail.aadharCard,
+            isEligible : response.data.voterDetail.isEligible,
             votedTo: response.data.voterDetail.votedTo,
             transId: response.data.voterDetail.transId,
             partyNames : []
         });
-
-
     };
 
     handleChange = (event) => {

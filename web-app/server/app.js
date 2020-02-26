@@ -13,6 +13,8 @@ var voterLogin = require('./routes/voterLogin');
 var castVote = require('./routes/castVote');
 var fetchVoter = require('./routes/fetchVoter');
 var fetchCandidate = require('./routes/fetchCandidate');
+var fetchPendingVoters = require('./routes/fetchPendingVoters');
+var updateVoter = require('./routes/updateVoter');
 
 var app = express();
 const cors = require('cors');
@@ -36,6 +38,8 @@ app.use('/voterLogin',voterLogin);
 app.use('/castVote',castVote);
 app.use('/fetchVoter',fetchVoter);
 app.use('/fetchCandidate',fetchCandidate);
+app.use('/fetchPendingVoters',fetchPendingVoters);
+app.use('/updateVoter',updateVoter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
