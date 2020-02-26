@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import RegisterVoter from './Components/Voter/RegisterVoter'
-// import Home from './Components/Home'
 import VoterLogin from './Components/Voter/VoterLogin'
 import VoterPage from './Components/Voter/VoterPage'
 import CandidateLogin from "./Components/Candidate/candidateLogin";
@@ -11,6 +10,7 @@ import MainForm from "./Components/Candidate/MainForm";
 import Background from "./background_particles";
 import Home from "./Components/Home2";
 import "./App.css"
+import AdminPage from "./Components/Admin/AdminPage";
 
 class App extends Component {
 
@@ -38,6 +38,7 @@ class App extends Component {
                     <Route path="/candidateLogin" exact component={CandidateLogin} />
                     <Route path="/candidatePage/" exact component={CandidatePage} />
                     <Route path="/registerCandidate" exact component={MainForm} />
+                    <Route path="/admin" exact component={AdminPage}/>
                 </Router>
                 <Background/>
             </div>
