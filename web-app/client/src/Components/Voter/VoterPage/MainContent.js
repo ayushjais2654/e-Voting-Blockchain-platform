@@ -36,6 +36,9 @@ class MainContent extends Component {
     };
 
     castVote = async (event) => {
+        if(this.state.votedTo === null){
+            this.alertShowFunc("info", "Please select a party ");
+        }
         this.setState({spinner:true});
         let voterDetails = {
             username: this.state.username,
@@ -44,7 +47,14 @@ class MainContent extends Component {
         console.log(voterDetails.username+" MainContent " + this.state.votedTo);
         let response = await axios.post(ADDRESS + `castVote`, voterDetails);
         this.setState({spinner:false});
-        this.alertShowFunc("info",response.data);
+
+        console.log(JSON.stringify(response.data.error));
+
+        if(response.data.error === undefined)
+            this.alertShowFunc("info",response.data);
+        else {
+            this.alertShowFunc("danger",response.data.error);
+        }
     };
 
     render() {
@@ -55,6 +65,7 @@ class MainContent extends Component {
             marginTop: "2%",
             marginBottom: "2%",
             textAlign:"center",
+            backgroundColor : "rgb(220,220,220)"
         };
         if(!this.state.isEligible){
             return (
@@ -89,14 +100,15 @@ class MainContent extends Component {
                                 marginBottom: "2%",
                                 textAlign:"center",}}
                 > Welcome {this.state.username} </h1>
-                <marquee style={{    marginTop: "2%",
+                <marquee style={{
+                                marginTop: "2%",
                                 marginBottom: "3%",
                                 textAlign:"center",
-                                color:"Red",
+                                color:"white",
                                 fontSize:"30px"
                 }}
                          scrollamount={15}
-                >Election period :{this.state.electionPeriod["fromDate"]} -
+                >Election period : {this.state.electionPeriod["fromDate"]} -
                     {this.state.electionPeriod["toDate"]}
                 </marquee>
                 <div style={divStyle}>

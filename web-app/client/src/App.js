@@ -41,7 +41,7 @@ class App extends Component {
                     <Route path="/candidatePage/" exact component={CandidatePage} />
                     <Route path="/registerCandidate" exact component={MainForm} />
                 </Router>
-                {/*<Background/>*/}
+                <Background/>
             </div>
         );
     }

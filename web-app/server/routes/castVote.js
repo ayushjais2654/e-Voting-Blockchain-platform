@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
         console.log(JSON.parse(resp));
 
 
-        await res.json(response);
+        await res.send(response);
 
     }catch (error) {
         console.log(`Failed to cast vote ${error}`);

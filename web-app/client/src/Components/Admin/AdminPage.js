@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {ADDRESS} from "../constants";
+import {Redirect} from 'react-router-dom';
 
 class AdminPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+          pendingVoters : []
+        };
     }
 
     componentDidMount = async () => {

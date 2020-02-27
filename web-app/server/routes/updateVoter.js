@@ -39,7 +39,7 @@ router.post('/',async (req,res) => {
         let voter = {
             firstName: (req.body.firstName === undefined)?voterDetail.firstName:req.body.firstName,
             lastName: (req.body.lastName === undefined)?voterDetail.lastName:req.body.lastName,
-            username: voterDetail.firstName,
+            username: voterDetail.username,
             password: (req.body.password === undefined)?voterDetail.password:req.body.password,
             mobileNo: (req.body.mobileNo === undefined)?voterDetail.mobileNo:req.body.mobileNo,
             aadharCard: voterDetail.aadharCard,
@@ -53,9 +53,8 @@ router.post('/',async (req,res) => {
 
         voter.description = (voter.description === null) ? "" : voter.description;
         let response = await contract.submitTransaction('updateVoter', voter.firstName, voter.lastName,
-            voter.username, voter.password, voter.mobileNo.toString(), voter.aadharCard.toString(),voter.isEligible.toString(),
-            voter.description.toString(),voter.votedTo.toString(),
-            voter.transId.toString());
+            voter.username, voter.password, voter.mobileNo, voter.aadharCard,voter.isEligible,
+            voter.description,voter.votedTo, voter.transId);
         await res.send('Correct');
 
     }catch (error) {
