@@ -12,7 +12,7 @@ class UserDetails extends Component{
 */
 
     render(){
-        const {values: { firstName, lastName, age, username, password, mobileNo, partyName, constituency  }} = this.props;
+        const {values: { firstName, lastName, age, username, password, mobileNo, partyName, candImage,constituency  }} = this.props;
         return(
             <div className="container">
                 <p className="sign" align="center">Candidate Registration</p>
@@ -70,7 +70,7 @@ class UserDetails extends Component{
         )
     }
     saveAndContinue = async (event) => {
-        const {values: { firstName, lastName, age, username, password, mobileNo, partyName, constituency  }} = this.props;
+        const {values: { firstName, lastName, age, username, password, mobileNo, partyName, candImage, constituency  }} = this.props;
         // event.preventDefault();
         if (validateName(firstName) === false) {
             alert("First Name of Candidate is not valid");

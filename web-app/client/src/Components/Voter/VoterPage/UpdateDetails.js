@@ -33,6 +33,8 @@ class UpdateDetails extends Component {
             lastName: this.props.lastName,
             mobileNo: this.props.mobileNo,
             aadharCard: this.props.aadharCard,
+            votedTo : this.props.votedTo,
+            transId: this.props.transId,
             readOnly: true,
             spinner: false,
         };
@@ -46,6 +48,8 @@ class UpdateDetails extends Component {
                 firstName: this.props.firstName,
                 lastName: this.props.lastName,
                 mobileNo: this.props.mobileNo,
+                votedTo : this.props.votedTo,
+                transId: this.props.transId,
                 aadharCard: this.props.aadharCard,
             });
         }
@@ -193,6 +197,34 @@ class UpdateDetails extends Component {
                                               name="username"
                                               onChange={this.changeStateValues}
                                               value={this.state.username}
+                                              disabled={true}
+                                              required
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="formVotedID">
+                            <Form.Label column sm={3} style={{textAlign: "center"}}>
+                                Voted To:
+                            </Form.Label>
+                            <Col sm={9}>
+                                <Form.Control type="text"
+                                              name="votedTo"
+                                              onChange={this.changeStateValues}
+                                              value={this.state.votedTo}
+                                              disabled={true}
+                                              required
+                                />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} controlId="formTransID">
+                            <Form.Label column sm={3} style={{textAlign: "center"}}>
+                                Transaction ID
+                            </Form.Label>
+                            <Col sm={9}>
+                                <Form.Control type="text"
+                                              name="transId"
+                                              onChange={this.changeStateValues}
+                                              value={this.state.transId}
                                               disabled={true}
                                               required
                                 />

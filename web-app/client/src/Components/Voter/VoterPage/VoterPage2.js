@@ -84,7 +84,7 @@ class VoterPage2 extends Component {
                 <MainContent    username   = {this.state.username}
                                 partyNames = {this.state.partyNames}
                                 isEligible = {this.state.isEligible}
-                                electionPeriod = {{"fromDate":"02/02/2020","toDate":"22/03/2020"}}
+                                electionPeriod = {this.state.electionPeriod}
                                 alertShowFunc = {this.alertShowFunc}
                 />
                 <UpdateDetails  username    = {this.state.username}
@@ -92,6 +92,8 @@ class VoterPage2 extends Component {
                                 lastName    = {this.state.lastName}
                                 mobileNo    = {this.state.mobileNo}
                                 aadharCard  = {this.state.aadharCard}
+                                votedTo     = {this.state.votedTo}
+                                transId     = {this.state.transId}
                                 alertShowFunc = {this.alertShowFunc}
                 />
                 <Button variant={"danger"} onClick={this.logout}

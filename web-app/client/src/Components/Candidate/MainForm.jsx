@@ -5,18 +5,21 @@ import PartyDetails from "./PartyDetails";
 import Confirmation from './Confirmation';
 import Success from './Success';
 import {Redirect} from "react-router-dom";
+import axios from 'axios';
+const ADDRESS = `http://localhost:4000/`;
 
 class MainForm extends Component {
     state = {
         step: 1,
-        firstName: "",
-        lastName: "",
-        partyName: "",
-        age: null,
-        username: "",
-        password: "",
-        constituency: "",
-        mobileNo: null,
+        firstName: "Aditya",
+        lastName: "Narayan",
+        partyName: "jdk",
+        age: "45",
+        username: "adit123",
+        password: "123",
+        constituency: "haha",
+        mobileNo: "9717411923",
+        candImage : null,
         isRegistered : false
     };
 
@@ -35,7 +38,17 @@ class MainForm extends Component {
     };
 
     handleChange = input => event => {
-        this.setState({ [input] : event.target.value });
+        if(event.target.name === 'cardImage')
+            this.fileChangedHandler(event);
+        else
+            this.setState({ [input] : event.target.value });
+    };
+
+    fileChangedHandler = async (event) => {
+        const file = event.target.files[0];
+        this.setState({
+            "candImage": file,
+        });
     };
 
     render(){
@@ -43,10 +56,10 @@ class MainForm extends Component {
             return <Redirect to="/"/>;
         }
         const {step} = this.state;
-        const { firstName, lastName, age, username, password, mobileNo, partyName, constituency} = this.state;
-        const values = { firstName, lastName, age, username, password, mobileNo, partyName, constituency };
+        const { firstName, lastName, age, username, password, mobileNo, partyName, candImage,constituency} = this.state;
+        const values = { firstName, lastName, age, username, password, mobileNo, partyName, candImage, constituency };
         switch(step) {
-            case 1:
+            case 3:
                 return <UserDetails
                     nextStep={this.nextStep}
                     handleChange = {this.handleChange}
@@ -59,7 +72,7 @@ class MainForm extends Component {
                     handleChange = {this.handleChange}
                     values={values}
                 />;
-            case 3:
+            case 1:
                 return <PartyDetails
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}

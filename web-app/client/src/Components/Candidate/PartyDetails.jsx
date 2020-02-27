@@ -15,7 +15,7 @@ class PartyDetails extends Component{
     };
 
     render(){
-        const {values: { firstName, lastName, age, username, password, mobileNo, partyName, constituency  }} = this.props;
+        const {values: { firstName, lastName, age, username, password, mobileNo, partyName, candImage, constituency }} = this.props;
         return(
             <div className="container">
                 <p className="sign" align="center">Candidate Registration</p>
@@ -49,6 +49,18 @@ class PartyDetails extends Component{
                                    value={constituency}
                                    placeholder='Constituency'
                                    onChange={this.props.handleChange('constituency')}
+                                   required/>
+                        </Form.Field>
+                        <br/><br/>
+                        <Form.Field>
+                            <label className="ids">Candidate Image</label>
+                            <br/>
+                            <input type="file"
+                                   className="gen"
+                                   name="candImage"
+                                   value={candImage}
+                                   accept="image/*"
+                                   onChange={this.props.handleChange('candImage')}
                                    required/>
                         </Form.Field>
                         <br/><br/>

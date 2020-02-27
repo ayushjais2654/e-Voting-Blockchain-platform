@@ -9,10 +9,10 @@ class PersonalDetails extends Component{
     back  = (e) => {
         e.preventDefault();
         this.props.prevStep();
-    }
+    };
 
     render(){
-        const {values: { firstName, lastName, age, username, password, mobileNo, partyName, constituency  }} = this.props;
+        const {values: { firstName, lastName, age, username, password, mobileNo, partyName,candImage, constituency  }} = this.props;
         return(
             <div className="container">
                 <p className="sign" align="center">Candidate Registration</p>

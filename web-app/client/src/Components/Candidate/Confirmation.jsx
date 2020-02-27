@@ -4,6 +4,7 @@ import './candidateRegister.css';
 import axios from "axios";
 import {ADDRESS} from "../constants";
 import {Redirect} from "react-router-dom";
+import {Image} from "react-bootstrap";
 
 class Confirmation extends Component {
 
@@ -21,6 +22,7 @@ class Confirmation extends Component {
             password: this.props.values.password,
             constituency: this.props.values.constituency,
             mobileNo: this.props.values.mobileNo,
+            candImage : this.props.values.candImage,
         };
 
     }
@@ -40,7 +42,7 @@ class Confirmation extends Component {
             return <Redirect to="/"/>;
         }
 
-        const {values: {firstName, lastName, age, username, password, mobileNo, partyName, constituency}} = this.props;
+        const {values: {firstName, lastName, age, username, password, mobileNo, partyName, candImage, constituency}} = this.props;
 
         return (
             <div className="container">
@@ -56,6 +58,12 @@ class Confirmation extends Component {
                         <h1 className="sign" align="center">Confirm your Details</h1>
                         <p margin="5 auto">Click Confirm if the following details have been correctly entered</p>
                         <List className="gen" align="center">
+                            <List.Item>
+                                <List.Icon name='Pic'/>
+                                <List.Content>
+                                    <img src={candImage} height={"100px"} width={"100px"}/>
+                                </List.Content>
+                            </List.Item>
                             <List.Item>
                                 <List.Icon name='users'/>
                                 <List.Content>First Name: {firstName}</List.Content>
