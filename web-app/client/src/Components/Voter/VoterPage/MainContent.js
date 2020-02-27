@@ -1,0 +1,152 @@
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import axios from 'axios';
+import {ADDRESS} from "../../constants";
+import {Input} from "semantic-ui-react";
+import {Button, Modal, Spinner} from "react-bootstrap";
+
+
+
+class MainContent extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: this.props.username,
+            votedTo: null,
+            partyNames : this.props.partyNames,
+            isEligible : this.props.isEligible,
+            electionPeriod: this.props.electionPeriod,
+            spinner:false,
+        }
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.state.username !== this.props.username){
+            this.setState({
+                username: this.props.username,
+                partyNames : this.props.partyNames,
+                isEligible : this.props.isEligible,
+                electionPeriod:this.props.electionPeriod,
+            });
+        }
+    }
+
+    alertShowFunc = (type, data) => {
+      this.props.alertShowFunc(type,data);
+    };
+
+    castVote = async (event) => {
+        this.setState({spinner:true});
+        let voterDetails = {
+            username: this.state.username,
+            votedTo: this.state.votedTo,
+        };
+        console.log(voterDetails.username+" MainContent " + this.state.votedTo);
+        let response = await axios.post(ADDRESS + `castVote`, voterDetails);
+        this.setState({spinner:false});
+        this.alertShowFunc("info",response.data);
+    };
+
+    render() {
+        let divStyle = {
+            width: "60%",
+            marginLeft: "20%",
+            marginRight: "20%",
+            marginTop: "2%",
+            marginBottom: "2%",
+            textAlign:"center",
+        };
+        if(!this.state.isEligible){
+            return (
+                <div style={divStyle}>
+                    <h1>You are Not Eligible to Vote</h1>
+                </div>
+            );
+        }
+        let currentDate = new Date();
+        let d1 = this.state.electionPeriod["fromDate"].split("/");
+        let d2 = this.state.electionPeriod["toDate"].split("/");
+        let fromDate    = new Date(d1[2],d1[1]-1,d1[0]);
+        let toDate      = new Date(d2[2],d2[1]-1,d2[0]);
+        if(!(currentDate >= fromDate && currentDate <= toDate)){
+            return <div style={divStyle}>
+                <h1>Election Period is not yet started ({this.state.electionPeriod["fromDate"]} -
+                    {this.state.electionPeriod["toDate"]})</h1>
+            </div>
+        }
+
+        return (
+            <div>
+                <Modal show={this.state.spinner} onHide={() => this.setState({spinner: false})}>
+                    <Modal.Header>
+                        <Modal.Title>Vote Inprogress</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Spinner animation="border" variant="primary"/>
+                    </Modal.Body>
+                </Modal>
+                <h1 style={{    marginTop: "2%",
+                                marginBottom: "2%",
+                                textAlign:"center",}}
+                > Welcome {this.state.username} </h1>
+                <marquee style={{    marginTop: "2%",
+                                marginBottom: "3%",
+                                textAlign:"center",
+                                color:"Red",
+                                fontSize:"30px"
+                }}
+                         scrollamount={15}
+                >Election period :{this.state.electionPeriod["fromDate"]} -
+                    {this.state.electionPeriod["toDate"]}
+                </marquee>
+                <div style={divStyle}>
+                    <table className="table table-hover">
+                        <thead className="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">PartyNames</th>
+                            <th scope="col">Selected</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            this.state.partyNames.map((item,index) => {
+                                    return (
+                                        <tr id={index}
+                                            onClick={() => this.setState({votedTo:item})}
+                                        >
+                                            <th scope="row" >{index+1}</th>
+                                            <td align={"center"}>{item}</td>
+                                            <td>
+                                                <Input type={"radio"}
+                                                       value={item}
+                                                       id={index}
+                                                       name={"partyname"}
+                                                       checked={this.state.votedTo === item}
+                                                       />
+                                            </td>
+                                        </tr>
+                                    )
+                                }
+                            )
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <Button variant={"primary"} size={"lg"} onClick={this.castVote}
+                        style={{
+                            marginLeft: "48%",
+                            marginRight: "48%",
+                            marginTop: "2%",
+                            marginBottom: "2%",
+                            textAlign:"center",
+                        }}
+                >
+                    Vote
+                </Button>
+            </div>
+        );
+    }
+}
+
+export default MainContent;

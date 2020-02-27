@@ -7,6 +7,7 @@ import {ADDRESS} from "../constants";
 import {Redirect} from 'react-router-dom';
 import Spinner from "react-bootstrap/Spinner";
 import {Input} from "semantic-ui-react";
+import PopUp from "./VoterPage/PopUp";
 
 class VoterLogin extends Component {
 
@@ -22,6 +23,9 @@ class VoterLogin extends Component {
         this.state = {
             username: "",
             password: "",
+            alertType:"danger",
+            alertData:"",
+            alertShow:false,
             loggedIn
         }
     }
@@ -48,9 +52,11 @@ class VoterLogin extends Component {
                 loggedIn: true,
             });
         } else {
-            alert(response.data);
             this.setState({
-                spinner: false
+                spinner: false,
+                alertShow:true,
+                alertType:"danger",
+                alertData:response.data,
             });
         }
     };
@@ -62,10 +68,15 @@ class VoterLogin extends Component {
             }}/>;
         }
         if (this.state.spinner) {
-            return <Spinner animation="grow"/>;
+            return <Spinner animation="border"/>;
         } else {
             return (
                 <div>
+                    <PopUp  alertType={this.state.alertType}
+                            alertData={this.state.alertData}
+                            alertShow={this.state.alertShow}
+                            alertCloseFunc = {()=>this.setState({alertShow:false})}
+                    />
                     <br/>
                     <form onSubmit={this.submitForm}>
                         <table style={{"width": "100%", "borderCollapse": "collapse", "cellspacing": "20px"}}>

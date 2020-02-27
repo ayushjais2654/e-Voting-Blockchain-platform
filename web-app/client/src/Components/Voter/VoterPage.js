@@ -3,8 +3,6 @@ import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router-dom'
 import axios from 'axios';
 import {ADDRESS} from "../constants";
-import {bindActionCreators} from "redux";
-import {storeUser} from "../../Store/action";
 
 class VoterPage extends Component {
 
@@ -36,7 +34,7 @@ class VoterPage extends Component {
         };
         let response = await axios.post(ADDRESS + `fetchVoter`, voter);
         console.log(JSON.stringify(response.data) + "mann maein");
-        this.props.storeUser(response.data);
+
         this.setState({
             username: response.data.voterDetail.username,
             password: response.data.voterDetail.password,
@@ -47,7 +45,7 @@ class VoterPage extends Component {
             isEligible : response.data.voterDetail.isEligible,
             votedTo: response.data.voterDetail.votedTo,
             transId: response.data.voterDetail.transId,
-            partyNames : []
+            partyNames : response.data.partyNames,
         });
     };
 
@@ -85,14 +83,4 @@ class VoterPage extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        username: state.root.username,
-    };
-}
-function matchDispatchToProps(dispatch) {
-    return bindActionCreators({
-        storeUser:storeUser,
-    },dispatch);
-}
 export default VoterPage;

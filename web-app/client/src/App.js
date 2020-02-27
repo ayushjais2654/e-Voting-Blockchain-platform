@@ -11,6 +11,7 @@ import Background from "./background_particles";
 import Home from "./Components/Home2";
 import "./App.css"
 import AdminPage from "./Components/Admin/AdminPage";
+import VoterPage2 from "./Components/Voter/VoterPage/VoterPage2";
 
 class App extends Component {
 
@@ -32,15 +33,15 @@ class App extends Component {
                 </Navbar>
                 <Router>
                     <Route path="/" exact component={Home}/>
-                    <Route path="/voterPage" component={VoterPage}/>
+                    <Route path="/admin" exact component={AdminPage}/>
+                    <Route path="/voterPage" component={VoterPage2}/>
                     <Route path="/voterLogin" exact component={VoterLogin}/>
                     <Route path="/registerVoter" exact component={RegisterVoter}/>
                     <Route path="/candidateLogin" exact component={CandidateLogin} />
                     <Route path="/candidatePage/" exact component={CandidatePage} />
                     <Route path="/registerCandidate" exact component={MainForm} />
-                    <Route path="/admin" exact component={AdminPage}/>
                 </Router>
-                <Background/>
+                {/*<Background/>*/}
             </div>
         );
     }

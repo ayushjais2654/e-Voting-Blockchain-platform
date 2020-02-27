@@ -1,13 +1,7 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import axios from 'axios';
-import {Redirect} from 'react-router-dom';
-import {ADDRESS} from "../constants";
-import Spinner from "react-bootstrap/Spinner";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import {Form, Row, Col} from "react-bootstrap";
-import PopUp from "./VoterPage/PopUp";
-
+import {ADDRESS} from "../../constants";
+import {Col, Form, Modal, Row, Button, Spinner} from "react-bootstrap";
 
 function validateName(name) {
     let valid = true;
@@ -29,26 +23,36 @@ function validateMobilNo(number) {
     return valid;
 }
 
-class RegisterVoter extends Component {
-
+class UpdateDetails extends Component{
     constructor(props) {
         super(props);
-        this.state = {
-            firstName: "Ayush",
-            lastName: "Jaiswal",
-            mobileNumber: "9515365125",
-            cardNumber: "275860362335",
-            username: "ayush12",
+        this.state={
+            username: this.props.username,
             password: "",
-            spinner: false,
-            alertType: "danger",
-            alertData: "",
-            alertShow: false,
-            isRegistered: false,
-            toRedirect : false,
+            firstName: this.props.firstName,
+            lastName: this.props.lastName,
+            mobileNo: this.props.mobileNo,
+            aadharCard: this.props.aadharCard,
+            readOnly:true,
+            spinner:false,
+        };
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.state.username !== this.props.username){
+            this.setState({
+                username: this.props.username,
+                password: "",
+                firstName: this.props.firstName,
+                lastName: this.props.lastName,
+                mobileNo: this.props.mobileNo,
+                aadharCard: this.props.aadharCard,
+            });
         }
     }
-    handleRegisterVoter = async (event) => {
+    alertShowFunc = (type, data) => {
+        this.props.alertShowFunc(type,data);
+    };
+    handleUpdateVoter = async (event) => {
         event.preventDefault();
         let error_string = "";
 
@@ -62,55 +66,33 @@ class RegisterVoter extends Component {
         else if (validateName(event.target.lastName.value) === false) {
             error_string="Last Name of Register Voter is not compatible";
         }
-        else if (validateMobilNo(event.target.mobileNumber.value) === false) {
+        else if (validateMobilNo(event.target.mobileNo.value) === false) {
             error_string="Mobile Number is Invalid";
         }
         if(error_string.length !== 0){
             this.setState({
                 spinner:false,
-                alertShow:true,
-                alertData:error_string,
-                alertType:"danger",
             });
+            this.alertShowFunc("danger",error_string);
             return;
         }
         console.log("register Voter called");
-        let response = await axios.post(ADDRESS + `registerVoter`, this.state);
+        let response = await axios.post(ADDRESS + `updateVoter`, this.state);
+        this.setState({
+            spinner: false,
+        });
         if (response.data === 'Correct') {
-            this.setState({
-                spinner: false,
-                alertShow:true,
-                toRedirect:true,
-                alertData:"Voter Successfully Registered",
-                alertType:"success",
-            });
+            this.alertShowFunc("success","Details Updated Successfully")
         } else {
-            this.setState({
-                spinner: false,
-                alertShow:true,
-                alertData:response.data,
-                alertType:"danger",
-            });
+            this.alertShowFunc("danger",response.data);
         }
     };
 
     changeStateValues = (event) => {
         this.setState({[event.target.name]: event.target.value});
     };
-    alertCloseFunc =() =>{
-      this.setState({
-          alertShow:false,
-      });
-      if(this.state.toRedirect){
-          this.setState({
-              isRegistered: true,
-          });
-      }
-    };
+
     render() {
-        if (this.state.isRegistered === true) {
-            return <Redirect to='/'/>;
-        }
         let divStyle = {
             width: "60%",
             backgroundColor: "white",
@@ -123,19 +105,18 @@ class RegisterVoter extends Component {
             <div style={divStyle}>
                 <Modal show={this.state.spinner} onHide={() => this.setState({spinner: false})}>
                     <Modal.Header>
-                        <Modal.Title>Registering User</Modal.Title>
+                        <Modal.Title>Update Details</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Spinner animation="border" variant="primary"/>
                     </Modal.Body>
                 </Modal>
-                <PopUp alertType={this.state.alertType}
-                       alertData={this.state.alertData}
-                       alertShow={this.state.alertShow}
-                       alertCloseFunc={this.alertCloseFunc}
-                />
-                <h1 style={{textAlign: "center", "marginTop": "2%", "marginBottom": "2%"}}>Registration Form</h1>
-                <Form onSubmit={this.handleRegisterVoter}>
+                <Button variant={"success"}
+                        style={{"marginLeft":"40%","marginRight":"35%","marginTop":"2%","marginBottom":"2%"}}
+                        onClick={() => this.setState({readOnly:!this.state.readOnly})}
+                >{this.state.readOnly?"Enable":"Disable"} Editing</Button>
+                <h1 style={{textAlign: "center", "marginTop": "2%", "marginBottom": "3%"}}>Update Details</h1>
+                <Form onSubmit={this.handleUpdateVoter}>
                     <Form.Group as={Row} controlId="formFirstName">
                         <Form.Label column sm={3} style={{textAlign: "center"}}>
                             First Name
@@ -145,6 +126,7 @@ class RegisterVoter extends Component {
                                           name="firstName"
                                           onChange={this.changeStateValues}
                                           value={this.state.firstName}
+                                          disabled={this.state.readOnly}
                                           required
                             />
                         </Col>
@@ -158,6 +140,7 @@ class RegisterVoter extends Component {
                                           name="lastName"
                                           onChange={this.changeStateValues}
                                           value={this.state.lastName}
+                                          disabled={this.state.readOnly}
                                           required
                             />
                         </Col>
@@ -168,9 +151,10 @@ class RegisterVoter extends Component {
                         </Form.Label>
                         <Col sm={9}>
                             <Form.Control type="number"
-                                          name="mobileNumber"
+                                          name="mobileNo"
                                           onChange={this.changeStateValues}
-                                          value={this.state.mobileNumber}
+                                          value={this.state.mobileNo}
+                                          disabled={this.state.readOnly}
                                           required
                             />
                         </Col>
@@ -181,9 +165,10 @@ class RegisterVoter extends Component {
                         </Form.Label>
                         <Col sm={9}>
                             <Form.Control type="number"
-                                          name="cardNumber"
+                                          name="aadharCard"
                                           onChange={this.changeStateValues}
-                                          value={this.state.cardNumber}
+                                          value={this.state.aadharCard}
+                                          disabled={this.state.readOnly}
                                           required
                             />
                         </Col>
@@ -197,6 +182,7 @@ class RegisterVoter extends Component {
                                           name="username"
                                           onChange={this.changeStateValues}
                                           value={this.state.username}
+                                          disabled={this.state.readOnly}
                                           required
                             />
                         </Col>
@@ -210,11 +196,12 @@ class RegisterVoter extends Component {
                                           name="password"
                                           onChange={this.changeStateValues}
                                           value={this.state.password}
+                                          disabled={this.state.readOnly}
                                           required
                             />
                         </Col>
                     </Form.Group>
-                    <fieldset>
+                    <fieldset disabled={this.state.readOnly}>
                         <Form.Group as={Row}>
                             <Form.Label as="legend" column sm={3} style={{textAlign: "center"}}>
                                 Gender
@@ -237,7 +224,8 @@ class RegisterVoter extends Component {
                     </fieldset>
                     <Form.Group as={Row}>
                         <Col style={{textAlign: "center", "marginBottom": "2%", "marginTop": "2%"}}>
-                            <Button variant={"primary"} size={"lg"} type="submit">Sign up</Button>
+                            <Button variant={"outline-primary"} size={"lg"} type="submit"
+                                    disabled={this.state.readOnly} >Update</Button>
                         </Col>
                     </Form.Group>
                 </Form>
@@ -246,5 +234,4 @@ class RegisterVoter extends Component {
     }
 }
 
-
-export default RegisterVoter;
+export default UpdateDetails;

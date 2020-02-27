@@ -41,7 +41,6 @@ router.post('/', async (req, res) => {
         voterDetail = JSON.parse(voterDetail.toString());
         let ballotDetails = await contract.evaluateTransaction('queryByObjectType','ballot');
         ballotDetails = JSON.parse(ballotDetails.toString());
-        // console.log(ballotDetails);
         let partyNames = [];
         for(let i=0;i<ballotDetails.length;i++){
             console.log(ballotDetails[i].Record.partyName);
@@ -54,7 +53,6 @@ router.post('/', async (req, res) => {
             voterDetail : voterDetail,
             partyNames : partyNames
         };
-        // console.log(response + "  fetchVoter");
         await res.json(response);
 
     }catch (error) {

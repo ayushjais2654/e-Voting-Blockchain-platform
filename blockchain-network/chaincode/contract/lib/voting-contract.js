@@ -30,16 +30,16 @@ class VotingContract extends Contract {
         console.log('============= START : Initialize Ledger ===========');
 
         let voter = {
-            firstName: 'Ayush',
-            lastName: 'Jaiswal',
-            username: 'ayush123',
-            password: 'ayush123',
+            firstName: '',
+            lastName: '',
+            username: 'jvhgvhgvbvcgvvcghcvghcjvchcvfghjvcghcvghcfchf',
+            password: '',
             mobileNo: 9515365125,
             aadharCard: 123456789123,
             isEligible: false,
             votedTo: null,
             transId: null,
-            description : null,
+            description: null,
             docType: 'voter'
         };
 
@@ -129,7 +129,7 @@ class VotingContract extends Contract {
      * @param description
      * @returns {Promise<string>} - response message on successful creation of voter in world state
      */
-    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard,isEligible,description) {
+    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard, isEligible, description) {
 
         let voter = {
             firstName: firstName,
@@ -138,8 +138,8 @@ class VotingContract extends Contract {
             password: password,
             mobileNo: mobileNo,
             aadharCard: aadharCard,
-            isEligible : isEligible,
-            description : description,
+            isEligible: isEligible,
+            description: description,
             votedTo: null,
             transId: null,
             docType: 'voter'
@@ -154,30 +154,28 @@ class VotingContract extends Contract {
         return `Voter with username ${voter.username} is successfully registered in the World State`;
     }
 
-    async updateVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard,isEligible,description) {
+    async updateVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard, isEligible, description,votedTo,transId) {
 
-        let voter = {
-            firstName: firstName,
-            lastName: lastName,
-            username: username,
-            password: password,
-            mobileNo: mobileNo,
-            aadharCard: aadharCard,
-            isEligible : isEligible,
-            description : description,
-            votedTo: null,
-            transId: null,
-            docType: 'voter'
-        };
-
-        let voterExists = await this.myAssetExists(ctx, voter.username);
+        let voterExists = await this.myAssetExists(ctx,username);
         if (!voterExists) {
             return 'Voter is not registered in World State';
         }
+
+        let voterAsBytes = await ctx.stub.getState(username);
+        let voter = JSON.parse(voterAsBytes);
+        voter.firstName = firstName;
+        voter.lastName = lastName;
+        voter.password = password;
+        voter.mobileNo = mobileNo;
+        voter.isEligible = isEligible;
+        voter.description = description;
+
+
         await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
 
         return `Voter with username ${voter.username} is successfully updated in the World State`;
     }
+
     /**
      *
      * @param ctx - Transaction context
