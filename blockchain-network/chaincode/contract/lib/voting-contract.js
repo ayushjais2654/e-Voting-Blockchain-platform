@@ -32,7 +32,7 @@ class VotingContract extends Contract {
         let voter = {
             firstName: '',
             lastName: '',
-            username: 'jvhgvhgvbvcgvvcghcvghcjvchcvfghjvcghcvghcfchf',
+            username: 'default',
             password: '',
             mobileNo: 9515365125,
             aadharCard: 123456789123,
@@ -67,7 +67,7 @@ class VotingContract extends Contract {
             lastName: '',
             partyName: 'vfmk',
             age: 12,
-            username: 'fnjfkefnkjf',
+            username: 'default',
             password: '',
             constituency: 'fnskdnf',
             mobileNo: 9575486124,
@@ -80,7 +80,7 @@ class VotingContract extends Contract {
         await ctx.stub.putState(candidate.username, Buffer.from(JSON.stringify(candidate)));
 
         let election = {
-            constituency : "warangal",
+            constituency : "default",
             startDate : "2020-2-20",
             endDate : "2020-5-20",
             docType : "election"

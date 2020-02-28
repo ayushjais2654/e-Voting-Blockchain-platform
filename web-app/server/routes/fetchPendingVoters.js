@@ -34,7 +34,7 @@ router.get('/',async (req,res) => {
         voters = JSON.parse(voters.toString());
         let response = [];
         for(let i=0;i<voters.length;i++){
-            if(voters[i].Record.isEligible.toString() === "false")
+            if(voters[i].Record.isEligible.toString() === "false" && voters[i].Record.isDenied.toString() === 'false')
                 response.push(voters[i]);
         }
         console.log(response);

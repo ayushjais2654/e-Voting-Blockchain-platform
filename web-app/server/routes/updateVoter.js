@@ -43,8 +43,9 @@ router.post('/',async (req,res) => {
             password: (req.body.password === undefined)?voterDetail.password:req.body.password,
             mobileNo: (req.body.mobileNo === undefined)?voterDetail.mobileNo:req.body.mobileNo,
             aadharCard: voterDetail.aadharCard,
+            gender   : req.body.gender,
             isEligible: ((req.body.isEligible === undefined)?voterDetail.isEligible:req.body.isEligible).toString(),
-            // isDenied : (req.body.isDenied === undefined?voterDetail.isDenied:req.body.isDenied).toString(),
+            isDenied : (req.body.isDenied === undefined?voterDetail.isDenied:req.body.isDenied).toString(),
             description: (req.body.description === undefined)?voterDetail.description:req.body.description,
             votedTo: (voterDetail.votedTo === null)?"":voterDetail.votedTo,
             transId:(voterDetail.transId === null)?"":voterDetail.transId,
@@ -55,7 +56,7 @@ router.post('/',async (req,res) => {
         voter.description = (voter.description === null) ? "" : voter.description;
         let response = await contract.submitTransaction('updateVoter', voter.firstName, voter.lastName,
             voter.username, voter.password, voter.mobileNo, voter.aadharCard,voter.isEligible,
-            voter.description,voter.votedTo, voter.transId);
+            voter.description,voter.votedTo, voter.transId,voter.gender,voter.isDenied);
         await res.send('Correct');
 
     }catch (error) {

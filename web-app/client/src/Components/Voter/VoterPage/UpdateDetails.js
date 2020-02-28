@@ -298,6 +298,20 @@ class UpdateDetails extends Component {
                                 </Col>
                             </Form.Group>
                         </fieldset>
+                        <Form.Group as={Row} controlId="formDescription">
+                            <Form.Label column sm={3} style={{textAlign: "center"}}>
+                                Description
+                            </Form.Label>
+                            <Col sm={9}>
+                                <textarea   rows={5} cols={50}
+                                            name="description"
+                                            onChange={this.changeStateValues}
+                                            value={this.state.description}
+                                            disabled={true}
+                                            required
+                                />
+                            </Col>
+                        </Form.Group>
                         <Form.Group as={Row}>
                             <Col style={{textAlign: "center", "marginBottom": "2%", "marginTop": "2%"}}>
                                 <Button variant={"outline-primary"} size={"lg"} type="submit"

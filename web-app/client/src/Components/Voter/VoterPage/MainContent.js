@@ -72,7 +72,6 @@ class MainContent extends Component {
             textAlign:"center",
             backgroundColor : "rgb(220,220,220)"
         };
-        console.log(this.state);
         if(this.state.isEligible.toString() === "false"){
             return (
                 <div style={divStyle}>
@@ -122,7 +121,8 @@ class MainContent extends Component {
                                 fontSize:"30px"
                 }}
                          scrollamount={15}
-                >Election period : {this.state.electionPeriod["fromDate"]} -
+                >Election period <br/>
+                {this.state.electionPeriod["fromDate"]}<span> : </span>
                     {this.state.electionPeriod["toDate"]}
                 </marquee>
                 <div style={divStyle}>

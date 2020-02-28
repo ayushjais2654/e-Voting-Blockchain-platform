@@ -253,6 +253,7 @@ class RegisterVoter extends Component {
                                         value="Male"
                                         name="gender"
                                         id="formHorizontalRadios1"
+                                        required
                                     />
                                     <Form.Check
                                         type="radio"
@@ -260,6 +261,7 @@ class RegisterVoter extends Component {
                                         value="Female"
                                         name="gender"
                                         id="formHorizontalRadios2"
+                                        required
                                     />
                                     <Form.Check
                                         type="radio"
@@ -267,6 +269,7 @@ class RegisterVoter extends Component {
                                         value="Others"
                                         name="gender"
                                         id="formHorizontalRadios3"
+                                        required
                                     />
                                 </Col>
                             </Form.Group>

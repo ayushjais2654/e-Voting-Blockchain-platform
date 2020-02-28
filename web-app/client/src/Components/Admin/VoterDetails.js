@@ -18,8 +18,9 @@ class VoterDetails extends React.Component {
             transId: this.props.voterDetails.transId,
             isEligible : this.props.voterDetails.isEligible,
             description : this.props.voterDetails.description,
-            isDenied : this.props.isDenied,
+            isDenied : this.props.voterDetails.isDenied,
             constituency : this.props.voterDetails.constituency,
+            gender : this.props.voterDetails.gender,
             isDisplayDesc: false,
             error:"",
             closeVoterDetails:this.props.closeVoterDetails,
@@ -42,9 +43,9 @@ class VoterDetails extends React.Component {
                 transId: this.props.voterDetails.transId,
                 description : this.props.voterDetails.description,
                 isEligible : this.props.voterDetails.isEligible,
-                // isDenied : this.props.isDenied,
-                // constituency : this.voterDetails.constituency,
-                constituency: "nothing",
+                isDenied : this.props.voterDetails.isDenied,
+                gender : this.props.voterDetails.gender,
+                constituency : this.voterDetails.constituency,
                 closeVoterDetails:this.props.closeVoterDetails,
             });
         }
@@ -82,7 +83,7 @@ class VoterDetails extends React.Component {
         let response = await axios.post(ADDRESS + `deleteVoter`, this.state.username);
         if (response.data === 'Correct') {
             this.setState({
-                error:"Details Submitted Successfully",
+                error:"Deleted Successfully",
             });
         } else {
             this.setState({
@@ -164,6 +165,19 @@ class VoterDetails extends React.Component {
                                 />
                             </Col>
                         </Form.Group>
+                        <Form.Group as={Row} controlId="formConstituency">
+                            <Form.Label column sm={3} style={{textAlign: "center"}}>
+                                Constituency
+                            </Form.Label>
+                            <Col sm={9}>
+                                <Form.Control type="text"
+                                              name="constituency"
+                                              value={this.state.constituency}
+                                              disabled={true}
+                                              required
+                                />
+                            </Col>
+                        </Form.Group>
                         <Form.Group as={Row} controlId="formUserName">
                             <Form.Label column sm={3} style={{textAlign: "center"}}>
                                 Username
@@ -177,33 +191,7 @@ class VoterDetails extends React.Component {
                                 />
                             </Col>
                         </Form.Group>
-                        <Form.Group as={Row} controlId="formVotedID">
-                            <Form.Label column sm={3} style={{textAlign: "center"}}>
-                                Voted To:
-                            </Form.Label>
-                            <Col sm={9}>
-                                <Form.Control type="text"
-                                              name="votedTo"
-                                              value={this.state.votedTo}
-                                              disabled={true}
-                                              required
-                                />
-                            </Col>
-                        </Form.Group>
-                        <Form.Group as={Row} controlId="formTransID">
-                            <Form.Label column sm={3} style={{textAlign: "center"}}>
-                                Transaction ID
-                            </Form.Label>
-                            <Col sm={9}>
-                                <Form.Control type="text"
-                                              name="transId"
-                                              value={this.state.transId}
-                                              disabled={true}
-                                              required
-                                />
-                            </Col>
-                        </Form.Group>
-                        <fieldset disabled={true}>
+                        <fieldset disabled={true} >
                             <Form.Group as={Row}>
                                 <Form.Label as="legend" column sm={3} style={{textAlign: "center"}}>
                                     Gender
@@ -212,15 +200,26 @@ class VoterDetails extends React.Component {
                                     <Form.Check
                                         type="radio"
                                         label="Male"
+                                        value="Male"
                                         name="gender"
                                         id="formHorizontalRadios1"
-                                        checked={true}
+                                        checked = {this.state.gender === "Male"}
                                     />
                                     <Form.Check
                                         type="radio"
                                         label="Female"
+                                        value="Female"
                                         name="gender"
                                         id="formHorizontalRadios2"
+                                        checked = {this.state.gender === "Female"}
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Others"
+                                        value="Others"
+                                        name="gender"
+                                        id="formHorizontalRadios3"
+                                        checked = {this.state.gender === "Others"}
                                     />
                                 </Col>
                             </Form.Group>

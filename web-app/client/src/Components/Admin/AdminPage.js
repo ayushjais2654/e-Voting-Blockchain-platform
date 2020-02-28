@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {ADDRESS} from "../constants";
-import {Modal, Button, Accordion, DropdownButton} from "react-bootstrap";
+import {Modal, Button, Accordion } from "react-bootstrap";
 import VoterDetails from "./VoterDetails";
 import "./AdminPage.css";
 import {Input} from "semantic-ui-react";
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 
 class AdminPage extends Component {
     constructor(props) {
@@ -13,7 +14,12 @@ class AdminPage extends Component {
             pendingVoters: [],
             selectedVoter: 0,
             isDisplayActive: false,
+            constituency : "",
+            electionPeriod:{},
+            dateObj : [new Date(2020,2,12), new Date(2020,3,23)],
         };
+        this.updateDate=this.updateDate.bind(this);
+        this.addElection = this.addElection.bind(this);
     }
 
     componentDidMount = async () => {
@@ -29,6 +35,21 @@ class AdminPage extends Component {
         console.log(this.state.pendingVoters);
     };
 
+    async addElection(){
+        console.log(this.state);
+        let response = await axios.post(ADDRESS+"addElection",this.state);
+        console.log(response.data);
+    };
+
+    updateDate = (date) =>{
+        this.setState({
+            dateObj:date,
+            electionPeriod:{
+                "fromDate":date[0].getFullYear().toString()+"-"+(date[0].getMonth()+1).toString()+"-"+date[0].getDate().toString(),
+                "toDate":date[1].getFullYear().toString()+"-"+(date[1].getMonth()+1).toString()+"-"+date[1].getDate().toString(),
+            }
+        });
+    };
     render() {
         let divStyleOuter = {
             width: "60%",
@@ -54,17 +75,31 @@ class AdminPage extends Component {
                     marginBottom: "6%",
                     marginTop: "2%",
                 }}> Welcome to the admin Page.. </h1>
-                <div style={{...divStyleOuter,"backgroundColor":"none"}}>
+                <div style={{...divStyleOuter,"backgroundColor":"white",}}>
                     <Accordion>
-                        <Accordion.Toggle as={ DropdownButton } variant="primary" eventKey="0" title="Add Election Dates">
-
+                        <Accordion.Toggle as={ Button } variant="primary" eventKey="0" style={{"marginBottom":"2%"}}>
+                            Add Election Dates
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
-                            <div style={{backgroundColor: "rgb(220,220,220)"}}>
+                            <div>
                                 <label style={{
                                     textAlign:"center",
                                 }}>Constituency: </label>
-                                <Input type={"text"}/>
+                                <Input  type={"text"}
+                                        value={this.state.constituency}
+                                        onChange={(event)=> this.setState({constituency:event.target.value})}
+                                        required
+                                />
+                                <DateRangePicker   onChange={this.updateDate}
+                                                   value={this.state.dateObj}
+                                                   showNavigation={"false"}
+                                />
+                                <br/>
+                                <Button variant={"Success"} size={"md"}
+                                        onClick={this.addElection}
+                                        >
+                                    Add
+                                </Button>
                             </div>
                         </Accordion.Collapse>
                     </Accordion>
