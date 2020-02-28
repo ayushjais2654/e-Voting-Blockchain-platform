@@ -10,9 +10,9 @@ const ccpPath = path.resolve(__dirname, '..', '..', '..', 'blockchain-network', 
  @Date : 26/02/2020
  */
 
-router.post('/', async (req, res) => {
+router.post('/',async (req,res) => {
 
-    try {
+    try{
 
         const walletPath = path.join(process.cwd(), '../wallet');
         const wallet = new FileSystemWallet(walletPath);
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
             identity: 'admin',
             discovery: {enabled: true, asLocalhost: true}
         });
-
+        console.log(req.body);
         // console.log((req.body.username + " " + req.body.aadharCard));
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
@@ -32,35 +32,35 @@ router.post('/', async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract('contract');
 
-        let voterDetail = await contract.evaluateTransaction('readMyAsset', req.body.username);
+        let voterDetail = await contract.evaluateTransaction('readMyAsset',req.body.username);
         voterDetail = JSON.parse(voterDetail.toString());
 
-        console.log(voterDetail);
+        // console.log(voterDetail);
         let voter = {
-            firstName: (req.body.firstName === undefined) ? voterDetail.firstName : req.body.firstName,
-            lastName: (req.body.lastName === undefined) ? voterDetail.lastName : req.body.lastName,
+            firstName: (req.body.firstName === undefined)?voterDetail.firstName:req.body.firstName,
+            lastName: (req.body.lastName === undefined)?voterDetail.lastName:req.body.lastName,
             username: voterDetail.username,
-            password: (req.body.password === undefined) ? voterDetail.password : req.body.password,
-            mobileNo: (req.body.mobileNo === undefined) ? voterDetail.mobileNo : req.body.mobileNo,
+            password: (req.body.password === undefined)?voterDetail.password:req.body.password,
+            mobileNo: (req.body.mobileNo === undefined)?voterDetail.mobileNo:req.body.mobileNo,
             aadharCard: voterDetail.aadharCard,
-            gender: (req.body.gender === undefined) ? voterDetail.gender : req.body.gender,
-            isEligible: (req.body.isEligible === undefined) ? voterDetail.isEligible : req.body.isEligible,
-            isDenied : (req.body.isDenied === undefined) ? voterDetail.isDenied : req.body.isDenied,
-            description: (req.body.description === undefined) ? voterDetail.description : req.body.description,
-            votedTo: (voterDetail.votedTo === null) ? "" : voterDetail.votedTo,
-            transId: (voterDetail.transId === null) ? "" : voterDetail.transId,
+            isEligible: ((req.body.isEligible === undefined)?voterDetail.isEligible:req.body.isEligible).toString(),
+            // isDenied : (req.body.isDenied === undefined?voterDetail.isDenied:req.body.isDenied).toString(),
+            description: (req.body.description === undefined)?voterDetail.description:req.body.description,
+            votedTo: (voterDetail.votedTo === null)?"":voterDetail.votedTo,
+            transId:(voterDetail.transId === null)?"":voterDetail.transId,
         };
 
-        console.log(voter);
+        // console.log(voter);
 
         voter.description = (voter.description === null) ? "" : voter.description;
         let response = await contract.submitTransaction('updateVoter', voter.firstName, voter.lastName,
-            voter.username, voter.password, voter.mobileNo, voter.aadharCard, voter.isEligible,
-            voter.description, voter.votedTo, voter.transId, voter.gender,voter.isDenied);
+            voter.username, voter.password, voter.mobileNo, voter.aadharCard,voter.isEligible,
+            voter.description,voter.votedTo, voter.transId);
         await res.send('Correct');
 
-    } catch (error) {
-        console.log(`Updation error ${error}`);
+    }catch (error) {
+        console.log("Error occurred while fetching voter from blockchain");
+        console.log(error);
     }
 });
 

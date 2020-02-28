@@ -27,16 +27,14 @@ router.get('/',async (req,res) => {
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
-
         // Get the contract from the network.
         const contract = network.getContract('contract');
-
 
         let voters = await contract.evaluateTransaction('queryByObjectType','voter');
         voters = JSON.parse(voters.toString());
         let response = [];
         for(let i=0;i<voters.length;i++){
-            if(!voters[i].isEligible)
+            if(voters[i].Record.isEligible.toString() === "false")
                 response.push(voters[i]);
         }
         console.log(response);

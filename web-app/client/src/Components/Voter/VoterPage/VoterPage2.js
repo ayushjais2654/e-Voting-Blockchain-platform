@@ -52,6 +52,8 @@ class VoterPage2 extends Component {
             votedTo: response.data.voterDetail.votedTo,
             transId: response.data.voterDetail.transId,
             partyNames : response.data.partyNames,
+            description : response.data.voterDetail.description,
+            isDenied : response.data.voterDetail.isDenied,
         });
 
 
@@ -95,6 +97,8 @@ class VoterPage2 extends Component {
                                 aadharCard  = {this.state.aadharCard}
                                 votedTo     = {this.state.votedTo}
                                 transId     = {this.state.transId}
+                                description = {this.state.description}
+                                isDenied    = {this.state.isDenied}
                                 alertShowFunc = {this.alertShowFunc}
                 />
                 <Button variant={"danger"} onClick={this.logout}
