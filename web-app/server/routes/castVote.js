@@ -44,13 +44,15 @@ router.post('/', async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract('contract');
 
+        console.log(req.body.votedTo + "  castVote");
+
        let response = await contract.submitTransaction('castVote',req.body.username,req.body.votedTo);
         response = response.toString();
         console.log(JSON.stringify(response));
 
         //await sendSmsToMobile(req.body.username,contract);
 
-        let resp = await contract.evaluateTransaction('queryByObjectType','ballot');
+        let resp = await contract.evaluateTransaction('queryByObjectType','candidate');
         resp = resp.toString();
         console.log(JSON.parse(resp));
 

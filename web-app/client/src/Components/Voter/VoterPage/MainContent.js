@@ -17,6 +17,7 @@ class MainContent extends Component {
             candidateList : [],
             isEligible : false,
             electionPeriod: {},
+            electionPresent : "false",
             spinner:false
         }
     }
@@ -27,6 +28,7 @@ class MainContent extends Component {
                 candidateList : this.props.candidateList,
                 isEligible : this.props.isEligible,
                 electionPeriod:this.props.electionPeriod,
+                electionPresent : this.props.electionPresent
             });
         }
     }
@@ -77,6 +79,14 @@ class MainContent extends Component {
                     <h1>You are Not Eligible to Vote</h1>
                 </div>
             );
+        }
+
+        if(this.state.electionPresent.toString() === "false"){
+            return (
+                <div style={divStyle}>
+                    <h1> No election is going on in your constituency </h1>
+                </div>
+            )
         }
         let currentDate =  Date.now();
         let fromDate = Date.parse(this.state.electionPeriod["fromDate"]);
@@ -129,7 +139,7 @@ class MainContent extends Component {
                             this.state.candidateList.map((item,index) => {
                                     return (
                                         <tr id={index}
-                                            onClick={() => this.setState({votedTo:item})}
+                                            onClick={() => this.setState({votedTo:item.username})}
                                         >
                                             <th scope="row" >{index+1}</th>
                                             <td align={"center"}>{item.name + " " + item.partyName}</td>
@@ -138,7 +148,7 @@ class MainContent extends Component {
                                                        value={item.username}
                                                        id={index}
                                                        name={"partyname"}
-                                                       checked={this.state.votedTo === item}
+                                                       checked={this.state.votedTo === item.username}
                                                        />
                                             </td>
                                         </tr>

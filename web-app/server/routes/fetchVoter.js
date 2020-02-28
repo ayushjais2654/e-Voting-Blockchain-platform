@@ -53,11 +53,24 @@ router.post('/', async (req, res) => {
             });
         }
 
+        let election = await contract.evaluateTransaction('readMyAsset',voterDetail.constituency);
+        election = JSON.parse(election.toString());
+
+        let electionPresent = "true";
+        if(election.error !== undefined){
+            electionPresent = "false";
+        }
+
         console.log(candidateList);
 
         let response = {
             voterDetail : voterDetail,
-            candidateList : candidateList
+            candidateList : candidateList,
+            electionPeriod : {
+                fromDate  : election.startDate,
+                toDate : election.endDate
+            },
+            electionPresent : electionPresent
         };
         await res.json(response);
 

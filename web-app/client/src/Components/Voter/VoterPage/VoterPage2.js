@@ -32,6 +32,7 @@ class VoterPage2 extends Component {
             alertType: "danger",
             alertData: "",
             electionPeriod:{"fromDate":"2020-02-20","toDate":"2020-05-30"},
+            electionPresent : "false",
             loggedIn
         }
     }
@@ -58,6 +59,8 @@ class VoterPage2 extends Component {
             candidateList : response.data.candidateList,
             description : response.data.voterDetail.description,
             isDenied : response.data.voterDetail.isDenied,
+            electionPeriod : response.data.electionPeriod,
+            electionPresent : response.data.electionPresent
         });
 
 
@@ -92,6 +95,7 @@ class VoterPage2 extends Component {
                                 candidateList = {this.state.candidateList}
                                 isEligible = {this.state.isEligible}
                                 electionPeriod = {this.state.electionPeriod}
+                                electionPresent = {this.state.electionPresent}
                                 alertShowFunc = {this.alertShowFunc}
                 />
                 <UpdateDetails  username    = {this.state.username}
