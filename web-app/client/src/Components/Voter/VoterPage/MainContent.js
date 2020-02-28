@@ -40,6 +40,9 @@ class MainContent extends Component {
             this.alertShowFunc("info", "Please select a party ");
         }
         this.setState({spinner:true});
+        if(this.state.isEligible.toString() === 'false'){
+            return;
+        }
         let voterDetails = {
             username: this.state.username,
             votedTo: this.state.votedTo,

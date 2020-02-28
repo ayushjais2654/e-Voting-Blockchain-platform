@@ -35,6 +35,8 @@ class UpdateDetails extends Component {
             aadharCard: this.props.aadharCard,
             votedTo : this.props.votedTo,
             transId: this.props.transId,
+            description : this.props.description,
+            isDenied : this.props.isDenied,
             readOnly: true,
             spinner: false,
         };
@@ -51,6 +53,8 @@ class UpdateDetails extends Component {
                 votedTo : this.props.votedTo,
                 transId: this.props.transId,
                 aadharCard: this.props.aadharCard,
+                description : this.props.description,
+                isDenied : this.props.isDenied,
             });
         }
     }
@@ -80,7 +84,7 @@ class UpdateDetails extends Component {
             this.alertShowFunc("danger", error_string);
             return;
         }
-        console.log("register Voter called");
+        this.state.isDenied="false";
         let response = await axios.post(ADDRESS + `updateVoter`, this.state);
         this.setState({
             spinner: false,

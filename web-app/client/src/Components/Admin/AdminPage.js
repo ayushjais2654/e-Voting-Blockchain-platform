@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {ADDRESS} from "../constants";
-import {Redirect} from 'react-router-dom';
-import {Input} from "semantic-ui-react";
-import {Button} from "react-bootstrap";
+import {Modal,Button } from "react-bootstrap";
+import VoterDetails from "./VoterDetails";
 import "./AdminPage.css";
 
 class AdminPage extends Component {
@@ -11,9 +10,8 @@ class AdminPage extends Component {
         super(props);
         this.state = {
             pendingVoters: [],
-            voterSelected: 0,
+            selectedVoter: 0,
             isDisplayActive:false,
-            isDisplayDesc : false,
         };
     }
 
@@ -30,32 +28,12 @@ class AdminPage extends Component {
         console.log(this.state.pendingVoters);
     };
 
-    acceptVoter = (event) => {
-        let index = event.target.id;
-        console.log(index);
-    };
-    denyVoter = (event) => {
-        let index = event.target.id;
-        console.log(index);
-    };
-    deleteVoter = (event) => {
-        let index = event.target.id;
-        console.log(index);
-    };
-    displayData = (event) => {
-        let index = event.target.id;
-        console.log(index);
-        this.setState({
-            voterSelected : index,
-            isDisplayActive : true,
-        });
-    };
-
     render() {
         let divStyleOuter = {
-            width: "90%",
-            marginLeft: "5%",
-            marginRight: "5%",
+            width: "60%",
+            height:"60%",
+            marginLeft: "20%",
+            marginRight: "20%",
             marginTop: "2%",
             marginBottom: "2%",
             textAlign: "center",
@@ -70,44 +48,43 @@ class AdminPage extends Component {
 
         return (
             <div style={divStyleOuter}>
-                <h1> Welcome to the admin Page .... </h1>
+                <Modal show={this.state.isDisplayActive} onHide={() => this.setState({isDisplayActive: false})}>
+                    <Modal.Header closeButton>
+                        <Modal.Title> Voter Details
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <VoterDetails   voterDetails={this.state.pendingVoters[this.state.voterSelected]}
+                                        closeVoterDetails = {() => this.setState({isDisplayActive:false})}
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={() => this.setState({isDisplayActive: false}) }>Close</Button>
+                    </Modal.Footer>
+                </Modal>
+                <h1 > Welcome to the admin Page .... </h1>
                 <div style={displayDiv}>
                     <table className="table table-hover">
                         <thead className="thead-dark">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">UserName</th>
-                            <th scope="col">Allow</th>
-                            <th scope="col">Deny</th>
-                            <th scope="col">Delete</th>
                         </tr>
                         </thead>
                         <tbody>
                         {
                             this.state.pendingVoters.map((item, index) => {
                                     return (
-                                        <tr id={index}>
+                                        <tr>
                                             <th scope="row">{index + 1}</th>
-                                            <td align={"center"} id={index}
-                                                onClick={this.displayData}
-                                                className="table-danger username"
+                                            <td align={"center"}
+                                                onClick={()=>this.setState({
+                                                    voterSelected : index,
+                                                    isDisplayActive : true,
+                                                })}
+                                                className="username"
                                             >
                                                 {item.username}
-                                            </td>
-                                            <td>
-                                                <Button variant={"success"} size={"sm"} id={index}
-                                                        onClick={this.acceptVoter}
-                                                >.</Button>
-                                            </td>
-                                            <td>
-                                                <Button variant={"warning"} size={"sm"} id={index}
-                                                        onClick={this.denyVoter}
-                                                >.</Button>
-                                            </td>
-                                            <td>
-                                                <Button variant={"danger"} size={"sm"} id={index}
-                                                        onClick={this.deleteVoter}
-                                                >.</Button>
                                             </td>
                                         </tr>
                                     )

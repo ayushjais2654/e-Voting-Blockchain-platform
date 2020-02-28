@@ -24,7 +24,7 @@ router.post('/',async (req,res) => {
             identity: 'admin',
             discovery: {enabled: true, asLocalhost: true}
         });
-
+        console.log(req.body);
         // console.log((req.body.username + " " + req.body.aadharCard));
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
@@ -35,7 +35,7 @@ router.post('/',async (req,res) => {
         let voterDetail = await contract.evaluateTransaction('readMyAsset',req.body.username);
         voterDetail = JSON.parse(voterDetail.toString());
 
-        console.log(voterDetail);
+        // console.log(voterDetail);
         let voter = {
             firstName: (req.body.firstName === undefined)?voterDetail.firstName:req.body.firstName,
             lastName: (req.body.lastName === undefined)?voterDetail.lastName:req.body.lastName,
@@ -43,13 +43,14 @@ router.post('/',async (req,res) => {
             password: (req.body.password === undefined)?voterDetail.password:req.body.password,
             mobileNo: (req.body.mobileNo === undefined)?voterDetail.mobileNo:req.body.mobileNo,
             aadharCard: voterDetail.aadharCard,
-            isEligible: (req.body.isEligible === undefined)?voterDetail.isEligible:req.body.isEligible,
+            isEligible: ((req.body.isEligible === undefined)?voterDetail.isEligible:req.body.isEligible).toString(),
+            // isDenied : (req.body.isDenied === undefined?voterDetail.isDenied:req.body.isDenied).toString(),
             description: (req.body.description === undefined)?voterDetail.description:req.body.description,
             votedTo: (voterDetail.votedTo === null)?"":voterDetail.votedTo,
             transId:(voterDetail.transId === null)?"":voterDetail.transId,
         };
 
-        console.log(voter);
+        // console.log(voter);
 
         voter.description = (voter.description === null) ? "" : voter.description;
         let response = await contract.submitTransaction('updateVoter', voter.firstName, voter.lastName,
