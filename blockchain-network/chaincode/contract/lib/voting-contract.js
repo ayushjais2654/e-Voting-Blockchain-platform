@@ -65,11 +65,11 @@ class VotingContract extends Contract {
         let candidate = {
             firstName: '',
             lastName: '',
-            partyName: 'congress',
+            partyName: 'vfmk',
             age: 12,
             username: 'fnjfkefnkjf',
             password: '',
-            constituency: 'warangal',
+            constituency: 'fnskdnf',
             mobileNo: 9575486124,
             voteCount : 0,
             transIds : [],

@@ -1,5 +1,7 @@
-const express = require('express');
-const router = express.Router();
+
+// noinspection BadExpressionStatementJS
+'use-strict';
+const args = require('yargs').argv;
 
 const {FileSystemWallet, Gateway, X509WalletMixin} = require('fabric-network');
 const path = require('path');
@@ -11,10 +13,12 @@ const ccpPath = path.resolve(__dirname, '..', '..', '..', 'blockchain-network', 
  *  @Date : 22/02/2020
  */
 
-router.post('/', async (req, res) => {
+async function main() {
 
     try {
 
+        console.log("Enter show as a argument to show all voters");
+        let username = args._[0];
         const walletPath = path.join(process.cwd(), '../../wallet');
         const wallet = new FileSystemWallet(walletPath);
         console.log(`************** Wallet path: ${walletPath} **************************`);
@@ -36,22 +40,30 @@ router.post('/', async (req, res) => {
         const network = await gateway.getNetwork('mychannel');
 
         // Get the contract from the network.
-        const contract = network.getContract('contract');
-        let response = await contract.submitTransaction('deleteMyAsset', req.body.username);
-        if (response.toString()) {
-            console.log(`${req.body.username} is deleted from ledger`);
-            const enrollment = await ca.revoke({enrollmentID: req.body.username}, adminIdentity);
-            await wallet.delete(req.body.username);
-        } else {
-            console.log(`${req.body.username} cannot be deleted from ledger`);
+        if(username === "show") {
+            const contract = network.getContract('contract');
+            let response = await contract.evaluateTransaction('queryByObjectType','candidate');
+            response = JSON.parse(response.toString());
+            console.log(response);
+        }
+        else{
+            const contract = network.getContract('contract');
+            let response = await contract.submitTransaction('deleteMyAsset', username);
+            if(response.toString()){
+                console.log(`${username} is deleted from ledger`);
+                const enrollment = await ca.revoke({enrollmentID: username}, adminIdentity);
+                await wallet.delete(username);
+            }
+            else{
+                console.log(`${username} cannot be deleted from ledger`);
+            }
         }
         gateway.disconnect();
-        res.send(`${req.body.username} deleted from World State`);
 
     } catch (error) {
         console.error(`Failed to delete voter ${error}`);
         process.exit(1);
     }
-});
+}
 
-module.exports = router;
+main();
