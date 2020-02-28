@@ -40,18 +40,23 @@ router.post('/', async (req, res) => {
 
         let response = await contract.evaluateTransaction('readMyAsset', req.body.username);
         response = JSON.parse(response.toString());
-        console.log(response);
-        if (response.error) {
-            console.log(response.error);
-            res.send(response.error);
-            return;
-        }
-        console.log(response.password);
-        if(response.password === req.body.password){
-           await res.json(response);
-        }
-        else{
-            res.send("Invalid Credentials");
+
+        if(response.docType === 'voter') {
+            console.log(response);
+            if (response.error) {
+                console.log(response.error);
+                res.send(response.error);
+                return;
+            }
+            console.log(response.password);
+            if (response.password === req.body.password) {
+                await res.json(response);
+            } else {
+                res.send("Invalid Credentials");
+            }
+        }else{
+            res.send('Voter not registered in Wallet');
+            console.log("Candidate hai not voter");
         }
 
     } catch (error) {

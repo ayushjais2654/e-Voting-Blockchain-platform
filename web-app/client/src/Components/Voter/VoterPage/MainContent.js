@@ -14,17 +14,17 @@ class MainContent extends Component {
         this.state = {
             username: this.props.username,
             votedTo: null,
-            partyNames : this.props.partyNames,
-            isEligible : this.props.isEligible,
-            electionPeriod: this.props.electionPeriod,
-            spinner:false,
+            candidateList : [],
+            isEligible : false,
+            electionPeriod: {},
+            spinner:false
         }
     }
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(this.state.username !== this.props.username){
             this.setState({
                 username: this.props.username,
-                partyNames : this.props.partyNames,
+                candidateList : this.props.candidateList,
                 isEligible : this.props.isEligible,
                 electionPeriod:this.props.electionPeriod,
             });
@@ -70,6 +70,7 @@ class MainContent extends Component {
             textAlign:"center",
             backgroundColor : "rgb(220,220,220)"
         };
+        console.log(this.state);
         if(this.state.isEligible.toString() === "false"){
             return (
                 <div style={divStyle}>
@@ -77,11 +78,11 @@ class MainContent extends Component {
                 </div>
             );
         }
-        let currentDate = new Date();
-        let d1 = this.state.electionPeriod["fromDate"].split("/");
-        let d2 = this.state.electionPeriod["toDate"].split("/");
-        let fromDate    = new Date(d1[2],d1[1]-1,d1[0]);
-        let toDate      = new Date(d2[2],d2[1]-1,d2[0]);
+        let currentDate =  Date.now();
+        let fromDate = Date.parse(this.state.electionPeriod["fromDate"]);
+        let toDate =  Date.parse(this.state.electionPeriod["toDate"]);
+        // let fromDate    = new Date(d1[2],d1[1]-1,d1[0]);
+        // let toDate      = new Date(d2[2],d2[1]-1,d2[0]);
         if(!(currentDate >= fromDate && currentDate <= toDate)){
             return <div style={divStyle}>
                 <h1>Election Period is not yet started ({this.state.electionPeriod["fromDate"]} -
@@ -119,22 +120,22 @@ class MainContent extends Component {
                         <thead className="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">PartyNames</th>
+                            <th scope="col">Candidates</th>
                             <th scope="col">Selected</th>
                         </tr>
                         </thead>
                         <tbody>
                         {
-                            this.state.partyNames.map((item,index) => {
+                            this.state.candidateList.map((item,index) => {
                                     return (
                                         <tr id={index}
                                             onClick={() => this.setState({votedTo:item})}
                                         >
                                             <th scope="row" >{index+1}</th>
-                                            <td align={"center"}>{item}</td>
+                                            <td align={"center"}>{item.name + " " + item.partyName}</td>
                                             <td>
                                                 <Input type={"radio"}
-                                                       value={item}
+                                                       value={item.username}
                                                        id={index}
                                                        name={"partyname"}
                                                        checked={this.state.votedTo === item}

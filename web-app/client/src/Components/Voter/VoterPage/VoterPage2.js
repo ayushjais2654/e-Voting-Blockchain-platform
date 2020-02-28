@@ -24,14 +24,14 @@ class VoterPage2 extends Component {
             aadharCard: null,
             votedTo: null,
             transId: null,
-            partyNames : [],
+            candidateList : [],
             isEligible : true,
             constituency: "",
             gender : "",
             alertShow: false,
             alertType: "danger",
             alertData: "",
-            electionPeriod:{"fromDate":"02/02/2020","toDate":"22/03/2020"},
+            electionPeriod:{"fromDate":"2020-02-20","toDate":"2020-05-30"},
             loggedIn
         }
     }
@@ -55,7 +55,7 @@ class VoterPage2 extends Component {
             gender : response.data.voterDetail.gender,
             votedTo: response.data.voterDetail.votedTo,
             transId: response.data.voterDetail.transId,
-            partyNames : response.data.partyNames,
+            candidateList : response.data.candidateList,
             description : response.data.voterDetail.description,
             isDenied : response.data.voterDetail.isDenied,
         });
@@ -89,7 +89,7 @@ class VoterPage2 extends Component {
                         alertCloseFunc={()=> this.setState({alertShow:false})}
                 />
                 <MainContent    username   = {this.state.username}
-                                partyNames = {this.state.partyNames}
+                                candidateList = {this.state.candidateList}
                                 isEligible = {this.state.isEligible}
                                 electionPeriod = {this.state.electionPeriod}
                                 alertShowFunc = {this.alertShowFunc}

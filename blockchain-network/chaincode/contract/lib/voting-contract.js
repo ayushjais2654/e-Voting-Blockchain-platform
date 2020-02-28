@@ -349,13 +349,29 @@ class VotingContract extends Contract {
 
 
     /**
-     *
+     * @param constituency
+     * @param partyName
      */
     async getCandidate(ctx,constituency,partyName){
         let queryString = {
             selector: {
                 docType : "candidate",
                 partyName : partyName,
+                constituency : constituency
+            }
+        };
+
+        return await this.queryWithQueryString(ctx,JSON.stringify(queryString));
+    }
+
+    /**
+     * @param constituency
+     */
+
+    async getCandidateInConstituency(ctx,constituency){
+        let queryString = {
+            selector: {
+                docType : "candidate",
                 constituency : constituency
             }
         };
