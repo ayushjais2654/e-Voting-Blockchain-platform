@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {ADDRESS} from "../constants";
-import {Modal,Button } from "react-bootstrap";
+import {Modal, Button, Accordion, DropdownButton} from "react-bootstrap";
 import VoterDetails from "./VoterDetails";
 import "./AdminPage.css";
+import {Input} from "semantic-ui-react";
 
 class AdminPage extends Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class AdminPage extends Component {
         this.state = {
             pendingVoters: [],
             selectedVoter: 0,
-            isDisplayActive:false,
+            isDisplayActive: false,
         };
     }
 
@@ -31,7 +32,7 @@ class AdminPage extends Component {
     render() {
         let divStyleOuter = {
             width: "60%",
-            height:"60%",
+            height: "60%",
             marginLeft: "20%",
             marginRight: "20%",
             marginTop: "2%",
@@ -47,57 +48,80 @@ class AdminPage extends Component {
         };
 
         return (
-            <div style={divStyleOuter}>
+            <>
+                <h1 style={{
+                    textAlign: "center",
+                    marginBottom: "6%",
+                    marginTop: "2%",
+                }}> Welcome to the admin Page.. </h1>
+                <div style={{...divStyleOuter,"backgroundColor":"none"}}>
+                    <Accordion>
+                        <Accordion.Toggle as={ DropdownButton } variant="primary" eventKey="0" title="Add Election Dates">
+
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey="0">
+                            <div style={{backgroundColor: "rgb(220,220,220)"}}>
+                                <label style={{
+                                    textAlign:"center",
+                                }}>Constituency: </label>
+                                <Input type={"text"}/>
+                            </div>
+                        </Accordion.Collapse>
+                    </Accordion>
+                </div>
+
                 <Modal show={this.state.isDisplayActive} onHide={() => this.setState({isDisplayActive: false})}>
                     <Modal.Header closeButton>
                         <Modal.Title> Voter Details
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <VoterDetails   voterDetails={this.state.pendingVoters[this.state.voterSelected]}
-                                        closeVoterDetails = {() => this.setState({isDisplayActive:false})}
+                        <VoterDetails voterDetails={this.state.pendingVoters[this.state.voterSelected]}
+                                      closeVoterDetails={() => this.setState({isDisplayActive: false})}
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={() => this.setState({isDisplayActive: false}) }>Close</Button>
+                        <Button onClick={() => this.setState({isDisplayActive: false})}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-                <h1 > Welcome to the admin Page .... </h1>
-                <div style={displayDiv}>
-                    <table className="table table-hover">
-                        <thead className="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">UserName</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.state.pendingVoters.map((item, index) => {
-                                    return (
-                                        <tr>
-                                            <th scope="row">{index + 1}</th>
-                                            <td align={"center"}
-                                                onClick={()=>this.setState({
-                                                    voterSelected : index,
-                                                    isDisplayActive : true,
-                                                })}
-                                                className="username"
-                                            >
-                                                {item.username}
-                                            </td>
-                                        </tr>
-                                    )
-                                }
-                            )
-                        }
-                        </tbody>
-                    </table>
+
+                <div style={divStyleOuter}>
+                    <div style={displayDiv}>
+                        <table className="table table-hover">
+                            <thead className="thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">UserName</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                this.state.pendingVoters.map((item, index) => {
+                                        return (
+                                            <tr>
+                                                <th scope="row">{index + 1}</th>
+                                                <td align={"center"}
+                                                    onClick={() => this.setState({
+                                                        voterSelected: index,
+                                                        isDisplayActive: true,
+                                                    })}
+                                                    className="username"
+                                                >
+                                                    {item.username}
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                )
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={displayNone}>
+                        <h1> No Pending Voters </h1>
+                    </div>
                 </div>
-                <div style={displayNone}>
-                    <h1> No Pending Voters </h1>
-                </div>
-            </div>
+            </>
         );
     }
 }

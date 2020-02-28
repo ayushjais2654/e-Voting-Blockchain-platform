@@ -37,6 +37,8 @@ class UpdateDetails extends Component {
             transId: this.props.transId,
             description : this.props.description,
             isDenied : this.props.isDenied,
+            constituency : this.props.constituency,
+            gender : this.props.gender,
             readOnly: true,
             spinner: false,
         };
@@ -54,6 +56,8 @@ class UpdateDetails extends Component {
                 transId: this.props.transId,
                 aadharCard: this.props.aadharCard,
                 description : this.props.description,
+                constituency : this.props.constituency,
+                gender : this.props.gender,
                 isDenied : this.props.isDenied,
             });
         }
@@ -248,7 +252,7 @@ class UpdateDetails extends Component {
                                 />
                             </Col>
                         </Form.Group>
-                        <fieldset disabled={this.state.readOnly}>
+                        <fieldset disabled={this.state.readOnly} onChange={this.changeStateValues}>
                             <Form.Group as={Row}>
                                 <Form.Label as="legend" column sm={3} style={{textAlign: "center"}}>
                                     Gender
@@ -257,15 +261,24 @@ class UpdateDetails extends Component {
                                     <Form.Check
                                         type="radio"
                                         label="Male"
+                                        value="Male"
                                         name="gender"
                                         id="formHorizontalRadios1"
-                                        checked = {true}
+                                        checked = {this.state.gender === "male"}
                                     />
                                     <Form.Check
                                         type="radio"
                                         label="Female"
+                                        value="Female"
                                         name="gender"
                                         id="formHorizontalRadios2"
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Others"
+                                        value="Others"
+                                        name="gender"
+                                        id="formHorizontalRadios3"
                                     />
                                 </Col>
                             </Form.Group>

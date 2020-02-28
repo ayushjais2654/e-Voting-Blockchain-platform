@@ -26,6 +26,8 @@ class VoterPage2 extends Component {
             transId: null,
             partyNames : [],
             isEligible : true,
+            constituency: "",
+            gender : "",
             alertShow: false,
             alertType: "danger",
             alertData: "",
@@ -39,7 +41,7 @@ class VoterPage2 extends Component {
             username: localStorage.getItem("token")
         };
         let response = await axios.post(ADDRESS + `fetchVoter`, voter);
-        console.log(JSON.stringify(response.data) + "mann maein");
+        console.log(JSON.stringify(response.data.voterDetail) + "mann maein");
 
         this.setState({
             username: response.data.voterDetail.username,
@@ -48,7 +50,9 @@ class VoterPage2 extends Component {
             lastName: response.data.voterDetail.lastName,
             mobileNo: response.data.voterDetail.mobileNo,
             aadharCard: response.data.voterDetail.aadharCard,
-            // isEligible : response.data.voterDetail.isEligible,
+            isEligible : response.data.voterDetail.isEligible,
+            constituency : response.data.voterDetail.constituency,
+            gender : response.data.voterDetail.gender,
             votedTo: response.data.voterDetail.votedTo,
             transId: response.data.voterDetail.transId,
             partyNames : response.data.partyNames,
@@ -98,6 +102,8 @@ class VoterPage2 extends Component {
                                 votedTo     = {this.state.votedTo}
                                 transId     = {this.state.transId}
                                 description = {this.state.description}
+                                constituency ={this.state.constituency}
+                                gender       = {this.state.gender}
                                 isDenied    = {this.state.isDenied}
                                 alertShowFunc = {this.alertShowFunc}
                 />

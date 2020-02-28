@@ -39,6 +39,7 @@ router.post('/', async (req, res) => {
 
         let voterDetail = await contract.evaluateTransaction('readMyAsset',req.body.username);
         voterDetail = JSON.parse(voterDetail.toString());
+        console.log(voterDetail , "hello");
         let ballotDetails = await contract.evaluateTransaction('queryByObjectType','ballot');
         ballotDetails = JSON.parse(ballotDetails.toString());
         let partyNames = [];

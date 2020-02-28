@@ -59,7 +59,7 @@ class MainForm extends Component {
         const { firstName, lastName, age, username, password, mobileNo, partyName, candImage,constituency} = this.state;
         const values = { firstName, lastName, age, username, password, mobileNo, partyName, candImage, constituency };
         switch(step) {
-            case 3:
+            case 1:
                 return <UserDetails
                     nextStep={this.nextStep}
                     handleChange = {this.handleChange}
@@ -72,7 +72,7 @@ class MainForm extends Component {
                     handleChange = {this.handleChange}
                     values={values}
                 />;
-            case 1:
+            case 3:
                 return <PartyDetails
                     nextStep={this.nextStep}
                     prevStep={this.prevStep}

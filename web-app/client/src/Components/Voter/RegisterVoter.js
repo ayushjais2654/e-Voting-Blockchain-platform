@@ -40,6 +40,8 @@ class RegisterVoter extends Component {
             cardNumber: "275860362335",
             username: "ayush12",
             password: "",
+            gender  : "male",
+            constituency : "warangal",
             spinner: false,
             alertType: "danger",
             alertData: "",
@@ -50,6 +52,7 @@ class RegisterVoter extends Component {
     }
 
     handleRegisterVoter = async (event) => {
+        console.log(this.state);
         event.preventDefault();
         let error_string = "";
 
@@ -199,6 +202,19 @@ class RegisterVoter extends Component {
                                 />
                             </Col>
                         </Form.Group>
+                        <Form.Group as={Row} controlId="formConstituency">
+                            <Form.Label column sm={3} style={{textAlign: "center"}}>
+                                Constituency
+                            </Form.Label>
+                            <Col sm={9}>
+                                <Form.Control type="text"
+                                              name="constituency"
+                                              onChange={this.changeStateValues}
+                                              value={this.state.constituency}
+                                              required
+                                />
+                            </Col>
+                        </Form.Group>
                         <Form.Group as={Row} controlId="formUserName">
                             <Form.Label column sm={3} style={{textAlign: "center"}}>
                                 Username
@@ -225,7 +241,7 @@ class RegisterVoter extends Component {
                                 />
                             </Col>
                         </Form.Group>
-                        <fieldset>
+                        <fieldset onChange={this.changeStateValues}>
                             <Form.Group as={Row}>
                                 <Form.Label as="legend" column sm={3} style={{textAlign: "center"}}>
                                     Gender
@@ -234,14 +250,23 @@ class RegisterVoter extends Component {
                                     <Form.Check
                                         type="radio"
                                         label="Male"
+                                        value="Male"
                                         name="gender"
                                         id="formHorizontalRadios1"
                                     />
                                     <Form.Check
                                         type="radio"
                                         label="Female"
+                                        value="Female"
                                         name="gender"
                                         id="formHorizontalRadios2"
+                                    />
+                                    <Form.Check
+                                        type="radio"
+                                        label="Others"
+                                        value="Others"
+                                        name="gender"
+                                        id="formHorizontalRadios3"
                                     />
                                 </Col>
                             </Form.Group>
