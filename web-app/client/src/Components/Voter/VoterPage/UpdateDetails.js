@@ -238,6 +238,19 @@ class UpdateDetails extends Component {
                                 />
                             </Col>
                         </Form.Group>
+                        <Form.Group as={Row} controlId="formConstituency">
+                            <Form.Label column sm={3} style={{textAlign: "center"}}>
+                                Constituency
+                            </Form.Label>
+                            <Col sm={9}>
+                                <Form.Control type="text"
+                                              name="constituency"
+                                              value={this.state.constituency}
+                                              disabled={true}
+                                              required
+                                />
+                            </Col>
+                        </Form.Group>
                         <Form.Group as={Row} controlId="formPassword">
                             <Form.Label column sm={3} style={{textAlign: "center"}}>
                                 Password
@@ -264,7 +277,7 @@ class UpdateDetails extends Component {
                                         value="Male"
                                         name="gender"
                                         id="formHorizontalRadios1"
-                                        checked = {this.state.gender === "male"}
+                                        checked = {this.state.gender === "Male"}
                                     />
                                     <Form.Check
                                         type="radio"
@@ -272,6 +285,7 @@ class UpdateDetails extends Component {
                                         value="Female"
                                         name="gender"
                                         id="formHorizontalRadios2"
+                                        checked = {this.state.gender === "Female"}
                                     />
                                     <Form.Check
                                         type="radio"
@@ -279,6 +293,7 @@ class UpdateDetails extends Component {
                                         value="Others"
                                         name="gender"
                                         id="formHorizontalRadios3"
+                                        checked = {this.state.gender === "Others"}
                                     />
                                 </Col>
                             </Form.Group>
