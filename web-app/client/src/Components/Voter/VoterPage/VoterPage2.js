@@ -48,7 +48,7 @@ class VoterPage2 extends Component {
             lastName: response.data.voterDetail.lastName,
             mobileNo: response.data.voterDetail.mobileNo,
             aadharCard: response.data.voterDetail.aadharCard,
-            isEligible : response.data.voterDetail.isEligible,
+            // isEligible : response.data.voterDetail.isEligible,
             votedTo: response.data.voterDetail.votedTo,
             transId: response.data.voterDetail.transId,
             partyNames : response.data.partyNames,

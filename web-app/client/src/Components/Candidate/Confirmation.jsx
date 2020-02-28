@@ -129,7 +129,7 @@ class Confirmation extends Component {
 
         let response = await axios.post(ADDRESS+`registerCandidate`, this.state);
         alert(response.data);
-        if (response.data === "Candidate is successfully registered ..") {
+        if (response.data === "Correct") {
             this.setState({
                 isRegistered: true
             });

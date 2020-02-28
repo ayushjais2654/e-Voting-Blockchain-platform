@@ -100,7 +100,8 @@ async function registerInLedger(req) {
 
         // Submit the specified transaction.
         let response = await contract.submitTransaction('createVoter', req.body.firstName, req.body.lastName,
-            req.body.username, req.body.password, req.body.mobileNumber, req.body.cardNumber,"false","null");
+            req.body.username, req.body.password, req.body.mobileNumber, req.body.cardNumber,"false","null",
+            req.body.gender,req.body.constituency);
         console.log(response + "");
 
         // Disconnect from the gateway.

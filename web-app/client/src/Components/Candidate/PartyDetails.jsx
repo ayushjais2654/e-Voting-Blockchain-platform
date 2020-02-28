@@ -52,17 +52,17 @@ class PartyDetails extends Component{
                                    required/>
                         </Form.Field>
                         <br/><br/>
-                        <Form.Field>
-                            <label className="ids">Candidate Image</label>
-                            <br/>
-                            <input type="file"
-                                   className="gen"
-                                   name="candImage"
-                                   value={candImage}
-                                   accept="image/*"
-                                   onChange={this.props.handleChange('candImage')}
-                                   required/>
-                        </Form.Field>
+                        {/*<Form.Field>*/}
+                        {/*    <label className="ids">Candidate Image</label>*/}
+                        {/*    <br/>*/}
+                        {/*    <input type="file"*/}
+                        {/*           className="gen"*/}
+                        {/*           name="candImage"*/}
+                        {/*           value={candImage}*/}
+                        {/*           accept="image/*"*/}
+                        {/*           onChange={this.props.handleChange('candImage')}*/}
+                        {/*           required/>*/}
+                        {/*</Form.Field>*/}
                         <br/><br/>
                         <input type="button" className="next" value="Back" onClick={this.back}/>
                         <input className="next" type="submit" value="Save and Continue"/>

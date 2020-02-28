@@ -36,6 +36,9 @@ class VotingContract extends Contract {
             password: '',
             mobileNo: 9515365125,
             aadharCard: 123456789123,
+            gender : '',
+            constituency : '',
+            isDenied : false,
             isEligible: false,
             votedTo: null,
             transId: null,
@@ -58,8 +61,32 @@ class VotingContract extends Contract {
             await ctx.stub.putState(ballot.partyName, Buffer.from(JSON.stringify(ballot)));
             console.log('============= Party Added ===========');
         }
-        console.log('============= END : Initialize Ledger ===========');
 
+        let candidate = {
+            firstName: '',
+            lastName: '',
+            partyName: 'congress',
+            age: 12,
+            username: 'fnjfkefnkjf',
+            password: '',
+            constituency: 'warangal',
+            mobileNo: 9575486124,
+            voteCount : 0,
+            transIds : [],
+            docType : 'candidate',
+        };
+
+        console.log('============= Candidate Added to the WorldState ===========');
+        await ctx.stub.putState(candidate.username, Buffer.from(JSON.stringify(candidate)));
+
+        let election = {
+            constituency : "warangal",
+            startDate : "2020-2-20",
+            endDate : "2020-5-20",
+            docType : "election"
+        };
+        await ctx.stub.putState(election.constituency,Buffer.from(JSON.stringify(election)));
+        console.log('============= END : Initialize Ledger ===========');
     }
 
     /**
@@ -127,9 +154,11 @@ class VotingContract extends Contract {
      * @param aadharCard
      * @param isEligible
      * @param description
+     * @param gender
+     * @param constituency
      * @returns {Promise<string>} - response message on successful creation of voter in world state
      */
-    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard, isEligible, description) {
+    async createVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard, isEligible, description,gender,constituency) {
 
         let voter = {
             firstName: firstName,
@@ -138,8 +167,11 @@ class VotingContract extends Contract {
             password: password,
             mobileNo: mobileNo,
             aadharCard: aadharCard,
+            isDenied : false,
             isEligible: isEligible,
             description: description,
+            gender : gender,
+            constituency : constituency,
             votedTo: null,
             transId: null,
             docType: 'voter'
@@ -154,7 +186,37 @@ class VotingContract extends Contract {
         return `Voter with username ${voter.username} is successfully registered in the World State`;
     }
 
-    async updateVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard, isEligible, description,votedTo,transId) {
+    async createCandidate(ctx,firstName,lastName,partyName,age,username,password,constituency,mobileNo){
+        let candidate = {
+            firstName: firstName,
+            lastName: lastName,
+            partyName: partyName,
+            age: age,
+            username: username,
+            password: password,
+            constituency: constituency,
+            mobileNo: mobileNo,
+            voteCount : 0,
+            transIds : [],
+            docType : 'candidate',
+        };
+
+        let candidateExist = await this.myAssetExists(ctx,username);
+        if(candidateExist){
+            return `Candidate with given username already exists`;
+        }
+
+        let candidateInParty = await this.getCandidate(ctx,constituency,partyName);
+        candidateInParty = await JSON.parse(candidateInParty);
+        if(candidateInParty.length !== 0){
+            return `In this constituency with given party name Candidate already registered`;
+        }
+
+        await ctx.stub.putState(candidate.username,Buffer.from(JSON.stringify(candidate)));
+        return `Candidate successfully registered in World State`;
+    }
+
+    async updateVoter(ctx, firstName, lastName, username, password, mobileNo, aadharCard, isEligible, description,votedTo,transId,gender,isDenied) {
 
         let voterExists = await this.myAssetExists(ctx,username);
         if (!voterExists) {
@@ -168,25 +230,42 @@ class VotingContract extends Contract {
         voter.password = password;
         voter.mobileNo = mobileNo;
         voter.isEligible = isEligible;
+        voter.isDenied = isDenied;
         voter.description = description;
-
+        voter.gender = gender;
 
         await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
 
         return `Voter with username ${voter.username} is successfully updated in the World State`;
     }
 
+    async addElection(ctx,constituency,from,to){
+        let election = {
+            constituency : constituency,
+            startDate : from,
+            endDate : to,
+            docType : "election"
+        };
+
+        let electionExists = await this.myAssetExists(ctx,constituency);
+        if(electionExists){
+            return `Election already created`;
+        }
+        await ctx.stub.putState(election.constituency , Buffer.from(JSON.stringify(election)));
+        return `Election is successfully added in the World State `;
+    }
+
     /**
      *
      * @param ctx - Transaction context
      * @param username
-     * @param partyName
+     * @param candidateUsername
      * @returns {Promise<string|{}>} - response message on successful voting
      */
-    async castVote(ctx, username, partyName) {
+    async castVote(ctx, username, candidateUsername) {
 
-        let electionStartDate = await Date.parse("2020-2-12");
-        let electionEndDate = await Date.parse("2020-5-30");
+        // let electionStartDate = await Date.parse("2020-2-12");
+        // let electionEndDate = await Date.parse("2020-5-30");
 
         const existsVoter = await this.myAssetExists(ctx, username);
         if (!existsVoter) {
@@ -205,47 +284,83 @@ class VotingContract extends Contract {
             return response;
         }
 
+        let electionAsBytes = await ctx.stub.getState(voter.constituency);
+        let election = await JSON.parse(electionAsBytes);
+
+        let electionStartDate = await Date.parse(election.startDate);
+        let electionEndDate = await Date.parse(election.endDate);
+
         let currentTime = await Date.now();
 
         if (currentTime > electionEndDate) {
 
             let response = {};
-            response.error = ' Election period has already ended ';
+            response.error = ' Election period in your constituency has already ended ';
             return response;
         }
 
         if (currentTime < electionStartDate) {
             let response = {};
-            response.error = ' Election period has not started ';
+            response.error = ' Election period in your constituency has not started ';
             return response;
         }
 
-        const existsBallot = await this.myAssetExists(ctx, partyName);
-        if (!existsBallot) {
 
-            let response = {};
-            response.error = ` Ballot with party name ${partyName} doesn't exists in the World State `;
-            return response;
-        }
-
-        let ballotAsBytes = await ctx.stub.getState(partyName);
-        let ballot = await JSON.parse(ballotAsBytes);
-
-        ballot.voteCount++;
+        // const existsBallot = await this.myAssetExists(ctx, partyName);
+        // if (!existsBallot) {
+        //
+        //     let response = {};
+        //     response.error = ` Ballot with party name ${partyName} doesn't exists in the World State `;
+        //     return response;
+        // }
+        //
+        // let ballotAsBytes = await ctx.stub.getState(partyName);
+        // let ballot = await JSON.parse(ballotAsBytes);
+        //
+        // ballot.voteCount++;
 
         async function getTransactionId(aadharCard, currentTime) {
             return aadharCard + currentTime;
         }
 
-        let transId = await getTransactionId(voter.aadharCard, currentTime);
-        ballot.transIds.push(transId);
-        await ctx.stub.putState(ballot.partyName, Buffer.from(JSON.stringify(ballot)));
+        let candidateAsBytes = await ctx.stub.getState(candidateUsername);
+        let candidate = await JSON.parse(candidateAsBytes);
 
-        voter.votedTo = partyName;
+        let transId = await getTransactionId(voter.aadharCard, currentTime);
+
+        candidate.voteCount++;
+        candidate.transIds.push(transId);
+
+        await ctx.stub.putState(candidate.username,Buffer.from(JSON.stringify(candidate)));
+
+        voter.votedTo = candidate.username;
         voter.transId = transId;
+
+
+        // ballot.transIds.push(transId);
+        // await ctx.stub.putState(ballot.partyName, Buffer.from(JSON.stringify(ballot)));
+
+        // voter.votedTo = partyName;
+        // voter.transId = transId;
         await ctx.stub.putState(voter.username, Buffer.from(JSON.stringify(voter)));
 
         return ` Your vote has been casted `;
+    }
+
+
+    /**
+     *
+     */
+    async getCandidate(ctx,constituency,partyName){
+        let queryString = {
+            selector: {
+                docType : "candidate",
+                partyName : partyName,
+                constituency : constituency
+            }
+        };
+
+        return await this.queryWithQueryString(ctx,JSON.stringify(queryString));
     }
 
     /**
