@@ -67,7 +67,7 @@ class MainContent extends Component {
             textAlign:"center",
             backgroundColor : "rgb(220,220,220)"
         };
-        if(!this.state.isEligible){
+        if(this.state.isEligible.toString() === "false"){
             return (
                 <div style={divStyle}>
                     <h1>You are Not Eligible to Vote</h1>
