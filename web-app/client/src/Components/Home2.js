@@ -5,9 +5,8 @@ import {
 } from 'semantic-ui-react';
 import {Modal} from "react-bootstrap";
 import VoterLogin from "./Voter/VoterLogin";
-import CandidateLogin from "./Candidate/candidateLogin";
 import {Redirect, Link} from "react-router-dom";
-import Alert from "react-bootstrap/Alert";
+import Background from "../background_particles";
 
 class HomepageHeading extends React.Component {
     constructor(props) {
@@ -280,6 +279,7 @@ class Home extends React.Component {
                         </Grid>
                     </Container>
                 </Segment>
+                {/*<Background/>*/}
             </div>
         );
     }

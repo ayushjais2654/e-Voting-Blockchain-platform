@@ -32,11 +32,23 @@ router.get('/',async (req,res) => {
 
         let voters = await contract.evaluateTransaction('queryByObjectType','voter');
         voters = JSON.parse(voters.toString());
+
+        let candidates = await contract.evaluateTransaction('queryByObjectType','candidate');
+        candidates = JSON.parse(candidates.toString());
+
+        let election = await contract.evaluateTransaction('queryByObjectType','election');
+        election = JSON.parse(election.toString());
+
         let response = [];
         for(let i=0;i<voters.length;i++){
             if(voters[i].Record.isEligible.toString() === "false" && voters[i].Record.isDenied.toString() === 'false')
                 response.push(voters[i]);
         }
+        response={
+          voterList:response,
+          candidateList:candidates,
+          electionList:election,
+        };
         console.log(response);
         await res.json(response);
 

@@ -7,6 +7,7 @@ import UpdateDetails from "./UpdateDetails";
 import {Button} from "react-bootstrap";
 import Redirect from "react-router-dom/es/Redirect";
 import PollResult from "./pollResult";
+import Background from "../../../background_particles";
 
 class VoterPage2 extends Component {
     constructor(props) {
@@ -129,6 +130,7 @@ class VoterPage2 extends Component {
                 >
                     Logout
                 </Button>
+                {/*<Background/>*/}
             </div>
         );
     }
