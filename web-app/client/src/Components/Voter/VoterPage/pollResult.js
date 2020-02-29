@@ -12,28 +12,28 @@ class PollResult extends Component{
             constituency:"warangal",
             results : [],
         };
+        this.updateState=this.updateState.bind(this);
     }
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate = async (prevProps, prevState, snapshot) => {
         if(this.state.constituency !== this.props.constituency){
             this.setState({
                 constituency:this.props.constituency,
             });
         }
-    }
+        await this.updateState();
+    };
 
-    componentDidMount =async () => {
-        console.log("did mount");
+    updateState = async () => {
         let response = await axios.post(ADDRESS+"fetchResults",{constituency:this.state.constituency});
         if(response.data === 'Election does not exists'){
             console.log(response.data);
             return ;
         }
         this.setState({
-           results : response.data.results,
+            results : response.data.results,
         });
         if(this.state.results === undefined)
-                this.state.results = [];
-        console.log(this.state.results);
+            this.state.results = [];
     };
 
     render() {
@@ -48,7 +48,7 @@ class PollResult extends Component{
                y:this.state.results[i].voteCount,
                label:this.state.results[i].partyName,
             });
-        }
+        };
         const options = {
             exportEnabled: true,
             animationEnabled: true,

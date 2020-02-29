@@ -49,7 +49,7 @@ class Confirmation extends Component {
             <>
                 <Modal show={this.state.spinner} onHide={() => this.setState({spinner: false})}>
                     <Modal.Header>
-                        <Modal.Title>Vote Inprogress</Modal.Title>
+                        <Modal.Title>Registering Candidate</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Spinner animation="border" variant="primary"/>

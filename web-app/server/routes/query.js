@@ -42,9 +42,11 @@ async function main() {
         // Get the contract from the network.
         if(username === "show") {
             const contract = network.getContract('contract');
-            let response = await contract.evaluateTransaction('queryByObjectType','election');
+            let response = await contract.evaluateTransaction('readMyAsset','warangal');
             response = JSON.parse(response.toString());
             console.log(response);
+
+            console.log(Date.parse(response.startDate) + "   " + Date.now());
         }
         else{
             const contract = network.getContract('contract');

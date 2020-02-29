@@ -32,8 +32,7 @@ class App extends Component {
                 </Navbar>
                 <Router>
                     <Route path="/" exact component={Home}/>
-                    <Route path="/admin" exact component={AdminPage}/>
-                    {/*<Route path="/temp" exact component={PollResult}/>*/}
+                    <Route path="/secret_admin" exact component={AdminPage}/>
                     <Route path="/voterPage" component={VoterPage2}/>
                     <Route path="/voterLogin" exact component={VoterLogin}/>
                     <Route path="/registerVoter" exact component={RegisterVoter}/>

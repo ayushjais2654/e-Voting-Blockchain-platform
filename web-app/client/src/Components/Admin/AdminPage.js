@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {ADDRESS} from "../constants";
-import {Modal, Button, Accordion, DropdownButton} from "react-bootstrap";
+import {Modal, Button, Accordion, DropdownButton, Spinner} from "react-bootstrap";
 import VoterDetails from "./VoterDetails";
 import "./AdminPage.css";
 import {Input} from "semantic-ui-react";
@@ -27,6 +27,7 @@ class AdminPage extends Component {
             constituency: "",
             electionPeriod: {"fromDate": "2020-02-12", "toDate": "2020-03-15"},
             dateObj: [new Date(2020, 2, 12), new Date(2020, 3, 23)],
+            spinner:false,
         };
         this.updateDate = this.updateDate.bind(this);
         this.addElection = this.addElection.bind(this);
@@ -51,9 +52,11 @@ class AdminPage extends Component {
     };
 
     async addElection() {
-        console.log(this.state);
+        this.setState({spinner:true});
+        console.log(this.state + " adding election");
         let response = await axios.post(ADDRESS + "addElection", this.state);
-        console.log(response.data);
+        console.log(response.data + " recievede data after ading election ");
+        this.setState({spinner:false});
     };
 
     updateDate = (date) => {
@@ -98,6 +101,14 @@ class AdminPage extends Component {
 
         return (
             <>
+                <Modal show={this.state.spinner} onHide={() => this.setState({spinner: false})}>
+                    <Modal.Header>
+                        <Modal.Title>Adding Election</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Spinner animation="border" variant="primary"/>
+                    </Modal.Body>
+                </Modal>
                 <h1 style={{
                     textAlign: "center",
                     marginBottom: "6%",
