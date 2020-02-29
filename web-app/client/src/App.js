@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import RegisterVoter from './Components/Voter/RegisterVoter'
 import VoterLogin from './Components/Voter/VoterLogin'
-import VoterPage from './Components/Voter/VoterPage'
 import CandidateLogin from "./Components/Candidate/candidateLogin";
 import CandidatePage from "./Components/Candidate/candidatePage";
 import {BrowserRouter as Router, Route} from 'react-router-dom';
@@ -34,6 +33,7 @@ class App extends Component {
                 <Router>
                     <Route path="/" exact component={Home}/>
                     <Route path="/admin" exact component={AdminPage}/>
+                    {/*<Route path="/temp" exact component={PollResult}/>*/}
                     <Route path="/voterPage" component={VoterPage2}/>
                     <Route path="/voterLogin" exact component={VoterLogin}/>
                     <Route path="/registerVoter" exact component={RegisterVoter}/>

@@ -1,5 +1,5 @@
 import React,{Component} from "react";
-import {Button, Col, Form, Modal, Row} from "react-bootstrap";
+import {Button, Col, Form, Modal, Row, Spinner} from "react-bootstrap";
 import {Icon, Input} from "semantic-ui-react";
 import axios from "axios";
 import {ADDRESS} from "../constants";
@@ -23,6 +23,7 @@ class VoterDetails extends React.Component {
             gender : this.props.voterDetails.gender,
             isDisplayDesc: false,
             error:"",
+            spinner : false,
             closeVoterDetails:this.props.closeVoterDetails,
         };
         this.denyVoter=this.denyVoter.bind(this);
@@ -66,28 +67,34 @@ class VoterDetails extends React.Component {
         });
     }
     async updateDetails(){
+        this.setState({spinner:true});
         let response = await axios.post(ADDRESS + `updateVoter`, this.state);
         if (response.data === 'Correct') {
             this.setState({
                 error:"Details Submitted Successfully",
+                spinner:false,
             });
         } else {
             this.setState({
                 error:response.data,
+                spinner:false,
             });
         }
         this.state.closeVoterDetails();
     }
 
     async deleteVoter() {
-        let response = await axios.post(ADDRESS + `deleteVoter`, this.state.username);
+        this.setState({spinner:true});
+        let response = await axios.post(ADDRESS + `deleteVoter`, this.state);
         if (response.data === 'Correct') {
             this.setState({
                 error:"Deleted Successfully",
+                spinner:false,
             });
         } else {
             this.setState({
                 error:response.data,
+                spinner:false,
             });
         }
         this.state.closeVoterDetails();
@@ -111,6 +118,14 @@ class VoterDetails extends React.Component {
 
         return (
             <div>
+                <Modal show={this.state.spinner} onHide={() => this.setState({spinner: false})}>
+                    <Modal.Header>
+                        <Modal.Title>Update Details</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Spinner animation="border" variant="primary"/>
+                    </Modal.Body>
+                </Modal>
                 <div>
                     <Form>
                         <Form.Group as={Row} controlId="formFirstName">

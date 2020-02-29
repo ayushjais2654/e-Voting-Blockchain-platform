@@ -15,7 +15,7 @@ class AdminPage extends Component {
             selectedVoter: 0,
             isDisplayActive: false,
             constituency : "",
-            electionPeriod:{},
+            electionPeriod:{"fromDate":"2020-02-12","toDate":"2020-03-15"},
             dateObj : [new Date(2020,2,12), new Date(2020,3,23)],
         };
         this.updateDate=this.updateDate.bind(this);
@@ -28,9 +28,6 @@ class AdminPage extends Component {
             pendingVoters: response.data.map((item) => {
                 return item.Record
             }),
-        });
-        this.setState({
-            pendingVoters: this.state.pendingVoters.splice(0, this.state.pendingVoters.length - 1),
         });
         console.log(this.state.pendingVoters);
     };

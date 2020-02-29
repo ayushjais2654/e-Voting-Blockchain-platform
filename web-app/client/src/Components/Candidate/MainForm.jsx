@@ -19,8 +19,6 @@ class MainForm extends Component {
         password: "123",
         constituency: "haha",
         mobileNo: "9717411923",
-        candImage : null,
-        isRegistered : false
     };
 
     nextStep = () => {
@@ -38,17 +36,7 @@ class MainForm extends Component {
     };
 
     handleChange = input => event => {
-        if(event.target.name === 'cardImage')
-            this.fileChangedHandler(event);
-        else
-            this.setState({ [input] : event.target.value });
-    };
-
-    fileChangedHandler = async (event) => {
-        const file = event.target.files[0];
-        this.setState({
-            "candImage": file,
-        });
+        this.setState({ [input] : event.target.value });
     };
 
     render(){

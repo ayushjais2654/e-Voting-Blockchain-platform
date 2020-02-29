@@ -5,29 +5,23 @@ const {FileSystemWallet, Gateway, X509WalletMixin} = require('fabric-network');
 const path = require('path');
 const ccpPath = path.resolve(__dirname, '..', '..', '..', 'blockchain-network', 'first-network', 'connection-org1.json');
 
-/**
- *  @author : Ayush Jaiswal
- *  @Date : 21/02/2020
- */
-router.post('/', async (req, res) => {
-
+router.post('/',async (req,res) => {
     try{
-
         const walletPath = path.join(process.cwd(), '../wallet');
         const wallet = new FileSystemWallet(walletPath);
         console.log(`************** Wallet path: ${walletPath} **************************`);
 
-        const userExists = await wallet.exists(req.body.username);
-        console.log(JSON.stringify(req.body.username));
-        if (!userExists) {
-            res.send('Voter not registered in Wallet');
+        const electionExists = await wallet.exists(req.body.constituency);
+        console.log(JSON.stringify(req.body.constituency)," jakjakj");
+        if (!electionExists) {
+            res.send('Election does not exists');
             return;
         }
 
         const gateway = new Gateway();
         await gateway.connect(ccpPath, {
             wallet,
-            identity: req.body.username,
+            identity: req.body.constituency,
             discovery: {enabled: true, asLocalhost: true}
         });
 
@@ -37,45 +31,25 @@ router.post('/', async (req, res) => {
         // Get the contract from the network.
         const contract = network.getContract('contract');
 
-        let voterDetail = await contract.evaluateTransaction('readMyAsset',req.body.username);
-        voterDetail = JSON.parse(voterDetail.toString());
-
-        console.log(voterDetail , "hello");
-
-        let candidates = await contract.evaluateTransaction('getCandidateInConstituency',voterDetail.constituency);
+        let candidates = await contract.evaluateTransaction('getCandidateInConstituency',req.body.constituency);
         candidates = JSON.parse(candidates.toString());
+        console.log(candidates + "hello");
         let candidateList = [];
         for(let i=0;i<candidates.length;i++){
             candidateList.push({
                 username : candidates[i].Record.username,
                 name : candidates[i].Record.firstName + " " + candidates[i].Record.lastName,
-                partyName : candidates[i].Record.partyName
+                partyName : candidates[i].Record.partyName,
+                voteCount : candidates[i].Record.voteCount
             });
         }
-
-        let election = await contract.evaluateTransaction('readMyAsset',voterDetail.constituency);
-        election = JSON.parse(election.toString());
-
-        let electionPresent = "true";
-        if(election.error !== undefined){
-            electionPresent = "false";
-        }
-
         console.log(candidateList);
-
         let response = {
-            voterDetail : voterDetail,
-            candidateList : candidateList,
-            electionPeriod : {
-                fromDate  : election.startDate,
-                toDate : election.endDate
-            },
-            electionPresent : electionPresent
+            results : candidateList,
         };
-        await res.json(response);
 
+        await res.json(response);
     }catch (error) {
-        console.log("Error occurred while fetching voter from blockchain");
         console.log(error);
         res.send("unable to fetch user");
     }

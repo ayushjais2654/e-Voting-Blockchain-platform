@@ -42,7 +42,7 @@ async function main() {
         // Get the contract from the network.
         if(username === "show") {
             const contract = network.getContract('contract');
-            let response = await contract.evaluateTransaction('queryByObjectType','candidate');
+            let response = await contract.evaluateTransaction('queryByObjectType','election');
             response = JSON.parse(response.toString());
             console.log(response);
         }

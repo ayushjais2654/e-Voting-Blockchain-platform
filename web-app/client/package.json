@@ -20,6 +20,7 @@
     "react-bootstrap": "^1.0.0-beta.16",
     "react-canvas": "^1.3.0",
     "react-canvas-js": "^1.0.1",
+    "react-charts": "^2.0.0-beta.6",
     "react-dom": "^16.12.0",
     "react-grid-layout": "^0.17.1",
     "react-notifications": "^1.4.3",

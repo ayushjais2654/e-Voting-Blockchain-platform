@@ -6,6 +6,7 @@ import PopUp from "./PopUp";
 import UpdateDetails from "./UpdateDetails";
 import {Button} from "react-bootstrap";
 import Redirect from "react-router-dom/es/Redirect";
+import PollResult from "./pollResult";
 
 class VoterPage2 extends Component {
     constructor(props) {
@@ -42,6 +43,9 @@ class VoterPage2 extends Component {
             username: localStorage.getItem("token")
         };
         let response = await axios.post(ADDRESS + `fetchVoter`, voter);
+        if(response.data === 'unable to fetch user'){
+            this.alertShowFunc("danger","unable to fetch user");
+        }
         console.log(JSON.stringify(response.data.voterDetail) + "mann maein");
 
         this.setState({
@@ -98,6 +102,8 @@ class VoterPage2 extends Component {
                                 electionPresent = {this.state.electionPresent}
                                 alertShowFunc = {this.alertShowFunc}
                 />
+                <PollResult constituency ={this.state.constituency}/>
+                <br/>
                 <UpdateDetails  username    = {this.state.username}
                                 firstName   = {this.state.firstName}
                                 lastName    = {this.state.lastName}

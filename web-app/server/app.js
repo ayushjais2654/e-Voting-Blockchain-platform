@@ -17,7 +17,7 @@ var fetchPendingVoters = require('./routes/fetchPendingVoters');
 var updateVoter = require('./routes/updateVoter');
 var addElection = require('./routes/addElection');
 var deleteVoter = require('./routes/deleteVoter');
-
+var fetchResults = require('./routes/fetchResults');
 
 var app = express();
 const cors = require('cors');
@@ -45,6 +45,7 @@ app.use('/fetchPendingVoters',fetchPendingVoters);
 app.use('/updateVoter',updateVoter);
 app.use('/addElection',addElection);
 app.use('/deleteVoter',deleteVoter);
+app.use('/fetchResults',fetchResults);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

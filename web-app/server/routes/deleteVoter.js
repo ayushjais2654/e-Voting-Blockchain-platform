@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
     try {
 
-        const walletPath = path.join(process.cwd(), '../../wallet');
+        const walletPath = path.join(process.cwd(), '../wallet');
         const wallet = new FileSystemWallet(walletPath);
         console.log(`************** Wallet path: ${walletPath} **************************`);
 

@@ -4,7 +4,7 @@ import './candidateRegister.css';
 import axios from "axios";
 import {ADDRESS} from "../constants";
 import {Redirect} from "react-router-dom";
-import {Image} from "react-bootstrap";
+import {Image, Modal, Spinner} from "react-bootstrap";
 
 class Confirmation extends Component {
 
@@ -22,7 +22,8 @@ class Confirmation extends Component {
             password: this.props.values.password,
             constituency: this.props.values.constituency,
             mobileNo: this.props.values.mobileNo,
-            candImage : this.props.values.candImage,
+            isRegistered : false,
+            spinner:false,
         };
 
     }
@@ -45,73 +46,85 @@ class Confirmation extends Component {
         const {values: {firstName, lastName, age, username, password, mobileNo, partyName, candImage, constituency}} = this.props;
 
         return (
-            <div className="container">
-                <p className="sign" align="center">Candidate Registration</p>
-                <ul className="progressbar">
-                    <li className="active">User Profile</li>
-                    <li className="active">Account Details</li>
-                    <li className="active">Party Info</li>
-                    <li className="active">Success</li>
-                </ul>
-                <div className="main">
-                    <Form className="form1" onSubmit={this.submitForm}>
-                        <h1 className="sign" align="center">Confirm your Details</h1>
-                        <p margin="5 auto">Click Confirm if the following details have been correctly entered</p>
-                        <List className="gen" align="center">
-                            <List.Item>
-                                <List.Icon name='Pic'/>
-                                <List.Content>
-                                    <img src={candImage} height={"100px"} width={"100px"}/>
-                                </List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='users'/>
-                                <List.Content>First Name: {firstName}</List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='users'/>
-                                <List.Content>Last Name: {lastName}</List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='calendar'/>
-                                <List.Content>Age: {age}</List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='users'/>
-                                <List.Content>User Name: {username}</List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='users'/>
-                                <List.Content>Password: {password}</List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='users'/>
-                                <List.Content>Last Name: {lastName}</List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='phone'/>
-                                <List.Content>Contact Number: {mobileNo}</List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='user'/>
-                                <List.Content>Party Name: {partyName}</List.Content>
-                            </List.Item>
-                            <List.Item>
-                                <List.Icon name='marker'/>
-                                <List.Content>Constituency: {constituency}</List.Content>
-                            </List.Item>
-                        </List>
-                        <input type="button" className="next" value="Back" onClick={this.back}/>
-                        <input className="next" type="submit" value="Register"/>
-                    </Form>
+            <>
+                <Modal show={this.state.spinner} onHide={() => this.setState({spinner: false})}>
+                    <Modal.Header>
+                        <Modal.Title>Vote Inprogress</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Spinner animation="border" variant="primary"/>
+                    </Modal.Body>
+                </Modal>
+                <div className="container">
+                    <p className="sign" align="center">Candidate Registration</p>
+                    <ul className="progressbar">
+                        <li className="active">User Profile</li>
+                        <li className="active">Account Details</li>
+                        <li className="active">Party Info</li>
+                        <li className="active">Success</li>
+                    </ul>
+                    <div className="main">
+                        <Form className="form1" onSubmit={this.submitForm}>
+                            <h1 className="sign" align="center">Confirm your Details</h1>
+                            <p margin="5 auto">Click Confirm if the following details have been correctly entered</p>
+                            <List className="gen" align="center">
+                                <List.Item>
+                                    <List.Icon name='Pic'/>
+                                    <List.Content>
+                                        <img src={candImage} height={"100px"} width={"100px"}/>
+                                    </List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='users'/>
+                                    <List.Content>First Name: {firstName}</List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='users'/>
+                                    <List.Content>Last Name: {lastName}</List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='calendar'/>
+                                    <List.Content>Age: {age}</List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='users'/>
+                                    <List.Content>User Name: {username}</List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='users'/>
+                                    <List.Content>Password: {password}</List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='users'/>
+                                    <List.Content>Last Name: {lastName}</List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='phone'/>
+                                    <List.Content>Contact Number: {mobileNo}</List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='user'/>
+                                    <List.Content>Party Name: {partyName}</List.Content>
+                                </List.Item>
+                                <List.Item>
+                                    <List.Icon name='marker'/>
+                                    <List.Content>Constituency: {constituency}</List.Content>
+                                </List.Item>
+                            </List>
+                            <input type="button" className="next" value="Back" onClick={this.back}/>
+                            <input className="next" type="submit" value="Register"/>
+                        </Form>
+                    </div>
                 </div>
-            </div>
+            </>
         )
     }
 
 
     submitForm = async (event) => {
-
+        this.setState({
+            spinner:true,
+        });
         // event.preventDefault();
         if (validateName(this.state.firstName) === false) {
             alert("First Name of Candidate is not valid");
@@ -131,9 +144,12 @@ class Confirmation extends Component {
         alert(response.data);
         if (response.data === "Correct") {
             this.setState({
-                isRegistered: true
+                isRegistered: true,
             });
         }
+        this.setState({
+            spinner:false,
+        });
     }
 }
 
