@@ -48,17 +48,17 @@ class HomepageHeading extends React.Component {
                     vertical
                 >
                     <Container text>
-                        <Header as={'h1'}
-                                content={"OTIS"}
-                                inverted
-                                style={{
-                                    fontSize: '4em',
-                                    fontWeight: 'normal',
-                                    marginBottom: 0,
-                                    marginTop: '1em',
-                                    textDecoration: 'underline'
-                                }}
-                        />
+                        {/*<Header as={'h1'}*/}
+                        {/*        content={"OTIS"}*/}
+                        {/*        inverted*/}
+                        {/*        style={{*/}
+                        {/*            fontSize: '4em',*/}
+                        {/*            fontWeight: 'normal',*/}
+                        {/*            marginBottom: 0,*/}
+                        {/*            marginTop: '1em',*/}
+                        {/*            textDecoration: 'underline'*/}
+                        {/*        }}*/}
+                        {/*/>*/}
                         <h1 style={{
                             fontSize: '3.5em',
                             fontWeight: 'normal',
@@ -279,7 +279,7 @@ class Home extends React.Component {
                         </Grid>
                     </Container>
                 </Segment>
-                {/*<Background/>*/}
+                <Background/>
             </div>
         );
     }
